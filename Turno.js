@@ -7,8 +7,8 @@ const EstadoTurno = {
 }
 
 class Turno {
-    constructor(medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo) {
-        // TODO Autogenerar ID
+    constructor(id, medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo) {
+        this.id = id
         this.medico = medico
         this.paciente = paciente
         this.fechaHora = fechaHora

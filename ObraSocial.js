@@ -1,6 +1,6 @@
 class ObraSocial {
-    constructor(nombre, planes) {
-        // TODO Autogenerar ID
+    constructor(id, nombre, planes) {
+        this.id = id
         this.nombre = nombre
         this.planes = planes
     }

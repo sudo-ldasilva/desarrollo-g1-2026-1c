@@ -1,6 +1,6 @@
 export class Notificacion {
-    constructor(destinatario, remitente, mensaje, fechaHoraCreacion) {
-        // TODO Autogenerar ID
+    constructor(id, destinatario, remitente, mensaje, fechaHoraCreacion) {
+        this.id = id
         this.destinatario = destinatario
         this.remitente = remitente
         this.mensaje = mensaje
@@ -13,7 +13,7 @@ export class Notificacion {
         if (leida) {
             return
         }
-        
+
         leida = true
         fechaHoraLeida = new Date(Date.now())
     }
