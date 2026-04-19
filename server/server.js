@@ -1,12 +1,9 @@
-import express from "express";
+import app from "./app.js";
+import dotenv from "dotenv";
 
-// Implementación del endpoint "Health check"
+const port = process.env.PORT;
 
-const app = express();
-app.use(express.json());
-
-const puerto = 3000;
-
+//Healthcheck
 app.get("/health", (req, res) => {
     res.status(200).json({
         status: "ok",
@@ -15,10 +12,8 @@ app.get("/health", (req, res) => {
     });
 });
 
-app.listen(puerto, () => {
-    const urlBase = `http://localhost:${puerto}`;
+app.listen(port, () => {
+    const urlBase = `http://localhost:${port}`;
     console.log(`Servidor conectado en:\t${urlBase}`);
     console.log(`Health check en:\t${urlBase}/health`);
 });
-
-
