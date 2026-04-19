@@ -1,3 +1,3 @@
 # TP Grupal
 
-El flow utilizado es el GitHub Flow, donde cada funcionalidad implementada es realizada en una rama aparte que se junta en la rama principal luego de realizar y validar una PR.
+El flow de trabajo elejido es el GitHub Flow, donde cada funcionalidad es implementada en una rama aparte que se mergea a la rama principal luego de realizar y validar una PR.
