@@ -13,4 +13,5 @@ class Medico{
     definirDisponibilidad(disponibilidad){
         this.disponibilidades.push(disponibilidad);
     }
+
 }

@@ -16,7 +16,6 @@ class Plan {
     }
 
     obtenerCobertura(objetivo) {
-        // Fuente: https://es.javascript.info/instanceof
         if (objetivo instanceof CoberturaEspecialidad) {
             return this.coberturasEspecialidad.find( (e) => e.especialidad() == objetivo ).nivel()
         } else if (objetivo instanceof CoberturaPractica) {

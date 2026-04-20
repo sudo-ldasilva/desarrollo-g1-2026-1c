@@ -1,19 +1,48 @@
 import Especialidad from "./Especialidad.js"
 import Practica from "./Practica.js"
+import {EstadoTurno} from "./EstadoTurno.js";
 
 class Agenda {
     generarTurnosPara(objetivo, medico) {
         if (objetivo instanceof Especialidad) {
-            // TODO
+            if (!medico.tieneEspecialidad(objetivo)) {
+                // ERROR
+                console.error("El medico no tiene la especialidad")
+                return []
+            }
+
         } else if (objetivo instanceof Practica) {
-            // TODO
+            if (!medico.tienePractica(objetivo)) {
+                // ERROR
+                console.error("El medico no tiene la práctica")
+                return []
+            }
         } else {
-            // ERROR
+            console.error("El objeto no es una practica ni una especialidad")
+            return []
         }
+        
+        let turnos = [];
+        medico.disponibilidades.forEach(disponibilidad => {
+            turno = new Turno(
+                // id de donde sale?, 
+                medico, 
+                null, // hay que poner paciente null? O de donde se obtiene?
+                //fechaHora, se saca de disp
+                //sede, medico tiene sedes[], cual se elige?
+                (objetivo instanceof Practica) ? objetivo : undefined, //practica
+                EstadoTurno.DISPONIBLE,
+                //historial de estados
+                //costo ? de donde sale
+            )
+
+            turnos.push(turno);
+        });
+
+        return turnos; // Turnos disponibles
     }
 
     refrescarTurnoSegunDisponibilidad(medico) {
-        // TODO Return Turnos[]
+        // TODO Return Turnos[] que hace esto?
     }
-
 }
