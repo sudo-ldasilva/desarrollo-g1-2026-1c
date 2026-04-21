@@ -4,8 +4,4 @@ export class Sede {
         this.nombre = nombre;
         this.direccion = direccion;
     }
-
-    get id() { return this.is; }
-    get nombre() { return this.nombre; }
-    get direccion() { return this.direccion ;}
 }

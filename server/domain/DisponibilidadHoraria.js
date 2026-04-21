@@ -1,4 +1,4 @@
-import { DiaSemana } from "./DiasSemana";
+import { DiaSemana } from "./DiaSemana";
 
 class DisponibilidadHoraria{
     constructor(diaSemana, horaDesde, horaHasta){

@@ -3,7 +3,4 @@ class CoberturaPractica{
         this.practica = practica;
         this.nivel = nivel;
     }
-
-    get practica(){return this.practica; }
-    get nivel() {return this.nivel; }
 }

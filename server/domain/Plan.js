@@ -1,11 +1,6 @@
 import CoberturaEspecialidad from './CoberturaEspecialidad.js';
 import CoberturaPractica from'./CoberturaPractica.js';
-
-const NivelCobertura = {
-    TOTAL: "Total",
-    PARCIAL: "Parcial",
-    NO_CUBIERTA: "No cubierta"
-};
+import NivelCobertura from'./NivelCobertura.js';
 
 class Plan {
     constructor(id,nombre,coberturasEspecialidad, coberturasPractica){
