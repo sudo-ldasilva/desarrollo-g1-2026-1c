@@ -15,7 +15,5 @@ class DisponibilidadHoraria{
     set horaDesde(horaDesde) { return this.horaDesde = horaDesde; }
     set horaHasta(horaHasta) { return this.horaHasta = horaHasta; }
 
-    //Determinamos que el tiempo por turno va a ser de una hora. 
-    //Pero queremos determinar cúantos bloques de una hora tendrá cada médico para que luego se le asignen turnos
-
+    
 }

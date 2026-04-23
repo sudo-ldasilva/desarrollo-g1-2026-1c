@@ -4,4 +4,4 @@ export const EstadoTurno = {
     CONFIRMADO: "Confirmado",
     CANCELADO: "Cancelado",
     REALIZADO: "Realizado"
-}
+};
