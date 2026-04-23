@@ -1,9 +1,9 @@
-import express from "express"
+import express from "express";
 
-import healthRouter from "./health.js"
+import healthRouter from "./health.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.use("/health", healthRouter)
+router.use("/health", healthRouter);
 
-export default router
+export default router;

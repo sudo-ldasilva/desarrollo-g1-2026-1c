@@ -1,7 +1,9 @@
-import {EstadoTurno} from "./EstadoTurno.js";
+import { EstadoTurno } from "./EstadoTurno.js";
+import CambioEstadoTurno from "./CambioEstadoTurno.js";
+import FactoryNotificacion from "./FactoryNotificacion.js";
 
 class Turno {
-    constructor({id, medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo}) {
+    constructor({ id, medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo }) {
         this.id = id; //al "nacer" siempre tendrá un id, no admite nulo, al igual que el médico. UUID -> es un identificador unico universal, sin repetirse
         this.medico = medico;
         this.paciente = paciente; //Al principio iniciará en null
@@ -13,24 +15,26 @@ class Turno {
         this.costo = costo;
     } 
 
-    actualizarEstado(nuevoEstado, quien, motivo){
-        if (this.estado == nuevoEstado) return;
+    actualizarEstado(nuevoEstado, quien, motivo) {
+        if (this.estado === nuevoEstado) return;
 
-        const cambio = new CambioEstadoTurno(new Date(), nuevoEstado, this, usuario, motivo);
+        const cambio = new CambioEstadoTurno(new Date(), nuevoEstado, this, quien, motivo);
         this.historialEstados.push(cambio);
 
         this.estado = nuevoEstado;
         
-        const factoryNotification = new FactoryNotification();
-        const notificacion = factoryNotification.crearSegunEstadoTurno(this);
+        const factoryNotificacion = new FactoryNotificacion();
+        const notificacion = factoryNotificacion.crearSegunEstadoTurno(this);
 
-        // TODO Qué hacer con la notificación? Como se la pueda enviar al medico y/o al paciente?
+        return notificacion; // TODO Qué hacer con la notificación? Como se la pueda enviar al medico y/o al paciente?
     }
 
     recordarTurno() {
-        const factoryNotification = new FactoryNotification();
-        const notificacion = factoryNotification.crearSegunEstadoTurno(this);
+        const factoryNotificacion = new FactoryNotificacion();
+        const notificacion = factoryNotificacion.crearSegunEstadoTurno(this);
 
-        // TODO Qué hacer con la notificación? Como se la pueda enviar al medico Y al paciente?
+        return notificacion; // TODO Qué hacer con la notificación? Como se la pueda enviar al medico Y al paciente?
     }
 }
+
+export default Turno;

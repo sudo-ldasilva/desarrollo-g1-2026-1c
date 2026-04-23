@@ -1,9 +1,8 @@
 import CoberturaEspecialidad from "./CoberturaEspecialidad.js";
-import CoberturaPractica from"./CoberturaPractica.js";
-import NivelCobertura from"./NivelCobertura.js";
+import CoberturaPractica from "./CoberturaPractica.js";
 
 class Plan {
-    constructor(id,nombre,coberturasEspecialidad, coberturasPractica){
+    constructor(id, nombre, coberturasEspecialidad, coberturasPractica) {
         this.id = id;
         this.nombre = nombre;
         this.coberturasEspecialidad = coberturasEspecialidad;
@@ -11,11 +10,14 @@ class Plan {
     }
 
     obtenerCobertura(objetivo) {
-        if (objetivo instanceof CoberturaEspecialidad) { 
-            return this.coberturasEspecialidad.find( (e) => e.especialidad() == objetivo ).nivel();
+        if (objetivo instanceof CoberturaEspecialidad) {
+            return this.coberturasEspecialidad.find((e) => e.especialidad === objetivo).nivel;
         } else if (objetivo instanceof CoberturaPractica) {
-            return this.coberturasPractica.find( (p) => p.practica() == objetivo).nivel(); 
-            console.error("Campo no reconocido para determinar cobertura!"); 
+            return this.coberturasPractica.find((p) => p.practica === objetivo).nivel;
         }
+        console.error("Campo no reconocido para determinar cobertura!");
+        return undefined;
     }
 }
+
+export default Plan;

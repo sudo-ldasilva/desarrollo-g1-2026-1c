@@ -1,6 +1,6 @@
-import express from "express"
+import express from "express";
 
-const healthRouter = express.Router()
+const healthRouter = express.Router();
 
 healthRouter.route("/").get((req, res) => {
     res.status(200).json({
@@ -8,6 +8,6 @@ healthRouter.route("/").get((req, res) => {
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
     });
-} )
+} );
 
-export default healthRouter
+export default healthRouter;
