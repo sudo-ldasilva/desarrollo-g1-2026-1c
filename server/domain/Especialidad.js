@@ -5,4 +5,11 @@ export class Especialidad{
         this.duracionTurnoEnMins = duracionTurnoEnMins;
         this.costoConsulta = costoConsulta;
     }
+
+    generarTurnos(medico){
+        const turnos = [];
+        //TODO
+        return turnos;
+    }
+
 }

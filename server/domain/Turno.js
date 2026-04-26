@@ -3,16 +3,16 @@ import CambioEstadoTurno from "./CambioEstadoTurno.js";
 import FactoryNotificacion from "./FactoryNotificacion.js";
 
 class Turno {
-    constructor({ id, medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo }) {
+    constructor({ id, medico, paciente, fechaHora, sede, practica, estado, costo }) {
         this.id = id; //al "nacer" siempre tendrá un id, no admite nulo, al igual que el médico. UUID -> es un identificador unico universal, sin repetirse
         this.medico = medico;
-        this.paciente = paciente; //Al principio iniciará en null
-        this.fechaHora = fechaHora; //también tendrá una fecha definida al principio
+        this.paciente = paciente; 
+        this.fechaHora = fechaHora;
         this.sede = sede;
         this.practica = practica;
         this.estado = estado;
-        this.historialEstados = historialEstados; // arrancaría como una lista vacía
         this.costo = costo;
+        this.historialEstados = []; 
     } 
 
     actualizarEstado(nuevoEstado, quien, motivo) {
