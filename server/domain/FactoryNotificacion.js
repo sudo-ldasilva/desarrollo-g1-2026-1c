@@ -41,8 +41,7 @@ class FactoryNotificacion {
             );
 
         default:
-            console.error("Hay un estado de turno que no se tiene en cuenta para crear la notificación: " + turno.estado);
-            break;
+            throw new Error(`Falta agregar el estado ${turno.estado} al switch de FactoryNotificacion en crearSegunEstadoTurno`);
         }
     }
 
