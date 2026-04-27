@@ -5,29 +5,16 @@ import { EstadoTurno } from "./EstadoTurno.js";
 
 class Agenda {
     generarTurnosPara(objetivo, medico) {
-        if (objetivo instanceof Especialidad) { 
-            if (!medico.tieneEspecialidad(objetivo)) { 
-                // ERROR
-                console.error("El medico no tiene la especialidad");
-                return [];
-            }
-
-        } else if (objetivo instanceof Practica) {
-            if (!medico.tienePractica(objetivo)) {
-                // ERROR
-                console.error("El medico no tiene la práctica");
-                return [];
-            }
-        } else {
-            console.error("El objeto no es una practica ni una especialidad");
-            return [];
+        let puedeRealizarlo = objetivo.puedeRealizarlo(medico);
+        if (!puedeRealizarlo.puede) {
+            throw new Error(puedeRealizarlo.msg);
         }
-        
+
         const turnos = [];
         medico.disponibilidades.forEach((disponibilidad) => {
             const turno = new Turno({
                 // id de donde sale?, Puede ser un UUID o un auto-incrementable
-                medico : medico, 
+                medico : medico,
                 paciente: null, // hay que poner paciente null? O de donde se obtiene?
                 //fechaHora, se saca de disp
                 //sede, medico tiene sedes[], cual se elige?

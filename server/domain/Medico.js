@@ -1,4 +1,4 @@
-class Medico{
+class Medico {
     constructor(id, usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades){
         this.id = id;
         this.usuario = usuario;
@@ -14,4 +14,11 @@ class Medico{
         this.disponibilidades.push(disponibilidad);
     }
 
+    tieneEspecialidad(especialidad) {
+        return this.especialidades.includes(especialidad);
+    }
+
+    tienePractica(practica) {
+        return this.practicas.includes(practica);
+    }
 }
