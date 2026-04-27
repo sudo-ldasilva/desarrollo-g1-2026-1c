@@ -9,15 +9,10 @@ class Plan {
         this.coberturasPractica = coberturasPractica;
     }
 
-    obtenerCobertura(objetivo) {
-        if (objetivo instanceof CoberturaEspecialidad) {
-            return this.coberturasEspecialidad.find((e) => e.especialidad === objetivo).nivel;
-        } else if (objetivo instanceof CoberturaPractica) {
-            return this.coberturasPractica.find((p) => p.practica === objetivo).nivel;
-        }
-        console.error("Campo no reconocido para determinar cobertura!");
-        return undefined;
+    obtenerCobertura(practicaOEspecialidad) {
+        return practicaOEspecialidad.obtenerNivelDe(this);
     }
+
 }
 
 export default Plan;
