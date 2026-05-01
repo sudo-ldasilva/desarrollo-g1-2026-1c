@@ -1,7 +1,6 @@
 import Especialidad from "./Especialidad.js";
 import Practica from "./Practica.js";
 import Turno from "./Turno.js";
-import { EstadoTurno } from "./EstadoTurno.js";
 
 class Agenda {
     generarTurnosPara(objetivo, medico) {
@@ -10,18 +9,19 @@ class Agenda {
             throw new Error(puedeRealizarlo.msg);
         }
 
+        if (!medico.sedes || medico.sedes.length === 0) {
+            throw new Error(`Médico ${medico.nombre} no tiene sedes asignadas`);
+        }
+
         const turnos = [];
         medico.disponibilidades.forEach((disponibilidad) => {
             const turno = new Turno({
-                // id de donde sale?, Puede ser un UUID o un auto-incrementable
-                medico : medico,
-                paciente: null, // hay que poner paciente null? O de donde se obtiene?
-                //fechaHora, se saca de disp
-                //sede, medico tiene sedes[], cual se elige?
-                practica: (objetivo instanceof Practica) ? objetivo : undefined, //practica
-                estado: EstadoTurno.DISPONIBLE,
-                //historial de estados
-                //costo ? de donde sale
+                medico: medico,
+                //TODO
+                fechaHora: disponibilidad, //revisar tipo de datos esperados y recibidos
+                //TODO
+                sede: medico.sedes[0],
+                practica: (objetivo instanceof Practica) ? objetivo : undefined
             });
 
             turnos.push(turno);

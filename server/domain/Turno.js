@@ -1,19 +1,38 @@
 import { EstadoTurno } from "./EstadoTurno.js";
 import CambioEstadoTurno from "./CambioEstadoTurno.js";
 import FactoryNotificacion from "./FactoryNotificacion.js";
+import crypto from "crypto";
 
 class Turno {
-    constructor({ id, medico, paciente, fechaHora, sede, practica, estado, historialEstados, costo }) {
-        this.id = id; //al "nacer" siempre tendrá un id, no admite nulo, al igual que el médico. UUID -> es un identificador unico universal, sin repetirse
+    constructor({ id = crypto.randomUUID(), medico, fechaHora, sede, practica }) {
+        
+        if (!medico || !fechaHora || !sede || !practica) {
+            throw new Error(
+                "El Turno requiere: medico, fechaHora, sede, practica. " +
+                `Recibido: medico=${medico}, fechaHora=${fechaHora}, sede=${sede}, practica=${practica}`
+            );
+        }
+
+        this.id = id;
         this.medico = medico;
-        this.paciente = paciente; //Al principio iniciará en null
-        this.fechaHora = fechaHora; //también tendrá una fecha definida al principio
+        this.fechaHora = fechaHora;
         this.sede = sede;
         this.practica = practica;
-        this.estado = estado;
-        this.historialEstados = historialEstados; // arrancaría como una lista vacía
-        this.costo = costo;
+
+        //valores no indispensables para que el turno exista
+        this.paciente = null;
+        this.estado = EstadoTurno.DISPONIBLE;
+        this.historialEstados = [];
+        this.costo = null;
     } 
+
+    asignarPaciente(paciente) {
+        this.paciente = paciente;
+    }
+
+    definirCosto(monto) {
+        this.costo = monto;
+    }
 
     actualizarEstado(nuevoEstado, quien, motivo) {
         if (this.estado === nuevoEstado) return;
@@ -30,6 +49,11 @@ class Turno {
     }
 
     recordarTurno() {
+        
+        if (!this.paciente) {
+            throw new Error(`No se puede recordar un turno sin paciente asignado`);
+        }
+
         const factoryNotificacion = new FactoryNotificacion();
         const notificacion = factoryNotificacion.crearSegunEstadoTurno(this);
 
