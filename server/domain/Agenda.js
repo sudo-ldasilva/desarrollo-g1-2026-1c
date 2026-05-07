@@ -3,6 +3,8 @@ import Practica from "./Practica.js";
 import Turno from "./Turno.js";
 
 class Agenda {
+    //cual es el rango de fechas a generar?
+    //Ejemplo: genera los turnos de los proximos 30 dias?
     generarTurnosPara(objetivo, medico) {
         let puedeRealizarlo = objetivo.puedeRealizarlo(medico);
         if (!puedeRealizarlo.puede) {
@@ -13,21 +15,8 @@ class Agenda {
             throw new Error(`Médico ${medico.nombre} no tiene sedes asignadas`);
         }
 
-        const turnos = [];
-        medico.disponibilidades.forEach((disponibilidad) => {
-            const turno = new Turno({
-                medico: medico,
-                //TODO
-                fechaHora: disponibilidad, //revisar tipo de datos esperados y recibidos
-                //TODO
-                sede: medico.sedes[0],
-                practica: (objetivo instanceof Practica) ? objetivo : undefined
-            });
-
-            turnos.push(turno);
-        });
-
-        return turnos; // Turnos disponibles
+        const turnos = objetivo.generarTurnos(medico);
+        return turnos; 
     }
 
     refrescarTurnoSegunDisponibilidad(medico) {
