@@ -6,6 +6,12 @@ export class Especialidad {
         this.costoConsulta = costoConsulta;
     }
 
+    generarTurnos(medico){
+        const turnos = [];
+        //TODO
+        return turnos;
+    }
+
     puedeRealizarlo(medico) {
         return (medico.tieneEspecialidad(this))
             ? { msg: "", puede: true }
