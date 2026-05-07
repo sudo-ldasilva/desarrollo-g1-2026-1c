@@ -1,3 +1,7 @@
+import Especialidad from "./Especialidad.js";
+import Practica from "./Practica.js";
+import Turno from "./Turno.js";
+
 class Agenda {
     //cual es el rango de fechas a generar?
     //Ejemplo: genera los turnos de los proximos 30 dias?
@@ -5,6 +9,10 @@ class Agenda {
         let puedeRealizarlo = objetivo.puedeRealizarlo(medico);
         if (!puedeRealizarlo.puede) {
             throw new Error(puedeRealizarlo.msg);
+        }
+
+        if (!medico.tieneAlgunaSede()) {
+            throw new Error(`Médico ${medico.nombre} no tiene sedes asignadas`);
         }
 
         const turnos = objetivo.generarTurnos(medico);
