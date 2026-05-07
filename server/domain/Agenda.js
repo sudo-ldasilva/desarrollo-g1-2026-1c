@@ -9,7 +9,7 @@ class Agenda {
             throw new Error(puedeRealizarlo.msg);
         }
 
-        if (!medico.sedes || medico.sedes.length === 0) {
+        if (!medico.tieneAlgunaSede()) {
             throw new Error(`Médico ${medico.nombre} no tiene sedes asignadas`);
         }
 

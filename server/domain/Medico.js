@@ -37,6 +37,10 @@ class Medico {
     tienePractica(practica) {
         return this.practicas.includes(practica);
     }
+
+    tieneAlgunaSede() {
+        return !this.sedes || this.sedes.length === 0;
+    }
 }
 
 export default Medico;
