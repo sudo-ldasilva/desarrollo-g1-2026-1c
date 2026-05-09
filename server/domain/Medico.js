@@ -14,6 +14,10 @@ class Medico {
         this.disponibilidades = [];
     }
 
+    get disponibilidades() {
+        return this.disponibilidades;
+    }
+
     definirDisponibilidad(disponibilidad){
         this.disponibilidades.push(disponibilidad);
     }

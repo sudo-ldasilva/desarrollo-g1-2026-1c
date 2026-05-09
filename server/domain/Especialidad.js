@@ -1,3 +1,5 @@
+import Turno from "./Turno.js";
+
 export class Especialidad {
     constructor(id,nombre,duracionTurnoEnMins,costoConsulta){
         this.id = id;
@@ -6,10 +8,11 @@ export class Especialidad {
         this.costoConsulta = costoConsulta;
     }
 
-    generarTurnos(medico){
-        const turnos = [];
-        //TODO
-        return turnos;
+    generarTurnos(medico, fecha){
+        return new Turno({
+            "medico": medico,
+            "fechaHora": fecha,
+        });
     }
 
     puedeRealizarlo(medico) {
