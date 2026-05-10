@@ -1,6 +1,6 @@
 import crypto from "crypto";
 
-class Medico {
+export class Medico {
     constructor({ id = crypto.randomUUID(), usuario, matricula, nombre }){
         this.id = id;
         this.usuario = usuario;
@@ -42,5 +42,3 @@ class Medico {
         return !this.sedes || this.sedes.length === 0;
     }
 }
-
-export default Medico;
