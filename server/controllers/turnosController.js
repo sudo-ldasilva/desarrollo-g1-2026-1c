@@ -4,7 +4,7 @@ import {cambioEstadoTurnoSchema} from "../validations/cambioEstadoTurnoSchema.js
 import {BadRequestError} from "../errors/AppError.js";
 
 export class TurnosController {
-    constructor(){
+    constructor() {
         this.cambiosEstadoTurnoService = CambiosEstadoTurnoService;
         this.turnosService = TunosServices;
     }
@@ -34,8 +34,16 @@ export class TurnosController {
         }
     }
 
-    async buscar(req, res, next){
-        //TODO
+    async buscarPaginado(req, res, next){
+        try{
+            const page = Number(req.query.page) || 1;
+            const limit = Number(req.query.limit) || 5;
+            const resultado = await this.turnosService.buscarPaginado(page, limit);
+            res.json(resultado);
+        }
+        catch(error){
+            next(error);
+        }
     }
 
 }

@@ -2,6 +2,7 @@ import { z } from "zod";
 
 export const cambioEstadoTurnoSchema = z.object({
     estado: z.enum([
+        "DISPONIBLE",
         "RESERVADO",
         "CANCELADO",
         "REALIZADO",

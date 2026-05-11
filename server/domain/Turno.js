@@ -51,7 +51,7 @@ class Turno {
     recordarTurno() {
         
         if (!this.paciente) {
-            throw new Error(`No se puede recordar un turno sin paciente asignado`);
+            throw new Error("No se puede recordar un turno sin paciente asignado");
         }
 
         const factoryNotificacion = new FactoryNotificacion();
