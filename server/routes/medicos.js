@@ -1,11 +1,13 @@
 import express from "express";
 
-import { MedicosController } from "../controllers/medicosController.js";
+import { MedicoController } from "../controllers/MedicoController.js";
 
-const medicosRouter = express.Router();
-const medicosController = new MedicosController();
+const medicoRouter = express.Router();
+const medicoController = new MedicoController();
 
-medicosRouter.route("/")
-    .get( (req, res, next) => medicosController.findAll(req, res, next) );
+medicoRouter.route("/")
+    .get( (req, res, next) => medicoController.findAll(req, res, next) );
 
-export default medicosRouter;
+medicoRouter.route("/:id").get( (req, res, next) => medicoController.getMedicoById(req, res, next) );
+
+export default medicoRouter;

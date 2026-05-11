@@ -1,15 +1,19 @@
-import { MedicosService } from "../services/medicosService.js";
+import { MedicoRepository } from "../repositories/MedicoRepository.js";
 
-export class MedicosController {
-    constructor({ medicosService = new MedicosService() } = {}) {
-        this.medicosService = medicosService;
+const medicoRepository = new MedicoRepository();
+
+import { MedicoService } from "../services/MedicoService.js";
+
+export class MedicoController {
+    constructor({ medicoService = new MedicoService() } = {}) {
+        this.medicoService = medicoService;
     }
 
     async findAll(req, res, next) {
         try {
             const paginacion = this.extraerPaginacion(req.query);
             const filtros = this.extraerFiltros(req.query);
-            const resultado = this.medicosService.obtenerTodos({ ...paginacion, filtros });
+            const resultado = await this.medicoService.obtenerTodos({ ...paginacion, filtros });
 
             return res.status(200).json({
                 status: "success",
@@ -26,6 +30,17 @@ export class MedicosController {
         }
     }
 
+    async getMedicoById(req, res, next) {
+        try {
+            const { id } = req.params;
+            const medico = await medicoRepository.findById(id);
+
+            res.status(200).json(medico);
+        } catch (error) {
+            next(error);
+        }
+    };
+
     extraerFiltros(query) {
         const filtros = {};
 
@@ -36,7 +51,7 @@ export class MedicosController {
 
     extraerPaginacion(query) {
         const numeroPagina = query?.page === undefined ? 1 : Number(query.page);
-        const limitePorPagina = query?.limit === undefined ? 10 : Number(query.limit);
+        const limitePorPagina = query?.limit === undefined ? 5 : Number(query.limit);
 
         if (numeroPagina <= 0) {
             throw new Error("El numero de pagina debe ser mayor o igual a 0");
