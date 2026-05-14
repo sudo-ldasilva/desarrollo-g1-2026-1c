@@ -1,7 +1,7 @@
-import {TurnoModel} from "../schemas/turnoSchema.js";
+import {TurnoModel} from "../models/turnoSchema.js";
 
 
-class TurnosRepository {
+export default class TurnosRepository {
     constructor() {
         this.model = TurnoModel;
     } 
@@ -12,7 +12,11 @@ class TurnosRepository {
 
         const turnos =
             await this.model
-                .find() 
+                .find()
+                .populate("medico", "nombre")
+                .populate("sede", "nombre direccion")
+                .populate("especialidad", "nombre duracionTurnoEnMins costoConsulta")
+                .populate("practica", "nombre duracionTurnoEnMins costoConsulta")
                 .skip(skip)
                 .limit(limit);
 
@@ -23,7 +27,6 @@ class TurnosRepository {
             turnos,
             total,
             page,
-            // por ejemplo para 23 con x por pagina -> 4.6 necesito 5 paginas la ultima no completa
             totalPages: Math.ceil(total / limit)
         };
     }

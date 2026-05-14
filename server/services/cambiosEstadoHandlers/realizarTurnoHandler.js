@@ -1,3 +1,3 @@
-export class RealizarTurnoHandler {
+export default class RealizarTurnoHandler {
     
 }

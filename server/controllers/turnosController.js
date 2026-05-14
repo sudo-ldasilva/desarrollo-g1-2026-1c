@@ -1,12 +1,12 @@
-import {CambiosEstadoTurnoService} from "../services/cambiosEstadoTurnoService.js";
-import {TunosServices} from "../services/turnosService.js";
+import CambiosEstadoTurnoService from "../services/cambiosEstadoTurnoService.js";
+import TurnosService from "../services/turnosService.js";
 import {cambioEstadoTurnoSchema} from "../validations/cambioEstadoTurnoSchema.js";
 import {BadRequestError} from "../errors/AppError.js";
 
-export class TurnosController {
+export default class TurnosController {
     constructor() {
-        this.cambiosEstadoTurnoService = CambiosEstadoTurnoService;
-        this.turnosService = TunosServices;
+        this.cambiosEstadoTurnoService = new CambiosEstadoTurnoService();
+        this.turnosService = new TurnosService();
     }
 
     async buscarMisTurnos(req, res, next){

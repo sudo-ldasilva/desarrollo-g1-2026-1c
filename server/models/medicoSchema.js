@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-import { Medico } from "../domain/Medico.js";
+import Medico from "../domain/Medico.js";
 
 export const MedicoSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
     usuarioId: { type: String, ref: "Usuario", required: true },
     matricula: { type: String, required: true, unique: true },
     nombre: { type: String, required: true },

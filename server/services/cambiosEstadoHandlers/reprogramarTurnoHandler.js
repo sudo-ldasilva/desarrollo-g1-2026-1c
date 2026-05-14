@@ -1,3 +1,3 @@
-export class ReprogramarTurnoHandler {
+export default class ReprogramarTurnoHandler {
     
 }

@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { Especialidad } from "../domain/Especialidad.js";
 
 export const EspecialidadSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
     nombre: { type: String, required: true },
     duracionTurnoEnMins: { type: Number, default: 15 },
     costoConsulta: { type: Number, default: 10000 }

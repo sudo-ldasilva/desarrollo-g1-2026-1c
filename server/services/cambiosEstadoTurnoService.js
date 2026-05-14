@@ -1,11 +1,11 @@
-import EstadoTurno from "../domain/EstadoTurno.js";
+import {EstadoTurno} from "../domain/EstadoTurno.js";
 import ReservarTurnoHandler from "./cambiosEstadoHandlers/reservarTurnoHandler.js";
 import CancelarTurnoHandler from "./cambiosEstadoHandlers/cancelarTurnoHnadler.js";
 import ReprogramarTurnoHandler from "./cambiosEstadoHandlers/reprogramarTurnoHandler.js";
 import RealizarTurnoHandler from "./cambiosEstadoHandlers/realizarTurnoHandler.js";
 import {BadRequestError} from "../errors/AppError.js";
 
-export class CambiosEstadoTurnoService {
+export default class CambiosEstadoTurnoService {
     
     async ejecutar(dto, usuario) {
         const estrategia = this.elegirEstrategia(dto.estado);

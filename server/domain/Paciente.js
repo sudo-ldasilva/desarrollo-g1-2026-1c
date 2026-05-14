@@ -1,4 +1,4 @@
-class Paciente {
+export class Paciente {
     constructor(id, usuario, dni, nombre, obraSocial, plan) {
         this.id = id;
         this.usuario = usuario;

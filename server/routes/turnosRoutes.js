@@ -1,13 +1,13 @@
 import express from "express";
 
-import {TurnosController} from "../controllers/turnosController.js";
+import TurnosController from "../controllers/turnosController.js";
 
 const turnosController = new TurnosController();
 const turnosRouter = express.Router();
 
 turnosRouter
     .route("/")
-    .get((req, res, next) => turnosController.buscar(req, res, next));
+    .get((req, res, next) => turnosController.buscarPaginado(req, res, next));
 
 turnosRouter
     .route("/mis-turnos")

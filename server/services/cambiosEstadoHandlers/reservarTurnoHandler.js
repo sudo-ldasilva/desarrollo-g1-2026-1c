@@ -1,3 +1,3 @@
-export class ReservarTurnoHandler {
+export default class ReservarTurnoHandler {
     
 }

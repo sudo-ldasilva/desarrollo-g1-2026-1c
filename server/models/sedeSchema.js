@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { Sede } from "../domain/Sede.js";
 
 const SedeSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
     nombre: { type: String, required: true },
     direccion: { type: String, required: true }
 });
