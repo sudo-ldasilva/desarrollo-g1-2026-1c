@@ -1,13 +1,13 @@
 // Crea usuarios, médicos, pacientes, especialidades, turnos, etc
 // Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
 
-import {TurnoModel} from "../schemas/turnoSchema.js";
-import {EspecialidadModel} from "../schemas/especialidadSchema.js";
-import {MedicoModel} from "../schemas/medicoSchema.js";
-import {PacienteModel} from "../schemas/pacienteSchema.js";
-import {PracticaModel} from "../schemas/practicaSchema.js";
-import {SedeModel} from "../schemas/sedeSchema.js";
-import {UsuarioModel} from "../schemas/usuarioSchema.js";
+import {TurnoModel} from "../models/turnoSchema.js";
+import {EspecialidadModel} from "../models/especialidadSchema.js";
+import {MedicoModel} from "../models/medicoSchema.js";
+import {PacienteModel} from "../models/pacienteSchema.js";
+import {PracticaModel} from "../models/practicaSchema.js";
+import {SedeModel} from "../models/sedeSchema.js";
+import {UsuarioModel} from "../models/usuarioSchema.js";
 
 export const runSeed = async () => {
     try {
@@ -317,7 +317,7 @@ export const runSeed = async () => {
         console.log("📅 Creando Turnos...");
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-15T09:00:00Z"),
+            fechaHora: new Date("2026-06-15T09:00:00Z"),
             medico: medicos[0]._id,
             paciente: null,
             sede: sedes[0]._id,
@@ -328,7 +328,7 @@ export const runSeed = async () => {
         });
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-15T10:00:00Z"),
+            fechaHora: new Date("2026-06-16T10:00:00Z"),
             medico: medicos[1]._id,
             paciente: null,
             sede: sedes[1]._id,
@@ -339,7 +339,7 @@ export const runSeed = async () => {
         });
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-15T11:00:00Z"),
+            fechaHora: new Date("2026-06-17T11:00:00Z"),
             medico: medicos[2]._id,
             paciente: null,
             sede: sedes[2]._id,
@@ -350,7 +350,7 @@ export const runSeed = async () => {
         });
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-16T08:30:00Z"),
+            fechaHora: new Date("2026-06-18T08:30:00Z"),
             medico: medicos[3]._id,
             paciente: null,
             sede: sedes[3]._id,
@@ -361,7 +361,7 @@ export const runSeed = async () => {
         });
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-16T09:30:00Z"),
+            fechaHora: new Date("2026-06-19T09:30:00Z"),
             medico: medicos[4]._id,
             paciente: null,
             sede: sedes[4]._id,
@@ -372,7 +372,7 @@ export const runSeed = async () => {
         });
 
         await TurnoModel.create({
-            fechaHora: new Date("2026-05-17T14:00:00Z"),
+            fechaHora: new Date("2026-06-20T14:00:00Z"),
             medico: medicos[5]._id,
             paciente: null,
             sede: sedes[5]._id,

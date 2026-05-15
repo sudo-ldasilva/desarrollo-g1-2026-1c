@@ -1,7 +1,5 @@
 import CambiosEstadoTurnoService from "../services/cambiosEstadoTurnoService.js";
 import TurnosService from "../services/turnosService.js";
-import {cambioEstadoTurnoSchema} from "../validations/cambioEstadoTurnoSchema.js";
-import {BadRequestError} from "../errors/AppError.js";
 
 export default class TurnosController {
     constructor() {
@@ -13,15 +11,9 @@ export default class TurnosController {
         //TODO
     }
 
-    async cambiarEstado(req, res, next){
+    cambiarEstado = async (req, res, next) => {
         try {
-            const resultado = cambioEstadoTurnoSchema.safeParse(req.body);
-        
-            if (resultado.error) {
-                throw new BadRequestError(resultado.error.issues);
-            }
-
-            const dto = resultado.data;
+            const dto = req.validated.query;
         
             //TODO obtener usuario
             const usuario = null;
@@ -29,21 +21,22 @@ export default class TurnosController {
             await this.cambiosEstadoTurnoService.ejecutar(dto, usuario);
         
             res.sendStatus(200);
-        } catch(err) {
-            next(err);
-        }
-    }
-
-    async buscarPaginado(req, res, next){
-        try{
-            const page = Number(req.query.page) || 1;
-            const limit = Number(req.query.limit) || 5;
-            const resultado = await this.turnosService.buscarPaginado(page, limit);
-            res.json(resultado);
-        }
-        catch(error){
+        } catch(error) {
             next(error);
         }
-    }
+    };
+
+    buscarPaginado = async (req, res, next) => {
+        try{
+            const { page, limit, ...filtros } = req.validated.query;
+            const paginacion = {page, limit};
+            //TODO obtener usuario
+            
+            const busqueda = await this.turnosService.buscarPaginado(filtros, paginacion);
+            res.json(busqueda);
+        } catch(error){
+            next(error);
+        }
+    };
 
 }

@@ -1,13 +1,16 @@
 import express from "express";
 
 import TurnosController from "../controllers/turnosController.js";
+import { validate } from "../middlewares/validate.js";
+import { cambioEstadoTurnoSchema } from "../validations/cambioEstadoTurnoSchema.js";
+import { turnosQuerySchema } from "../validations/turnosQueySchema.js";
 
 const turnosController = new TurnosController();
 const turnosRouter = express.Router();
 
 turnosRouter
     .route("/")
-    .get((req, res, next) => turnosController.buscarPaginado(req, res, next));
+    .get(validate(turnosQuerySchema, "query"), turnosController.buscarPaginado);
 
 turnosRouter
     .route("/mis-turnos")
@@ -15,6 +18,6 @@ turnosRouter
 
 turnosRouter
     .route("/:idTurno/cambios-estado")
-    .post((req, res, next) => turnosController.cambiarEstado(req, res, next));
+    .post(validate(cambioEstadoTurnoSchema, "body"), turnosController.cambiarEstado);
 
 export default turnosRouter;
