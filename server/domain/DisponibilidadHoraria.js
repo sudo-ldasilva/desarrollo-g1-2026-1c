@@ -1,11 +1,55 @@
-import { DiaSemana } from "./DiaSemana.js";
-
 class DisponibilidadHoraria {
-    constructor(diaSemana, horaDesde, horaHasta) {
+    constructor({diaSemana, horaDesde, horaHasta, sede, servicio}) {
         this.diaSemana = diaSemana;
         this.horaDesde = horaDesde;
         this.horaHasta = horaHasta;
+        this.sede = sede;
+        this.servicio = servicio; //practica o especialidad
         this.duracionEnMins = duracionEnMinutos(horaDesde, horaHasta);
+    }
+
+
+    generarSlots(fecha) {
+
+        const slots = [];
+
+        const duracion =
+        this.servicio.duracionTurnoEnMins;
+
+        const [horaDesde, minDesde] =
+        this.horaDesde.split(":").map(Number);
+
+        const [horaHasta, minHasta] =
+        this.horaHasta.split(":").map(Number);
+
+        const inicio = new Date(fecha);
+        inicio.setHours(horaDesde, minDesde, 0, 0);
+
+        const fin = new Date(fecha);
+        fin.setHours(horaHasta, minHasta, 0, 0);
+
+        const actual = new Date(inicio);
+
+        while (actual <= fin) {
+
+            const finSlot = new Date(actual);
+
+            finSlot.setMinutes(
+                finSlot.getMinutes() + duracion
+            );
+
+            if (finSlot > fin) {
+                break;
+            }
+
+            slots.push(new Date(actual));
+
+            actual.setMinutes(
+                actual.getMinutes() + duracion
+            );
+        }
+
+        return slots;
     }
 
     get diaSemana() { return this._diaSemana; }
