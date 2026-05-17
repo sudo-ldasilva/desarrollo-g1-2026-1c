@@ -6,9 +6,10 @@ export default class TurnosRepository {
         this.model = TurnoModel;
     } 
 
-    async buscarPaginado(filtros, paginacion) {
+    async buscarPaginado(filtros, paginacion, ordenamiento) {
         const page = paginacion.page;
         const limit = paginacion.limit;
+        const sort = ordenamiento;
 
         const query = armarQuery(filtros);
 
@@ -18,6 +19,7 @@ export default class TurnosRepository {
         const turnos =
             await this.model
                 .find(query)
+                .sort(sort)
                 .populate("medico", "nombre")
                 .populate("sede", "nombre direccion")
                 .populate("especialidad", "nombre duracionTurnoEnMins costoConsulta")
@@ -32,7 +34,8 @@ export default class TurnosRepository {
             turnos,
             total,
             page,
-            totalPages: Math.ceil(total / limit)
+            totalPages: Math.ceil(total / limit),
+            sort
         };
     }
 

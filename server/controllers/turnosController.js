@@ -13,7 +13,7 @@ export default class TurnosController {
 
     cambiarEstado = async (req, res, next) => {
         try {
-            const dto = req.validated.query;
+            const dto = req.validated.body;
         
             //TODO obtener usuario
             const usuario = null;
@@ -28,11 +28,11 @@ export default class TurnosController {
 
     buscarPaginado = async (req, res, next) => {
         try{
-            const { page, limit, ...filtros } = req.validated.query;
+            const { page, limit, sort, ...filtros } = req.validated.query;
             const paginacion = {page, limit};
             //TODO obtener usuario
             
-            const busqueda = await this.turnosService.buscarPaginado(filtros, paginacion);
+            const busqueda = await this.turnosService.buscarPaginado(filtros, paginacion, sort);
             res.json(busqueda);
         } catch(error){
             next(error);
