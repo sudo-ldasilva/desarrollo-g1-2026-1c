@@ -39,12 +39,38 @@ export class MedicoController {
         } catch (error) {
             next(error);
         }
+    }
+
+    validarCamposPatch(body) {
+        let camposQuePuedeCambiar = ["especialidades", "practicas", "sedes", "disponibilidades"];
+        let camposBody = Object.keys(body);
+
+        const camposNoPermitidos = camposBody.filter((campo) => !camposQuePuedeCambiar.includes(campo));
+        if (camposNoPermitidos.length > 0) {
+            throw new Error(`Campos no permitidos en la request: ${camposNoPermitidos.join(", ")}`);
+        }
+    }
+
+    async patchMedicoById(req, res, next) {
+        try {
+            const { id } = req.params;
+            this.validarCamposPatch(req.body);
+            // TODO Una vez completado la funcionalidad, estaría bueno checkear que los
+            // datos ingresados (dependiendo de cada campo) sean del tipo y forma correctos.
+            // Nunca nos tenemos que confiar del input del usuario.
+            const medico = await medicoRepository.updateById(id, req.body);
+
+            res.status(200).json(medico);
+        } catch (error) {
+            next(error);
+        }
     };
 
     extraerFiltros(query) {
         const filtros = {};
 
         // TODO Filtros
+        // Hay que ver que filtros necesitamos para las request de médico
 
         return filtros;
     }
