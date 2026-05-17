@@ -1,0 +1,198 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API de notificaciones",
+    "description": "API REST para la notificacion de pacientes y médicos.",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Notificaciones",
+      "description": "Operaciones sobre notificaciones"
+    }
+  ],
+  "paths": {
+    "/notificaciones": {
+      "get": {
+        "tags": ["Notificaciones"],
+        "summary": "Listar las notificaciones de un paciente o médico",
+        "description": "Devuelve una lista paginada de notificaciones. Permite ver notificaciones leídas y no leídas.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página (debe ser entero positivo)",
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de notificaciones por página (debe ser entero positivo)",
+            "schema": { "type": "integer", "minimum": 1, "default": 10 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaciones obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "success" },
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Notificacion" }
+                    },
+                    "paginacion": { "$ref": "#/components/schemas/Paginacion" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/notificaciones/{id}": {
+      "get": {
+        "tags": ["Notificaciones"],
+        "summary": "Se consulta una notificacion en particular",
+        "description": "Un usuario consulta la notificación que desee observar",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la notificación que se quiere buscar",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notificacion obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "success" },
+                    "data": { "$ref": "#/components/schemas/Notificacion" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "patch": {
+        "tags": ["Notificaciones"],
+        "summary": "Marcar una notificación como leída",
+        "description": "Actualiza el estado de lectura de una notificación específica y registra el momento exacto.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la notificación que se va a marcar como leída",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "leida": { "type": "boolean", "example": true }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notificación marcada como leída exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "success" },
+                    "data": { "$ref": "#/components/schemas/Notificacion" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Notificacion": {
+        "type": "object",
+        "properties": {
+          "notificacionId": { "type": "string", "example": "6646b9a..." },
+          "destinatario": { "type": "string", "example": "6646b5c32893" },
+          "remitente": { "type": "string", "example": "6646b5c32897" },
+          "mensaje": { "type": "string", "example": "Tu donación fue recibida" },
+          "fechaHoraCreacion": { "type": "string", "format": "date-time" },
+          "fechaHoraLeida": { "type": "string", "format": "date-time", "nullable": true },
+          "leida": { "type": "boolean", "example": false }
+        }
+      },
+      "Paginacion": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer", "example": 100 },
+          "limite": { "type": "integer", "example": 10 },
+          "pagina": { "type": "integer", "example": 1 }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "fail" },
+          "message": { "type": "string", "example": "Mensaje de error descriptivo" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Error en los datos de entrada (Fallo de validación)",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "string", "example": "error" },
+                "message": { "type": "string", "example": "El ID del destinatario debe ser un ObjectId válido" }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso no encontrado",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" },
+            "example": {
+              "status": "fail",
+              "message": "Notificación con id 6646b9a... no encontrada",
+              "timestamp": "2026-05-17T12:00:00.000Z"
+            }
+          }
+        }
+      }
+    }
+  }
+}
