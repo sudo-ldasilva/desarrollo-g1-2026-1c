@@ -1,0 +1,205 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API de Turnos",
+    "description": "Documentación Swagger para el endpoint de búsqueda de turnos.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/turnos": {
+      "get": {
+        "summary": "Buscar turnos paginados",
+        "description": "Devuelve una lista de turnos filtrada y paginada según los parámetros de consulta.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página de resultados.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de resultados por página (máximo 25).",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 25,
+              "default": 10
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Ordenamiento de resultados. Ejemplo: fechaHora:desc,costo:asc.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "fechaHora:desc,costo:asc"
+            }
+          },
+          {
+            "name": "medico",
+            "in": "query",
+            "description": "Filtro por ID del médico.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sede",
+            "in": "query",
+            "description": "Filtro por ID de la sede.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "practica",
+            "in": "query",
+            "description": "Filtro por ID de la práctica.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "especialidad",
+            "in": "query",
+            "description": "Filtro por ID de la especialidad.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "description": "Fecha inicial para buscar turnos (ISO 8601).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "description": "Fecha final para buscar turnos (ISO 8601).",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultados de la búsqueda de turnos paginados."
+          },
+          "400": {
+            "description": "Parámetros de consulta inválidos."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TurnosPaginados": {
+        "type": "object",
+        "properties": {
+          "turnos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Turno"
+            }
+          },
+          "total": {
+            "type": "integer",
+            "description": "Total de turnos que coinciden con el filtro."
+          },
+          "page": {
+            "type": "integer",
+            "description": "Página actual devuelta."
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Cantidad de páginas totales disponibles."
+          },
+          "sort": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "description": "Dirección de ordenamiento: 1 para ascendente, -1 para descendente."
+            }
+          }
+        },
+        "required": ["turnos", "total", "page", "totalPages", "sort"]
+      },
+      "Turno": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fechaHora": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "medico": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "nombre": { "type": "string" }
+            }
+          },
+          "servicio": {
+            "type": "object",
+            "description": "Puede corresponder a especialidad o práctica.",
+            "properties": {
+              "tipo": { "type": "string", "enum": ["especialidad", "practica"] },
+              "id": { "type": "string" },
+              "nombre": { "type": "string" },
+              "duracion": { "type": "integer", "description": "Duración en minutos." },
+              "costoConsulta": { "type": "number" }
+            }
+          },
+          "sede": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "nombre": { "type": "string" },
+              "direccion": { "type": "string" }
+            }
+          },
+          "estado": {
+            "type": "string"
+          },
+          "costo": {
+            "type": "number",
+            "description": "Costo calculado del turno."
+          }
+        },
+        "required": ["id", "fechaHora", "medico", "servicio", "sede", "estado", "costo"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      }
+    }
+  }
+}

@@ -7,39 +7,43 @@ export default class TurnosService{
     }
 
     toDTO(turno) {
-        const servicio = turno.especialidad
-            ? {
+        let servicio;
+
+        if (turno.especialidad) {
+            servicio = {
                 tipo: "especialidad",
                 id: turno.especialidad._id,
                 nombre: turno.especialidad.nombre,
                 duracion: turno.especialidad.duracionTurnoEnMins,
                 costoConsulta: turno.especialidad.costoConsulta
-            }
-            : turno.practica
-                ? {
-                    tipo: "practica",
-                    id: turno.practica._id,
-                    nombre: turno.practica.nombre,
-                    duracion: turno.practica.duracionTurnoEnMins,
-                    costoConsulta: turno.practica.costoConsulta
-                }
-                : null;
+            };
+        } else if (turno.practica) {
+            servicio = {
+                tipo: "practica",
+                id: turno.practica._id,
+                nombre: turno.practica.nombre,
+                duracion: turno.practica.duracionTurnoEnMins,
+                costoConsulta: turno.practica.costoConsulta
+            };
+        } else {
+            throw new Error("Turno sin servicio asociado");
+        }
         
         return {
             id: turno._id,
             fechaHora: turno.fechaHora,
-            medico: turno.medico ? {
+            medico: {
                 id: turno.medico._id,
                 nombre: turno.medico.nombre
-            } : null,
-            servicio, //puede ser especialidad/práctica
-            sede: turno.sede ? {
+            },
+            servicio,
+            sede: {
                 id: turno.sede._id,
                 nombre: turno.sede.nombre,
                 direccion: turno.sede.direccion
-            } : null,
+            },
             estado: turno.estado,
-            costo: turno.costo //Sería el costo calculado (cambia segun paciente que consulta) 
+            costo: turno.costo //Sería el costo calculado (cambia segun paciente que consulta)
             //TODO: calcular costo segun el usuario paciente y ordenar los turnos segun el mismo.
             //Por ahora, el ord por costo se hace usando los registros hardcodeados de la seed.
         };
