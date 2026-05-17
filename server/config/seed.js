@@ -8,6 +8,7 @@ import {PacienteModel} from "../models/pacienteSchema.js";
 import {PracticaModel} from "../models/practicaSchema.js";
 import {SedeModel} from "../models/sedeSchema.js";
 import {UsuarioModel} from "../models/usuarioSchema.js";
+import {NotificacionModel} from "../models/notificacionSchema.js";
 
 export const runSeed = async () => {
     try {
@@ -21,6 +22,7 @@ export const runSeed = async () => {
         await PacienteModel.deleteMany({});
         await PracticaModel.deleteMany({});
         await TurnoModel.deleteMany({});
+        await NotificacionModel.deleteMany({});
         console.log("🧹 Colecciones limpiadas.");
 
         // =========================================================================
@@ -382,6 +384,55 @@ export const runSeed = async () => {
             costo: 1200
         });
         console.log("✅ 6 Turnos creados.");
+
+        // =========================================================================
+        // 9. NOTIFICACIONES
+        // =========================================================================
+        console.log("🔔 Creando Notificaciones...");
+
+        await NotificacionModel.create({
+            destinatario: usuarios[10]._id,
+            remitente: usuarios[0]._id,
+            mensaje: "Tu turno con Dr. Juan Pérez en Hospital Garrahan el 15/06 a las 09:00 fue reservado con éxito.",
+            fechaHoraCreacion: new Date("2026-05-15T12:00:00Z"),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuarios[11]._id,
+            remitente: usuarios[1]._id,
+            mensaje: "La consulta de dermatología programada para el 16/06 a las 10:00 en Hospital Ramos Mejía está confirmada.",
+            fechaHoraCreacion: new Date("2026-05-16T09:30:00Z"),
+            fechaHoraLeida: new Date("2026-05-16T09:45:00Z"),
+            leida: true
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuarios[12]._id,
+            remitente: usuarios[2]._id,
+            mensaje: "Tu turno de consulta médica general fue reagendado para el 17/06 a las 11:00 en Hospital Italiano.",
+            fechaHoraCreacion: new Date("2026-05-17T10:00:00Z"),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuarios[13]._id,
+            remitente: usuarios[3]._id,
+            mensaje: "El turno de traumatología para el 18/06 a las 08:30 en Hospital Fernández fue cancelado.",
+            fechaHoraCreacion: new Date("2026-05-18T08:00:00Z"),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuarios[14]._id,
+            remitente: usuarios[4]._id,
+            mensaje: "Recordatorio: tu turno de oftalmología es el 19/06 a las 09:30 en Hospital Argerich.",
+            fechaHoraCreacion: new Date("2026-05-19T15:00:00Z"),
+            leida: true,
+            fechaHoraLeida: new Date("2026-05-19T15:05:00Z")
+        });
+
+        console.log("✅ 5 Notificaciones creadas.");
 
         console.log("🎉 Seed completado exitosamente.");
 

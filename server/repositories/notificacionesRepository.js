@@ -2,7 +2,7 @@ import { NotificacionModel } from "../models/notificacionSchema.js";
 
 export default class NotificacionesRepository{
     constructor(){
-        this.NotificacionModel = NotificacionModel;
+        this.model = NotificacionModel;
     }
     async desplegarNotificaciones(paginacion){
         const page = paginacion.page;
@@ -12,12 +12,13 @@ export default class NotificacionesRepository{
 
         const notificaciones = 
             await this.model
-                .populate("destinatario", "nombre")
-                .populate("remitente", "nombre")
+                .find()
+                .populate("destinatario", "nombreUsuario")
+                .populate("remitente", "nombreUsuario")
                 .skip(skip)
                 .limit(limit);
 
-        const total = this.model.countDocuments();
+        const total = await this.model.countDocuments();
 
         return {
             notificaciones,

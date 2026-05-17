@@ -9,6 +9,6 @@ const notificacionesRouter = express.Router();
 
 notificacionesRouter
     .route("/")
-    .get(validate(validarNotificacion, "notificacion"), notificacionesController.desplegarNotificaciones);
+    .get(validate(validarNotificacion, "query"), notificacionesController.desplegarNotificaciones);
 
 export default notificacionesRouter;
