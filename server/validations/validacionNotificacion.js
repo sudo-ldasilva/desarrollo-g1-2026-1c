@@ -1,7 +1,10 @@
 import { z } from "zod";
 
-export const validarNotificacion = z.object({
+export const paginacionNotificacion = z.object({
     page: z.coerce.number().int().positive().default(1),
     limit: z.coerce.number().int().positive().max(25).default(10),
-    //TODO validar query params para filtrar leidas / no leidas
+}).strict();
+
+export const notificacionesParamsSchema = z.object({
+    estado: z.enum(["leidas", "pendientes"])
 }).strict();

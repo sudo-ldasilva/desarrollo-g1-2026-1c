@@ -5,9 +5,9 @@ export default class NotificacionesService{
         this.NotificacionesRepository = new NotificacionesRepository();
     }
 
-    async desplegarNotificaciones(paginacion) { 
+    async desplegarNotificaciones(paginacion, filtros = {}) { 
         const { notificaciones, total, page, totalPages } =
-            await this.NotificacionesRepository.desplegarNotificaciones(paginacion);
+            await this.NotificacionesRepository.desplegarNotificaciones(paginacion, filtros);
     
         return {
             notificaciones,

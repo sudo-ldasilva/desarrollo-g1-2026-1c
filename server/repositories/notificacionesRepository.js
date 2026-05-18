@@ -4,7 +4,7 @@ export default class NotificacionesRepository{
     constructor(){
         this.model = NotificacionModel;
     }
-    async desplegarNotificaciones(paginacion){
+    async desplegarNotificaciones(paginacion, filtros = {}){
         const page = paginacion.page;
         const limit = paginacion.limit;
 
@@ -12,13 +12,13 @@ export default class NotificacionesRepository{
 
         const notificaciones = 
             await this.model
-                .find()
+                .find(filtros)
                 .populate("destinatario", "nombreUsuario")
                 .populate("remitente", "nombreUsuario")
                 .skip(skip)
                 .limit(limit);
 
-        const total = await this.model.countDocuments();
+        const total = await this.model.countDocuments(filtros);
 
         return {
             notificaciones,

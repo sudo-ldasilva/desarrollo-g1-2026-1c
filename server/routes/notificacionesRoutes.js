@@ -2,13 +2,23 @@ import express from "express";
 
 import { validate } from "../middlewares/validate.js";
 import NotificacionesController from "../controllers/notificacionesController.js";
-import { validarNotificacion } from "../validations/validacionNotificacion.js";
+import { paginacionNotificacion, notificacionesParamsSchema } from "../validations/validacionNotificacion.js";
 
 const notificacionesController = new NotificacionesController();
 const notificacionesRouter = express.Router();
 
 notificacionesRouter
     .route("/")
-    .get(validate(validarNotificacion, "query"), notificacionesController.desplegarNotificaciones);
+    .get(validate(paginacionNotificacion, "query"), notificacionesController.desplegarNotificaciones);
+
+notificacionesRouter
+    .route("/:estado")
+    .get(
+        validate(paginacionNotificacion, "query"),
+        validate(notificacionesParamsSchema, "params"),
+        notificacionesController.desplegarNotificaciones
+    );
+    
+
 
 export default notificacionesRouter;
