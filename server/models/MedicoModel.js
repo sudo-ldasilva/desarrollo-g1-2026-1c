@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const MedicoSchema = new mongoose.Schema({
-    id: { type: String, required: true, unique: true },
     usuario: { type: String, required: true },
     matricula: { type: String, required: true, unique: true },
     nombre: { type: String, required: true },

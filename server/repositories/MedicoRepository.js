@@ -20,7 +20,7 @@ export class MedicoRepository {
     }
 
     async findById(id) {
-        const medicoDoc = await MedicoModel.findOne({ id });
+        const medicoDoc = await MedicoModel.findById(id);
 
         if (!medicoDoc) {
             throw new NotFoundError(`Médico con ID ${id} no encontrado`);

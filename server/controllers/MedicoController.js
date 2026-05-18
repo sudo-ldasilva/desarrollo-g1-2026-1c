@@ -1,6 +1,5 @@
 import { MedicoRepository } from "../repositories/MedicoRepository.js";
 import { MedicoService } from "../services/MedicoService.js";
-import { v4 as uuidv4 } from "uuid";
 
 const medicoRepository = new MedicoRepository();
 
@@ -41,31 +40,42 @@ export class MedicoController {
         }
     }
 
-	async createMedico(req, res, next) {
-		try {
-		    const { usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades } = req.body;
+    validarCamposCreate(body) {
+        const { usuario, matricula, nombre } = body;
 
-		    // Validación mínima con placeholders
-		    if (!usuario || !matricula || !nombre) {
-		        return res.status(400).json({ message: "Faltan campos obligatorios: usuario, matricula, nombre" });
-		    }
+        const faltantes = [];
 
-		    const nuevoMedico = await medicoRepository.model.create({
-		        id: uuidv4(), 
-		        usuario,
-		        matricula,
-		        nombre,
-		        especialidades: especialidades || [],
-		        practicas: practicas || [],
-		        sedes: sedes || [],
-		        disponibilidades: disponibilidades || []
-		    });
+        if (!usuario) faltantes.push("usuario");
+        if (!matricula) faltantes.push("matricula");
+        if (!nombre) faltantes.push("nombre");
 
-		    return res.status(201).json(nuevoMedico);
-		} catch (error) {
-		    next(error);
-		}
-	}
+        if (faltantes.length > 0) {
+            throw new Error(
+                `Faltan campos obligatorios: ${faltantes.join(", ")}`
+            );
+        }
+    }
+
+    async createMedico(req, res, next) {
+        try {
+            const { usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades } = req.body;
+            this.validarCamposCreate(req.body);
+
+            const nuevoMedico = await medicoRepository.model.create({
+                usuario,
+                matricula,
+                nombre,
+                especialidades: especialidades || [],
+                practicas: practicas || [],
+                sedes: sedes || [],
+                disponibilidades: disponibilidades || []
+            });
+
+            return res.status(201).json(nuevoMedico);
+        } catch (error) {
+            next(error);
+        }
+    }
 
     validarCamposPatch(body) {
         let camposQuePuedeCambiar = ["especialidades", "practicas", "sedes", "disponibilidades"];
