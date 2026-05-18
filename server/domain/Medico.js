@@ -1,8 +1,7 @@
 import crypto from "crypto";
 
 export class Medico {
-    constructor({ id = crypto.randomUUID(), usuario, matricula, nombre }){
-        this.id = id;
+    constructor({ usuario, matricula, nombre }){
         this.usuario = usuario;
         this.matricula = matricula;
         this.nombre = nombre;

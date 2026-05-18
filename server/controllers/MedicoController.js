@@ -1,8 +1,7 @@
 import { MedicoRepository } from "../repositories/MedicoRepository.js";
+import { MedicoService } from "../services/MedicoService.js";
 
 const medicoRepository = new MedicoRepository();
-
-import { MedicoService } from "../services/MedicoService.js";
 
 export class MedicoController {
     constructor({ medicoService = new MedicoService() } = {}) {
@@ -36,6 +35,43 @@ export class MedicoController {
             const medico = await medicoRepository.findById(id);
 
             res.status(200).json(medico);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    validarCamposCreate(body) {
+        const { usuario, matricula, nombre } = body;
+
+        const faltantes = [];
+
+        if (!usuario) faltantes.push("usuario");
+        if (!matricula) faltantes.push("matricula");
+        if (!nombre) faltantes.push("nombre");
+
+        if (faltantes.length > 0) {
+            throw new Error(
+                `Faltan campos obligatorios: ${faltantes.join(", ")}`
+            );
+        }
+    }
+
+    async createMedico(req, res, next) {
+        try {
+            const { usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades } = req.body;
+            this.validarCamposCreate(req.body);
+
+            const nuevoMedico = await medicoRepository.model.create({
+                usuario,
+                matricula,
+                nombre,
+                especialidades: especialidades || [],
+                practicas: practicas || [],
+                sedes: sedes || [],
+                disponibilidades: disponibilidades || []
+            });
+
+            return res.status(201).json(nuevoMedico);
         } catch (error) {
             next(error);
         }
