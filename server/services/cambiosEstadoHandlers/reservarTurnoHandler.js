@@ -22,6 +22,10 @@ export default class ReservarTurnoHandler {
 
         const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
 
+        if(!paciente) {
+            throw new NotFoundError("Usuario paciente no encontrado");
+        }
+
         turno.asignarPaciente(paciente);
 
         const notificacion = turno.actualizarEstado("RESERVADO", usuarioId, "Paciente reservo turno");

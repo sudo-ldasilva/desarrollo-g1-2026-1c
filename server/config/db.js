@@ -11,7 +11,7 @@ export const connectDB = async () => {
         // Modo desarrollo: MongoDB embebido con persistencia en disco
         const dataDir = path.resolve("./.mongo-data");
         await fs.mkdir(dataDir, { recursive: true });
-		  
+
         mongoServer = await MongoMemoryServer.create({
             instance: {
                 dbPath: dataDir
@@ -20,7 +20,7 @@ export const connectDB = async () => {
 
         const uri = mongoServer.getUri();
         await mongoose.connect(uri);
-        console.log("MongoDB local persistente iniciado");
+        console.log(`MongoDB local persistente iniciado ${uri}`);
         console.log(`Datos guardados en: ${dataDir}`);
 
     } catch (error) {
