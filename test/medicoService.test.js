@@ -1,8 +1,8 @@
-import { jest, describe, test, expect, beforeEach } from '@jest/globals';
-import { MedicoService } from '../server/services/MedicoService.js';
-import { Medico } from '../server/domain/Medico.js';
+import { jest, describe, test, expect, beforeEach } from "@jest/globals";
+import { MedicoService } from "../server/services/MedicoService.js";
+import { Medico } from "../server/domain/Medico.js";
 
-describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
+describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
     // ==========================================
     // CONFIGURACIÓN MOCKS (Capa de Servicios)
     // ==========================================
@@ -14,7 +14,7 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
         mockRepository = {
             obtenerPaginados: jest.fn()
         };
-        
+
         // Inyectar el mock al servicio para aislar la capa de dominio
         medicoService = new MedicoService({ medicoRepository: mockRepository });
     });
@@ -22,12 +22,12 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
     // ==========================================
     // TESTS DE CAPA DE SERVICIOS
     // ==========================================
-    describe('MedicoService', () => {
-        test('debe calcular correctamente la paginacion y total de paginas con datos existentes', async () => {
+    describe("MedicoService", () => {
+        test("debe calcular correctamente la paginacion y total de paginas con datos existentes", async () => {
             mockRepository.obtenerPaginados.mockResolvedValue({
                 medicos: [
-                    { id: '1', nombre: 'Dr. Pérez', matricula: 'MP-1001' },
-                    { id: '2', nombre: 'Dra. López', matricula: 'MP-1002' }
+                    { id: "1", nombre: "Dr. Pérez", matricula: "MP-1001" },
+                    { id: "2", nombre: "Dra. López", matricula: "MP-1002" }
                 ],
                 totalMedicos: 12
             });
@@ -44,7 +44,7 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
             expect(result.limitePorPagina).toBe(5);
         });
 
-        test('debe devolver 0 paginas y array vacio cuando no hay resultados', async () => {
+        test("debe devolver 0 paginas y array vacio cuando no hay resultados", async () => {
             mockRepository.obtenerPaginados.mockResolvedValue({
                 medicos: [],
                 totalMedicos: 0
@@ -60,8 +60,8 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
             expect(result.totalPaginas).toBe(0);
         });
 
-        test('debe propagar los filtros al repositorio correctamente', async () => {
-            const filtrosEjemplo = { especialidad: 'Cardiología', sede: 'Garrahan' };
+        test("debe propagar los filtros al repositorio correctamente", async () => {
+            const filtrosEjemplo = { especialidad: "Cardiología", sede: "Garrahan" };
             mockRepository.obtenerPaginados.mockResolvedValue({ medicos: [], totalMedicos: 0 });
 
             await medicoService.obtenerTodos({
@@ -78,31 +78,31 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
     // ==========================================
     // TESTS DE CAPA DE DOMINIO (Entidad Medico)
     // ==========================================
-    describe('Medico (Dominio)', () => {
+    describe("Medico (Dominio)", () => {
         let medico;
 
         beforeEach(() => {
             // El constructor actual exige un objeto desestructurado
             medico = new Medico({
-                usuario: 'user_med_01',
-                matricula: 'MP-9876',
-                nombre: 'Dr. Juan Pérez'
+                usuario: "user_med_01",
+                matricula: "MP-9876",
+                nombre: "Dr. Juan Pérez"
             });
         });
 
-        test('debe inicializar correctamente las propiedades base y colecciones vacias', () => {
-            expect(medico.usuario).toBe('user_med_01');
-            expect(medico.matricula).toBe('MP-9876');
-            expect(medico.nombre).toBe('Dr. Juan Pérez');
+        test("debe inicializar correctamente las propiedades base y colecciones vacias", () => {
+            expect(medico.usuario).toBe("user_med_01");
+            expect(medico.matricula).toBe("MP-9876");
+            expect(medico.nombre).toBe("Dr. Juan Pérez");
             expect(medico._especialidades).toEqual([]);
             expect(medico._practicas).toEqual([]);
             expect(medico._sedes).toEqual([]);
             expect(medico._disponibilidades).toEqual([]);
         });
 
-        test('debe agregar y verificar especialidades correctamente', () => {
-            const cardiologia = { id: 'esp1', nombre: 'Cardiología' };
-            const dermatologia = { id: 'esp2', nombre: 'Dermatología' };
+        test("debe agregar y verificar especialidades correctamente", () => {
+            const cardiologia = { id: "esp1", nombre: "Cardiología" };
+            const dermatologia = { id: "esp2", nombre: "Dermatología" };
 
             medico.definirEspecialidad(cardiologia);
 
@@ -111,9 +111,9 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
             expect(medico.tieneEspecialidad(dermatologia)).toBe(false);
         });
 
-        test('debe agregar y verificar practicas correctamente', () => {
-            const ecografia = { id: 'prac1', nombre: 'Ecografía' };
-            const radiografia = { id: 'prac2', nombre: 'Radiografía' };
+        test("debe agregar y verificar practicas correctamente", () => {
+            const ecografia = { id: "prac1", nombre: "Ecografía" };
+            const radiografia = { id: "prac2", nombre: "Radiografía" };
 
             medico.definirPractica(ecografia);
 
@@ -121,17 +121,17 @@ describe('Sweet Medical - Tests de Servicios y Dominio (Medicos)', () => {
             expect(medico.tienePractica(radiografia)).toBe(false);
         });
 
-        test('debe gestionar sedes: inicialmente false, true al agregar al menos una', () => {
+        test("debe gestionar sedes: inicialmente false, true al agregar al menos una", () => {
             expect(medico.tieneAlgunaSede()).toBe(false);
 
-            const hospitalCentral = { id: 'sed1', nombre: 'Hospital Central' };
+            const hospitalCentral = { id: "sed1", nombre: "Hospital Central" };
             medico.definirSede(hospitalCentral);
 
             expect(medico.tieneAlgunaSede()).toBe(true);
         });
 
-        test('debe gestionar disponibilidades mediante getter y metodo setter', () => {
-            const dispLunes = { dia: 'LUNES', horaDesde: '09:00', horaHasta: '14:00' };
+        test("debe gestionar disponibilidades mediante getter y metodo setter", () => {
+            const dispLunes = { dia: "LUNES", horaDesde: "09:00", horaHasta: "14:00" };
 
             medico.definirDisponibilidad(dispLunes);
 

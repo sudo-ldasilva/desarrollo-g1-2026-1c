@@ -1,5 +1,3 @@
-import crypto from "crypto";
-
 export class Medico {
     constructor({ usuario, matricula, nombre }){
         this.usuario = usuario;
