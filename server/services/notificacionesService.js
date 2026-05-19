@@ -2,7 +2,7 @@ import NotificacionesRepository from "../repositories/notificacionesRepository.j
 
 export default class NotificacionesService{
     constructor(){
-        this.NotificacionesRepository = NotificacionesRepository;
+        this.NotificacionesRepository = new NotificacionesRepository();
     }
 
     async desplegarNotificaciones(paginacion, filtros = {}) { 

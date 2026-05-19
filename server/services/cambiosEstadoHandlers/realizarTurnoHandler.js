@@ -1,9 +1,11 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
+import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
 import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class RealizarTurnoHandler {
     constructor() {
         this.turnosRepository = new TurnosRepository();
+        this.notificacionesRepository = new NotificacionesRepository();
     }
 
     async ejecutar(dto, usuarioId) {
@@ -23,7 +25,8 @@ export default class RealizarTurnoHandler {
         const notificacion = turno.actualizarEstado("REALIZADO", usuarioId, mensajeMotivo);
 
         await this.turnosRepository.actualizar(turno);
-
+        await this.notificacionesRepository.crear(notificacion);
+        
         return { turno, notificacion };
     }
 }

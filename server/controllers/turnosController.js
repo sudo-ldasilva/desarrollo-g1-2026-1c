@@ -19,9 +19,9 @@ export default class TurnosController {
 
             const dto = { turnoId: idTurno, ...datosBody };
 
-            const usuario = datosBody.usuarioId;
+            const usuarioId = datosBody.usuarioId;
         
-            const rta = await this.cambiosEstadoTurnoService.ejecutar(dto, usuario);
+            const rta = await this.cambiosEstadoTurnoService.ejecutar(dto, usuarioId);
         
             res.json(rta);
         } catch(error) {

@@ -1,11 +1,13 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import PacientesRepository from "../../repositories/pacientesRepository.js";
+import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
 import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class ReservarTurnoHandler {
     constructor() {
         this.turnosRepository = new TurnosRepository();
         this.pacientesRepository = new PacientesRepository();
+        this.notificacionesRepository = new NotificacionesRepository();
     }
 
     async ejecutar(dto, usuarioId) {
@@ -29,10 +31,10 @@ export default class ReservarTurnoHandler {
         turno.asignarPaciente(paciente);
 
         const notificacion = turno.actualizarEstado("RESERVADO", paciente.usuario, "Paciente reservo turno");
-        //TODO, hay que persistir la notificacion
 
         await this.turnosRepository.actualizar(turno);
-
+        await this.notificacionesRepository.crear(notificacion);
+       
         return { turno, notificacion };
     }
 }

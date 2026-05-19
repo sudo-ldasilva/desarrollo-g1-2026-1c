@@ -124,61 +124,61 @@ export const runSeed = async () => {
 
         const medicos = [];
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[0]._id,
+            usuario: usuarios[0]._id,
             matricula: "MP-1001",
             nombre: "Dr. Juan Pérez",
             especialidades: [especialidades[0]._id] // Cardiología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[1]._id,
+            usuario: usuarios[1]._id,
             matricula: "MP-1002",
             nombre: "Dra. María González",
             especialidades: [especialidades[1]._id] // Dermatología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[2]._id,
+            usuario: usuarios[2]._id,
             matricula: "MP-1003",
             nombre: "Dr. Carlos Rodríguez",
             especialidades: [especialidades[2]._id] // Pediatría
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[3]._id,
+            usuario: usuarios[3]._id,
             matricula: "MP-1004",
             nombre: "Dra. Ana López",
             especialidades: [especialidades[3]._id] // Traumatología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[4]._id,
+            usuario: usuarios[4]._id,
             matricula: "MP-1005",
             nombre: "Dr. Luis Martínez",
             especialidades: [especialidades[4]._id] // Oftalmología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[5]._id,
+            usuario: usuarios[5]._id,
             matricula: "MP-1006",
             nombre: "Dra. Sofía Sánchez",
             especialidades: [especialidades[5]._id] // Ginecología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[6]._id,
+            usuario: usuarios[6]._id,
             matricula: "MP-1007",
             nombre: "Dr. Pedro Gómez",
             especialidades: [especialidades[6]._id] // Neurología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[7]._id,
+            usuario: usuarios[7]._id,
             matricula: "MP-1008",
             nombre: "Dra. Laura Díaz",
             especialidades: [especialidades[7]._id] // Psicología
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[8]._id,
+            usuario: usuarios[8]._id,
             matricula: "MP-1009",
             nombre: "Dr. Roberto Ruiz",
             especialidades: [especialidades[8]._id] // Clínica Médica
         }));
         medicos.push(await MedicoModel.create({
-            usuarioId: usuarios[9]._id,
+            usuario: usuarios[9]._id,
             matricula: "MP-1010",
             nombre: "Dra. Carmen Torres",
             especialidades: [especialidades[9]._id] // Odontología
@@ -241,28 +241,28 @@ export const runSeed = async () => {
 
         const pacientes = [];
         // Pacientes 0-9
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[10]._id, dni: 10000000, nombre: "Lucía Fernández" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[11]._id, dni: 10000001, nombre: "Martín Silva" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[12]._id, dni: 10000002, nombre: "Valeria Romero" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[13]._id, dni: 10000003, nombre: "Jorge Álvarez" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[14]._id, dni: 10000004, nombre: "Camila Morales" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[15]._id, dni: 10000005, nombre: "Diego Castro" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[16]._id, dni: 10000006, nombre: "Juliana Ortiz" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[17]._id, dni: 10000007, nombre: "Federico Gómez" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[18]._id, dni: 10000008, nombre: "Agustina Herrera" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[19]._id, dni: 10000009, nombre: "Nicolás Vargas" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[10]._id, dni: 10000000, nombre: "Lucía Fernández" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[11]._id, dni: 10000001, nombre: "Martín Silva" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[12]._id, dni: 10000002, nombre: "Valeria Romero" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[13]._id, dni: 10000003, nombre: "Jorge Álvarez" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[14]._id, dni: 10000004, nombre: "Camila Morales" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[15]._id, dni: 10000005, nombre: "Diego Castro" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[16]._id, dni: 10000006, nombre: "Juliana Ortiz" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[17]._id, dni: 10000007, nombre: "Federico Gómez" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[18]._id, dni: 10000008, nombre: "Agustina Herrera" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[19]._id, dni: 10000009, nombre: "Nicolás Vargas" }));
 
         // Pacientes 10-19 (Continuación de DNIs)
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[10]._id, dni: 10000010, nombre: "Sofía Medina" })); // Reutilizando usuario10 por simplicidad
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[11]._id, dni: 10000011, nombre: "Mateo Aguilar" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[12]._id, dni: 10000012, nombre: "Isabella Rojas" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[13]._id, dni: 10000013, nombre: "Santiago Molina" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[14]._id, dni: 10000014, nombre: "Mia Delgado" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[15]._id, dni: 10000015, nombre: "Benjamín Paz" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[16]._id, dni: 10000016, nombre: "Emma Figueroa" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[17]._id, dni: 10000017, nombre: "Thiago Cabrera" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[18]._id, dni: 10000018, nombre: "Olivia Núñez" }));
-        pacientes.push(await PacienteModel.create({ usuarioId: usuarios[19]._id, dni: 10000019, nombre: "Liam Acosta" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[10]._id, dni: 10000010, nombre: "Sofía Medina" })); // Reutilizando usuario10 por simplicidad
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[11]._id, dni: 10000011, nombre: "Mateo Aguilar" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[12]._id, dni: 10000012, nombre: "Isabella Rojas" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[13]._id, dni: 10000013, nombre: "Santiago Molina" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[14]._id, dni: 10000014, nombre: "Mia Delgado" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[15]._id, dni: 10000015, nombre: "Benjamín Paz" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[16]._id, dni: 10000016, nombre: "Emma Figueroa" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[17]._id, dni: 10000017, nombre: "Thiago Cabrera" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[18]._id, dni: 10000018, nombre: "Olivia Núñez" }));
+        pacientes.push(await PacienteModel.create({ usuario: usuarios[19]._id, dni: 10000019, nombre: "Liam Acosta" }));
 
         console.log("✅ 20 Pacientes creados.");
 

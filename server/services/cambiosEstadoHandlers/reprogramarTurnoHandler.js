@@ -1,9 +1,11 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
+import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
 import {NotFoundError} from "../../errors/AppError.js";
 
 export default class ReprogramarTurnoHandler {
     constructor() {
         this.turnosRepository = new TurnosRepository();
+        this.notificacionesRepository = new NotificacionesRepository();
     }
 
     async ejecutar(dto, usuarioId) {
@@ -21,7 +23,8 @@ export default class ReprogramarTurnoHandler {
         turno.fechaHora = new Date(fechaHora);
 
         await this.turnosRepository.actualizar(turno);
-
+        await this.notificacionesRepository.crear(notificacion);
+        
         return { turno, notificacion };
     }
 }

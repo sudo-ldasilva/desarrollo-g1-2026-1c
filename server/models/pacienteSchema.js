@@ -3,7 +3,7 @@ import {Paciente} from "../domain/Paciente.js";
 
 
 const PacienteSchema = new mongoose.Schema({
-    usuarioId: { type:mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true },
+    usuario: { type:mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true },
     dni: { type: Number, required: true, unique: true },
     nombre: { type: String, required: true },
     obraSocial: { type: String, default: "OSDE" },

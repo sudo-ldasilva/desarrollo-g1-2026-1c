@@ -6,6 +6,6 @@ export default class PacientesRepository {
     }
 
     async buscarPorUsuarioId(usuarioId) {
-        return await this.model.findOne({usuarioId});
+        return await this.model.findOne({ usuario: usuarioId });
     }
 }

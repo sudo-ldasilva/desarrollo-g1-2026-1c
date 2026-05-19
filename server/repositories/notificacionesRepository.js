@@ -1,6 +1,6 @@
 import { NotificacionModel } from "../models/notificacionSchema.js";
 
-export class NotificacionesRepository{
+export default class NotificacionesRepository{
     constructor(){
         this.model = NotificacionModel;
     }
@@ -42,5 +42,9 @@ export class NotificacionesRepository{
             { new: true, runValidators: true }
         );
     }
+
+    async crear(notificacion) {
+        return await this.model.create(notificacion);
+    }
+
 }
-export default new NotificacionesRepository();
