@@ -1,44 +1,60 @@
-import DiaSemana from "./DiaSemana.js";
+import Turno from "./Turno.js";
+import { obtenerDiaSemana } from "./DiaSemana.js";
+import { EstadoTurno } from "./EstadoTurno.js";
 
-export const DIAS_A_GENERAR_TURNOS = 90;
-
-class Agenda {
-    //cual es el rango de fechas a generar?
-    //Ejemplo: genera los turnos de los proximos 30 dias?
-    generarTurnosPara(objetivo, medico) {
-        let puedeRealizarlo = objetivo.puedeRealizarlo(medico);
-        if (!puedeRealizarlo.puede) {
-            throw new Error(puedeRealizarlo.msg);
-        }
-
-        if (!medico.tieneAlgunaSede()) {
-            throw new Error(`Médico ${medico.nombre} no tiene sedes asignadas`);
-        }
+export class Agenda {
+    //recorre rango de fechas
+    //si el dia de la fecha concuerda con disponibilidad
+    //divide la disponibilidad
+    //instancia
+    generarTurnosPara(medico, fechaDesde, fechaHasta) {
 
         const turnos = [];
 
-        const now = new Date(Date.now());
-        const nombreDeDias = [DiaSemana.DOMINGO, DiaSemana.LUNES, DiaSemana.MARTES, DiaSemana.MIERCOLES, DiaSemana.JUEVES, DiaSemana.VIERNES];
+        const fechaActual = new Date(fechaDesde);
+        fechaActual.setHours(0,0,0,0);
 
-        for (const i in DIAS_A_GENERAR_TURNOS) {
-            const fecha = new Date();
-            fecha.setDate(now.getDate() + i); // Avanza la fecha en `i` días. Fuente: https://stackoverflow.com/a/563442
+        while (fechaActual <= fechaHasta) {
 
-            const horariosDisponibles = medico.disponibilidades().filter((disponibilidad) => disponibilidad.diaSemana() === nombreDeDias[fecha.getDay()]);
-            horariosDisponibles.forEach((horario) => {
-                fecha.setHours(horario.horaDesde(), 0, 0, 0);
+            const diaSemana =
+            obtenerDiaSemana(fechaActual);
 
-                // TODO Consultar en la base de datos si el turno en esa fecha ya existe
+            const disponibilidades =
+            medico.disponibilidades.filter(
+                d => d.diaSemana === diaSemana
+            );
 
-                turnos.push(objetivo.generarTurno(medico, fecha));
-            });
+            for (const disponibilidad of disponibilidades) {
+
+                const slots =
+                disponibilidad.generarSlots(fechaActual);
+
+                for (const fechaHora of slots) {
+
+                    const turno = new Turno({
+                        medico: medico,
+                        fechaHora: fechaHora,
+
+                        sede: disponibilidad.sede,
+                        servicio: disponibilidad.servicio,
+
+                        estado: EstadoTurno.DISPONIBLE
+                    });
+
+                    turnos.push(turno);
+                }
+            }
+
+            fechaActual.setDate(
+                fechaActual.getDate() + 1
+            );
         }
+
         return turnos;
     }
+
 
     refrescarTurnoSegunDisponibilidad(medico) {
         // TODO Return Turnos[] que hace esto?
     }
 }
-
-export default Agenda;

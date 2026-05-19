@@ -1,10 +1,9 @@
 import { EstadoTurno } from "./EstadoTurno.js";
 import CambioEstadoTurno from "./CambioEstadoTurno.js";
 import FactoryNotificacion from "./FactoryNotificacion.js";
-import crypto from "crypto";
 
 class Turno {
-    constructor({ id = crypto.randomUUID(), medico, fechaHora, sede, servicio }) {
+    constructor({medico, fechaHora, sede, servicio }) {
         
         if (!medico || !fechaHora || !sede || !servicio) {
             throw new Error(
@@ -13,7 +12,6 @@ class Turno {
             );
         }
 
-        this.id = id;
         this.medico = medico;
         this.fechaHora = fechaHora;
         this.sede = sede;
