@@ -13,10 +13,13 @@ export default class TurnosController {
 
     cambiarEstado = async (req, res, next) => {
         try {
-            const dto = req.validated.query;
+            const datosBody = req.validated.body;
         
-            //TODO obtener usuario
-            const usuario = null;
+            const { idTurno } = req.params;
+
+            const dto = { turnoId: idTurno, ...datosBody };
+
+            const usuario = datosBody.usuarioId;
         
             await this.cambiosEstadoTurnoService.ejecutar(dto, usuario);
         

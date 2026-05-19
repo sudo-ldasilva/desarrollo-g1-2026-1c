@@ -1,6 +1,6 @@
 import {EstadoTurno} from "../domain/EstadoTurno.js";
 import ReservarTurnoHandler from "./cambiosEstadoHandlers/reservarTurnoHandler.js";
-import CancelarTurnoHandler from "./cambiosEstadoHandlers/cancelarTurnoHnadler.js";
+import CancelarTurnoHandler from "./cambiosEstadoHandlers/cancelarTurnoHandler.js";
 import ReprogramarTurnoHandler from "./cambiosEstadoHandlers/reprogramarTurnoHandler.js";
 import RealizarTurnoHandler from "./cambiosEstadoHandlers/realizarTurnoHandler.js";
 import {BadRequestError} from "../errors/AppError.js";

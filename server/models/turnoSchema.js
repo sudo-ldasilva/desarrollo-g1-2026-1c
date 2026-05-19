@@ -21,11 +21,14 @@ const TurnoSchema = new mongoose.Schema({
     especialidad: { type:mongoose.Schema.Types.ObjectId, ref: "Especialidad"},
     estado: {
         type: String, 
-        enum: [ "DISPONIBLE", "RESERVADO", "CONFIRMADO", "CANCELADO", "REALIZADO"], 
+        enum: [ "DISPONIBLE", "RESERVADO", "CONFIRMADO", "CANCELADO", "REALIZADO", "PENDIENTE_REPROGRAMACION"], 
         default: "DISPONIBLE"
     },
     historialEstados: [{
-        
+        fechaIngreso: { type: Date, default: Date.now },
+        estado: { type: String },
+        usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
+        motivo: { type: String }
     }],
     costo: {type: Number}    
 });

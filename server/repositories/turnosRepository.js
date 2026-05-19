@@ -1,6 +1,5 @@
 import {TurnoModel} from "../models/turnoSchema.js";
 
-
 export default class TurnosRepository {
     constructor() {
         this.model = TurnoModel;
@@ -36,6 +35,18 @@ export default class TurnosRepository {
         };
     }
 
+    async buscarPorId(id) {
+        return await this.model.findById(id)
+            .populate("medico")
+            .populate("paciente")
+            .populate("sede")
+            .populate("especialidad")
+            .populate("practica");
+    }
+
+    async actualizar(turnoDocument){
+        return await turnoDocument.save();
+    }
 }
 
 function armarQuery(filtros) {
