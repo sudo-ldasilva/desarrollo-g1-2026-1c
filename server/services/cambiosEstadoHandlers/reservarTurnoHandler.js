@@ -28,7 +28,8 @@ export default class ReservarTurnoHandler {
 
         turno.asignarPaciente(paciente);
 
-        const notificacion = turno.actualizarEstado("RESERVADO", usuarioId, "Paciente reservo turno");
+        const notificacion = turno.actualizarEstado("RESERVADO", paciente.usuario, "Paciente reservo turno");
+        //TODO, hay que persistir la notificacion
 
         await this.turnosRepository.actualizar(turno);
 

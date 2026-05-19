@@ -6,39 +6,39 @@ class FactoryNotificacion {
         // TODO Está bien?
         switch (turno.estado) {
         case EstadoTurno.DISPONIBLE:
-            return new Notificacion(
-                turno.medico,
-                turno.paciente,
-                "El turno está disponible ",
-            );
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El turno está disponible "
+            });
 
         case EstadoTurno.RESERVADO:
-            return new Notificacion(
-                turno.medico,
-                turno.paciente,
-                "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.practica,
-            );
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.practica,
+            });
 
         case EstadoTurno.CONFIRMADO:
-            return new Notificacion(
-                turno.medico,
-                turno.paciente,
-                "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.practica,
-            );
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.practica,
+            });
 
         case EstadoTurno.CANCELADO:
-            return new Notificacion(
-                turno.medico,
-                turno.paciente,
-                "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.practica,
-            );
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.practica,
+            });
 
         case EstadoTurno.REALIZADO:
-            return new Notificacion(
-                turno.medico,
-                turno.paciente,
-                "El servicio " + turno.practica + " está realizado.",
-            );
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El servicio " + turno.practica + " está realizado.",
+            });
 
         default:
             throw new Error(`Falta agregar el estado ${turno.estado} al switch de FactoryNotificacion en crearSegunEstadoTurno`);
