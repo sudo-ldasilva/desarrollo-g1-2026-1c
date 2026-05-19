@@ -1,6 +1,6 @@
 import { jest, describe, test, expect, beforeEach } from "@jest/globals";
-import { MedicoService } from "../server/services/MedicoService.js";
-import { Medico } from "../server/domain/Medico.js";
+import { MedicoService } from "../../server/services/MedicoService.js";
+import { Medico } from "../../server/domain/Medico.js";
 
 describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
     // ==========================================
