@@ -11,9 +11,12 @@ export class MedicoRepository {
         const skip = (numeroPagina - 1) * limitePorPagina;
 
         const medicos = await this.model.find().skip(skip).limit(limitePorPagina)
-            .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // Traemos selectivamente
-            .populate('practicas', 'nombre codigo costo')
-            .populate('sedes', 'nombre direccion');
+            .populate("especialidades") // Traemos todos los datos
+            .populate("practicas")
+            .populate("sedes");
+            // .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // O también podríamos traer selectivamente
+            // .populate('practicas', 'nombre codigo costo')
+            // .populate('sedes', 'nombre direccion');
 
         const total = await this.model.countDocuments({});
 
