@@ -9,6 +9,8 @@ import {PracticaModel} from "../models/practicaSchema.js";
 import {SedeModel} from "../models/sedeSchema.js";
 import {UsuarioModel} from "../models/usuarioSchema.js";
 import {NotificacionModel} from "../models/notificacionSchema.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const runSeed = async () => {
     try {
