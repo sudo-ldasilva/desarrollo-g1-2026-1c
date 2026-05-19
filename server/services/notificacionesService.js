@@ -17,4 +17,14 @@ export default class NotificacionesService{
         };
     }
 
+    async modificarEstadoLectura(id){
+        const datosParaActualizar = {
+            leida : true,
+            fechaHoraLeida: new Date()
+        };
+        const notificacionActualizada = await NotificacionesRepository.actualizar(id, datosParaActualizar);
+
+        return notificacionActualizada;
+    }
+
 }

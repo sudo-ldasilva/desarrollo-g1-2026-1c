@@ -28,4 +28,13 @@ export default class NotificacionesRepository{
         };
     }
 
+    
+    async actualizar(id, datos) {
+        return await NotificacionModel.findByIdAndUpdate(
+            id, 
+            datos, 
+            { new: true, runValidators: true }
+        );
+    }
+
 }

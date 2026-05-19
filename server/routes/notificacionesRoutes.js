@@ -2,7 +2,7 @@ import express from "express";
 
 import { validate } from "../middlewares/validate.js";
 import NotificacionesController from "../controllers/notificacionesController.js";
-import { paginacionNotificacion, notificacionesParamsSchema } from "../validations/validacionNotificacion.js";
+import { paginacionNotificacion, notificacionesParamsSchema, notificacionIdParamSchema } from "../validations/validacionNotificacion.js";
 
 const notificacionesController = new NotificacionesController();
 const notificacionesRouter = express.Router();
@@ -19,6 +19,17 @@ notificacionesRouter
         notificacionesController.desplegarNotificaciones
     );
     
+notificacionesRouter
+    .route("/:id")
+    .get(
+        validate(notificacionIdParamSchema, "params"), 
+        notificacionesController.obtenerPorId
+    )
+
+    .patch(
+        validate(notificacionIdParamSchema, "params"), 
+        notificacionesController.marcarComoLeida
+    );
 
 
 export default notificacionesRouter;

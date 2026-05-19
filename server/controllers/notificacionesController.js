@@ -23,4 +23,31 @@ export default class NotificacionesController{
             next(error);
         }
     };
+
+    obtenerPorId = async (req,res,next) =>{
+
+    };
+
+    marcarComoLeida = async (req,res,next) =>{
+        try {
+            const { id } = req.validated.params; 
+
+           
+            const notificacionActualizada = await this.notificacionesService.modificarEstadoLectura(id);
+
+            if (!notificacionActualizada) {
+                return res.status(404).json({
+                    status: "fail",
+                    message: "No se encontró la notificación"
+                });
+            }
+
+            res.status(200).json({
+                status: "success",
+                data: notificacionActualizada
+            });
+        } catch (error) {
+            next(error);
+        }
+    };
 }

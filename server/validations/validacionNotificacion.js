@@ -8,3 +8,9 @@ export const paginacionNotificacion = z.object({
 export const notificacionesParamsSchema = z.object({
     estado: z.enum(["leidas", "pendientes"])
 }).strict();
+
+//para acceder a una notificacion en particular debo validar el id que me pasan como path param
+
+export const notificacionIdParamSchema = z.object({
+
+}).strict();
