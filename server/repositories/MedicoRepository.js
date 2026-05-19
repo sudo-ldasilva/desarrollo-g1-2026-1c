@@ -1,5 +1,6 @@
 import MedicoModel from "../models/MedicoModel.js";
-import { NotFoundError } from "../errors/AppError.js";
+import { NotFoundError, BadRequestError } from "../errors/AppError.js";
+import mongoose from "mongoose";
 
 export class MedicoRepository {
     constructor() {
@@ -20,6 +21,10 @@ export class MedicoRepository {
     }
 
     async findById(id) {
+        if (!mongoose.isValidObjectId(id)) {
+            throw new BadRequestError(`Invalid ID ${id}`);
+        }
+
         const medicoDoc = await MedicoModel.findById(id);
 
         if (!medicoDoc) {
@@ -31,8 +36,12 @@ export class MedicoRepository {
     }
 
     async updateById(id, atributos) {
+        if (!mongoose.isValidObjectId(id)) {
+            throw new BadRequestError(`Invalid ID ${id}`);
+        }
+
         const medico = await this.model.findOneAndUpdate(
-            { id },
+            { _id: id },
             atributos,
             { returnDocument: "after" }
         );
