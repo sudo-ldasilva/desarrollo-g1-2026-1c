@@ -26,16 +26,16 @@ export default class TurnosService{
 
 export function turnoToDTO(turno) {
     return {
-        id: turno._id,
+        _id: turno._id,
         fechaHora: turno.fechaHora,
         medico: {
-            id: turno.medico._id,
+            _id: turno.medico._id,
             nombre: turno.medico.nombre
         },
         servicio: turno.servicio,
         tipoServicio: turno.tipoServicio,
         sede: {
-            id: turno.sede._id,
+            _id: turno.sede._id,
             nombre: turno.sede.nombre,
             direccion: turno.sede.direccion
         },

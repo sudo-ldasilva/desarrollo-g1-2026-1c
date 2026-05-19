@@ -53,20 +53,20 @@ export default class TurnosRepository {
 function armarQuery(filtros) {
     const query = {};
 
-    if (filtros.medicoId) {
-        query.medico = filtros.medicoId;
+    if (filtros.medico) {
+        query.medico = filtros.medico;
     }
 
-    if (filtros.especialidadId) {
-        query.especialidad = filtros.especialidadId;
+    if (filtros.especialidad) {
+        query.servicio = filtros.especialidad;
     }
         
-    if (filtros.practicaId) {
-        query.practica = filtros.practicaId;
+    if (filtros.practica) {
+        query.practica = filtros.practica;
     }
 
-    if (filtros.sedeId) {
-        query.sede = filtros.sedeId;
+    if (filtros.sede) {
+        query.sede = filtros.sede;
     }
 
     if (filtros.fechaInicio || filtros.fechaFin) {
