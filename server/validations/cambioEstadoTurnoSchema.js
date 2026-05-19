@@ -22,4 +22,13 @@ export const cambioEstadoTurnoSchema = z.object({
 }, {
     message: "Debe indicar un motivo para la cancelación",
     path: ["motivo"]
+}).refine(data => {
+    // la fecha es obligatorio para reprogramar 
+    if (data.estado === "PENDIENTE_REPROGRAMACION" && !data.fechaHora) {
+        return false;
+    }
+    return true;
+}, {
+    message: "Debe indicar fechaHora para la reprogramacion",
+    path: ["motivo"]
 });

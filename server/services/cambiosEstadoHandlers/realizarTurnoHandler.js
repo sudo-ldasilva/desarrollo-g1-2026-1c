@@ -1,5 +1,6 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
+import { EstadoTurno } from "../../domain/EstadoTurno.js";
 import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class RealizarTurnoHandler {
@@ -16,7 +17,7 @@ export default class RealizarTurnoHandler {
             throw new NotFoundError("Turno no encontrado");
         }
 
-        if (turno.estado !== "RESERVADO" && turno.estado !== "CONFIRMADO") {
+        if (turno.estado !== EstadoTurno.RESERVADO && turno.estado !== EstadoTurno.CONFIRMADO) {
             throw new BadRequestError(`No puede marcarse como realizado un turno con estado ${turno.estado}`);
         }
 
@@ -26,7 +27,7 @@ export default class RealizarTurnoHandler {
 
         const mensajeMotivo = motivo || "Turno realizado exitosamente";
         
-        const notificacion = turno.actualizarEstado("REALIZADO", usuarioId, mensajeMotivo);
+        const notificacion = turno.actualizarEstado(EstadoTurno.REALIZADO, usuarioId, mensajeMotivo);
 
         await this.turnosRepository.actualizar(turno);
         await this.notificacionesRepository.crear(notificacion);

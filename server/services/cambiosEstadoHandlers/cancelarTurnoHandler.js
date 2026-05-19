@@ -1,5 +1,6 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
+import { EstadoTurno } from "../../domain/EstadoTurno.js";
 import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class CancelarTurnoHandler {
@@ -30,7 +31,7 @@ export default class CancelarTurnoHandler {
             throw new BadRequestError("El turno no puede cancelarse con anticipacion menor a 1 hora");
         }
 
-        const notificacion = turno.actualizarEstado("CANCELADO", usuarioId, motivo);
+        const notificacion = turno.actualizarEstado(EstadoTurno.CANCELADO, usuarioId, motivo);
 
         await this.turnosRepository.actualizar(turno);
         await this.notificacionesRepository.crear(notificacion);

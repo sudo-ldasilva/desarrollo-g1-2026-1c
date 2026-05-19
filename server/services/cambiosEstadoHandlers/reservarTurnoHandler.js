@@ -1,6 +1,7 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import PacientesRepository from "../../repositories/pacientesRepository.js";
 import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
+import { EstadoTurno } from "../../domain/EstadoTurno.js";
 import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class ReservarTurnoHandler {
@@ -18,7 +19,7 @@ export default class ReservarTurnoHandler {
             throw new NotFoundError("Turno no encontrado");
         }
 
-        if (turno.estado !== "DISPONIBLE") {
+        if (turno.estado !== EstadoTurno.DISPONIBLE) {
             throw new BadRequestError("Turno no disponible");
         }
 
@@ -30,7 +31,7 @@ export default class ReservarTurnoHandler {
 
         turno.asignarPaciente(paciente);
 
-        const notificacion = turno.actualizarEstado("RESERVADO", paciente.usuario, "Paciente reservo turno");
+        const notificacion = turno.actualizarEstado(EstadoTurno.RESERVADO, paciente.usuario, "Paciente reservo turno");
 
         await this.turnosRepository.actualizar(turno);
         await this.notificacionesRepository.crear(notificacion);
