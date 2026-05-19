@@ -3,13 +3,18 @@ import ReservarTurnoHandler from "./cambiosEstadoHandlers/reservarTurnoHandler.j
 import CancelarTurnoHandler from "./cambiosEstadoHandlers/cancelarTurnoHandler.js";
 import ReprogramarTurnoHandler from "./cambiosEstadoHandlers/reprogramarTurnoHandler.js";
 import RealizarTurnoHandler from "./cambiosEstadoHandlers/realizarTurnoHandler.js";
+import { turnoToDTO } from "./turnosService.js";
 import {BadRequestError} from "../errors/AppError.js";
 
 export default class CambiosEstadoTurnoService {
     
     async ejecutar(dto, usuario) {
         const estrategia = this.elegirEstrategia(dto.estado);
-        return estrategia.ejecutar(dto, usuario);
+        const {turno, notificacion} = await estrategia.ejecutar(dto, usuario);
+        return {
+            turno: turnoToDTO(turno),
+            notificacion 
+        }; 
     }
 
     elegirEstrategia(estado) {
