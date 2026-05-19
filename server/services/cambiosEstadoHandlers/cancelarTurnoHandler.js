@@ -8,12 +8,19 @@ export default class CancelarTurnoHandler {
         this.notificacionesRepository = new NotificacionesRepository();
     }
 
-    async ejecutar(dto, usuario) {
+    async ejecutar(dto, usuarioId) {
         const { turnoId, motivo } = dto;
 
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
             throw new NotFoundError("Turno no encontrado"); 
+        }
+
+        if (
+            turno.paciente.usuario._id != usuarioId &&
+            turno.medico.usuario._id != usuarioId
+        ) {
+            throw new BadRequestError("El turno no corresponde al usuario"); 
         }
 
         const horaActual = new Date();
@@ -23,7 +30,7 @@ export default class CancelarTurnoHandler {
             throw new BadRequestError("El turno no puede cancelarse con anticipacion menor a 1 hora");
         }
 
-        const notificacion = turno.actualizarEstado("CANCELADO", usuario, motivo);
+        const notificacion = turno.actualizarEstado("CANCELADO", usuarioId, motivo);
 
         await this.turnosRepository.actualizar(turno);
         await this.notificacionesRepository.crear(notificacion);

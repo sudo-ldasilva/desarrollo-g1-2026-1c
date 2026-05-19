@@ -20,6 +20,10 @@ export default class RealizarTurnoHandler {
             throw new BadRequestError(`No puede marcarse como realizado un turno con estado ${turno.estado}`);
         }
 
+        if (turno.medico.usuario._id != usuarioId) {
+            throw new BadRequestError("El turno no corresponde al medico");
+        }
+
         const mensajeMotivo = motivo || "Turno realizado exitosamente";
         
         const notificacion = turno.actualizarEstado("REALIZADO", usuarioId, mensajeMotivo);

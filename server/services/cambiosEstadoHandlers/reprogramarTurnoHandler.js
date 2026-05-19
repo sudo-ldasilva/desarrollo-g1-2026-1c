@@ -1,6 +1,6 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
-import {NotFoundError} from "../../errors/AppError.js";
+import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class ReprogramarTurnoHandler {
     constructor() {
@@ -14,6 +14,13 @@ export default class ReprogramarTurnoHandler {
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
             throw new NotFoundError("Turno no encontrado");
+        }
+
+        if (
+            turno.paciente.usuario._id != usuarioId &&
+            turno.medico.usuario._id != usuarioId
+        ) {
+            throw new BadRequestError("El turno no corresponde al usuario"); 
         }
 
         const mensajeMotivo = motivo || `Solicitud de reprogramación para: ${fechaHora}`;
