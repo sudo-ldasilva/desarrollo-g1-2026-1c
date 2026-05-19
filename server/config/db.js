@@ -4,35 +4,70 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import path from "path";
 import { promises as fs } from "fs"; //para el config de mongodb-memory-server
 
-let mongoServer;
+let mongoServer = null;
 
 export const connectDB = async () => {
+
     try {
-        // Modo desarrollo: MongoDB embebido con persistencia en disco
-        const dataDir = path.resolve("./.mongo-data");
-        await fs.mkdir(dataDir, { recursive: true });
 
-        mongoServer = await MongoMemoryServer.create({
-            instance: {
-                dbPath: dataDir
-            }
-        });
+        if (process.env.NODE_ENV === "test") {
 
-        const uri = mongoServer.getUri();
-        await mongoose.connect(uri);
-        console.log(`MongoDB local persistente iniciado ${uri}`);
-        console.log(`Datos guardados en: ${dataDir}`);
+            mongoServer = await MongoMemoryServer.create();
+
+            const uri = mongoServer.getUri();
+
+            await mongoose.connect(uri);
+
+            console.log("MongoMemoryServer connected");
+
+        } else {
+
+            const uri =
+                `${process.env.MONGODB_URI}/${process.env.MONGODB_DB_NAME}`;
+
+            const conn = await mongoose.connect(uri);
+
+            console.log(
+                `MongoDB connected: ${conn.connection.host}`
+            );
+        }
 
     } catch (error) {
-        console.error("Error al conectar a MongoDB:", error.message);
-        process.exit(1); // Detiene el servidor si falla la conexión
+
+        console.error(
+            "Error connecting to MongoDB:",
+            error.message
+        );
+
+        process.exit(1);
     }
 };
 
-// Función para cerrar la conexión limpiamente
 export const disconnectDB = async () => {
-    if (mongoose.connection.readyState !== 0) await mongoose.disconnect();
-    if (mongoServer) await mongoServer.stop();
+
+    try {
+
+        if (mongoose.connection.readyState !== 0) {
+
+            await mongoose.disconnect();
+
+            console.log("MongoDB disconnected");
+        }
+
+        if (mongoServer) {
+
+            await mongoServer.stop();
+
+            console.log("MongoMemoryServer stopped");
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Error disconnecting MongoDB:",
+            error.message
+        );
+    }
 };
 
 //TODO console.error() --> logger tipo Pino/Winston/Morgan

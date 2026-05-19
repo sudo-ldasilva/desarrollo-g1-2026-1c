@@ -5,3 +5,4 @@ import "./turnoSchema.js";
 import "./sedeSchema.js";
 import "./practicaSchema.js";
 import "./usuarioSchema.js";
+import "./notificacionSchema.js";
