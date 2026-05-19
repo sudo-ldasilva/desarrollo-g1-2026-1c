@@ -16,28 +16,28 @@ class FactoryNotificacion {
             return new Notificacion({
                 destinatario: turno.medico.usuario,
                 remitente: turno.paciente.usuario,
-                mensaje: "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.practica,
+                mensaje: "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.CONFIRMADO:
             return new Notificacion({
                 destinatario: turno.medico.usuario,
                 remitente: turno.paciente.usuario,
-                mensaje: "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.practica,
+                mensaje: "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.CANCELADO:
             return new Notificacion({
                 destinatario: turno.medico.usuario,
                 remitente: turno.paciente.usuario,
-                mensaje: "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.practica,
+                mensaje: "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.REALIZADO:
             return new Notificacion({
                 destinatario: turno.medico.usuario,
                 remitente: turno.paciente.usuario,
-                mensaje: "El servicio " + turno.practica + " está realizado.",
+                mensaje: "El servicio " + turno.servicio.nombre + " está realizado.",
             });
 
         default:
