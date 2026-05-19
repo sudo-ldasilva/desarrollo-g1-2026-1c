@@ -7,28 +7,6 @@ export default class TurnosService{
     }
 
     toDTO(turno) {
-        let servicio;
-
-        if (turno.especialidad) {
-            servicio = {
-                tipo: "especialidad",
-                id: turno.especialidad._id,
-                nombre: turno.especialidad.nombre,
-                duracion: turno.especialidad.duracionTurnoEnMins,
-                costoConsulta: turno.especialidad.costoConsulta
-            };
-        } else if (turno.practica) {
-            servicio = {
-                tipo: "practica",
-                id: turno.practica._id,
-                nombre: turno.practica.nombre,
-                duracion: turno.practica.duracionTurnoEnMins,
-                costoConsulta: turno.practica.costoConsulta
-            };
-        } else {
-            throw new Error("Turno sin servicio asociado");
-        }
-        
         return {
             id: turno._id,
             fechaHora: turno.fechaHora,
@@ -36,7 +14,8 @@ export default class TurnosService{
                 id: turno.medico._id,
                 nombre: turno.medico.nombre
             },
-            servicio,
+            servicio: turno.servicio,
+            tipoServicio: turno.tipoServicio,
             sede: {
                 id: turno.sede._id,
                 nombre: turno.sede.nombre,

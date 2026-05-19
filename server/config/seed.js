@@ -325,8 +325,8 @@ export const runSeed = async () => {
             medico: medicos[0]._id,
             paciente: null,
             sede: sedes[0]._id,
-            practica: practicas[0]._id,
-            especialidad: especialidades[0]._id,
+            servicio: practicas[0]._id,
+            tipoServicio: "Practica",
             estado: "DISPONIBLE",
             costo: 10000
         });
@@ -336,8 +336,8 @@ export const runSeed = async () => {
             medico: medicos[1]._id,
             paciente: null,
             sede: sedes[1]._id,
-            practica: practicas[1]._id,
-            especialidad: especialidades[1]._id,
+            servicio: practicas[1]._id,
+            tipoServicio: "Practica",
             estado: "DISPONIBLE",
             costo: 1500
         });
@@ -347,8 +347,8 @@ export const runSeed = async () => {
             medico: medicos[2]._id,
             paciente: null,
             sede: sedes[2]._id,
-            practica: practicas[2]._id,
-            especialidad: especialidades[2]._id,
+            servicio: practicas[2]._id,
+            tipoServicio: "Practica",
             estado: "DISPONIBLE",
             costo: 2500
         });
@@ -358,8 +358,8 @@ export const runSeed = async () => {
             medico: medicos[3]._id,
             paciente: null,
             sede: sedes[3]._id,
-            practica: practicas[3]._id,
-            especialidad: especialidades[3]._id,
+            tipoServicio: "Especialidad",
+            servicio: especialidades[3]._id,
             estado: "DISPONIBLE",
             costo: 0
         });
@@ -369,8 +369,8 @@ export const runSeed = async () => {
             medico: medicos[4]._id,
             paciente: null,
             sede: sedes[4]._id,
-            practica: practicas[4]._id,
-            especialidad: especialidades[4]._id,
+            tipoServicio: "Especialidad",
+            servicio: especialidades[4]._id,
             estado: "DISPONIBLE",
             costo: 3000
         });
@@ -380,8 +380,8 @@ export const runSeed = async () => {
             medico: medicos[5]._id,
             paciente: null,
             sede: sedes[5]._id,
-            practica: practicas[5]._id,
-            especialidad: especialidades[5]._id,
+            tipoServicio: "Especialidad",
+            servicio: especialidades[5]._id,
             estado: "DISPONIBLE",
             costo: 1200
         });

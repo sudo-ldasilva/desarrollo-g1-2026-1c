@@ -21,8 +21,7 @@ export default class TurnosRepository {
                 .sort(sort)
                 .populate("medico", "nombre")
                 .populate("sede", "nombre direccion")
-                .populate("especialidad", "nombre duracionTurnoEnMins costoConsulta")
-                .populate("practica", "nombre duracionTurnoEnMins costoConsulta")
+                .populate("servicio", "nombre duracionTurnoEnMins costoConsulta")
                 .skip(skip)
                 .limit(limit);
 
@@ -43,8 +42,7 @@ export default class TurnosRepository {
             .populate("medico")
             .populate("paciente")
             .populate("sede")
-            .populate("especialidad")
-            .populate("practica");
+            .populate("servicio");
     }
 
     async actualizar(turnoDocument){
