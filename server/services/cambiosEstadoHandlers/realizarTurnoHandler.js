@@ -1,5 +1,5 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
-import AppError from "../../errors/AppError.js";
+import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class RealizarTurnoHandler {
     constructor() {
@@ -11,11 +11,11 @@ export default class RealizarTurnoHandler {
 
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
-            throw new AppError("Turno no encontrado", 404);
+            throw new NotFoundError("Turno no encontrado");
         }
 
         if (turno.estado !== "RESERVADO" && turno.estado !== "CONFIRMADO") {
-            throw new AppError(`No puede marcarse como realizado un turno con estado ${turno.estado}`, 400);
+            throw new BadRequestError(`No puede marcarse como realizado un turno con estado ${turno.estado}`);
         }
 
         const mensajeMotivo = motivo || "Turno realizado exitosamente";

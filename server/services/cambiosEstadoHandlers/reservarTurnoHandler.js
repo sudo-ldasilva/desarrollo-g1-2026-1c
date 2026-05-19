@@ -1,6 +1,6 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import PacientesRepository from "../../repositories/pacientesRepository.js";
-import AppError from "../../errors/AppError.js";
+import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
 
 export default class ReservarTurnoHandler {
     constructor() {
@@ -13,11 +13,11 @@ export default class ReservarTurnoHandler {
 
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
-            throw new AppError("Turno no encontrado", 404);
+            throw new NotFoundError("Turno no encontrado");
         }
 
         if (turno.estado !== "DISPONIBLE") {
-            throw new AppError("Turno no disponible", 400);
+            throw new BadRequestError("Turno no disponible");
         }
 
         const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);

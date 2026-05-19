@@ -1,5 +1,5 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
-import AppError from "../../errors/AppError.js";
+import {NotFoundError} from "../../errors/AppError.js";
 
 export default class ReprogramarTurnoHandler {
     constructor() {
@@ -11,7 +11,7 @@ export default class ReprogramarTurnoHandler {
 
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
-            throw new AppError("Turno no encontrado", 404);
+            throw new NotFoundError("Turno no encontrado");
         }
 
         const mensajeMotivo = motivo || `Solicitud de reprogramación para: ${fechaHora}`;
