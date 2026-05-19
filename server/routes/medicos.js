@@ -115,8 +115,10 @@ medicoRouter.route("/")
  *     responses:
  *       200:
  *         description: Médico encontrado y se actualizó los campos
- *       500:
- *         description: Médico no existe o algún campo ingresado no existe
+ *       404:
+ *         description: Médico no existe
+ *       400:
+ *         description: ID inválido o Algún campo a modificar no existe
  */
 medicoRouter.route("/:id")
     .get( (req, res, next) => medicoController.getMedicoById(req, res, next) )

@@ -1,5 +1,6 @@
 import { MedicoRepository } from "../repositories/MedicoRepository.js";
 import { MedicoService } from "../services/MedicoService.js";
+import { BadRequestError } from "../errors/AppError.js";
 
 const medicoRepository = new MedicoRepository();
 
@@ -83,7 +84,7 @@ export class MedicoController {
 
         const camposNoPermitidos = camposBody.filter((campo) => !camposQuePuedeCambiar.includes(campo));
         if (camposNoPermitidos.length > 0) {
-            throw new Error(`Campos no permitidos en la request: ${camposNoPermitidos.join(", ")}`);
+            throw new BadRequestError(`Campos no permitidos en la request: ${camposNoPermitidos.join(", ")}`);
         }
     }
 
