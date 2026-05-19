@@ -7,41 +7,41 @@ export class Medico {
         this.nombre = nombre;
 
         //valores no indispensables para que el medico exista
-        this.especialidades = [];
-        this.practicas = [];
-        this.sedes = [];
-        this.disponibilidades = [];
+        this._especialidades = [];
+        this._practicas = [];
+        this._sedes = [];
+        this._disponibilidades = [];
     }
 
     get disponibilidades() {
-        return this.disponibilidades;
+        return this._disponibilidades;
     }
 
     definirDisponibilidad(disponibilidad){
-        this.disponibilidades.push(disponibilidad);
+        this._disponibilidades.push(disponibilidad);
     }
 
     definirEspecialidad(especialidad) {
-        this.especialidades.push(especialidad);
+        this._especialidades.push(especialidad);
     }
 
     definirPractica(practica) {
-        this.practicas.push(practica);
+        this._practicas.push(practica);
     }
 
     definirSede(sede) {
-        this.sedes.push(sede);
+        this._sedes.push(sede);
     }
 
     tieneEspecialidad(especialidad) {
-        return this.especialidades.includes(especialidad);
+        return this._especialidades.includes(especialidad);
     }
 
     tienePractica(practica) {
-        return this.practicas.includes(practica);
+        return this._practicas.includes(practica);
     }
 
     tieneAlgunaSede() {
-        return !this.sedes || this.sedes.length === 0;
+        return this._sedes && this._sedes.length > 0;
     }
 }

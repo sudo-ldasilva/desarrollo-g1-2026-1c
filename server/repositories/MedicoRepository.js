@@ -10,7 +10,11 @@ export class MedicoRepository {
         //cuantos documentos hay que saltar
         const skip = (numeroPagina - 1) * limitePorPagina;
 
-        const medicos = await this.model.find().skip(skip).limit(limitePorPagina);
+        const medicos = await this.model.find().skip(skip).limit(limitePorPagina)
+            .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // Traemos selectivamente
+            .populate('practicas', 'nombre codigo costo')
+            .populate('sedes', 'nombre direccion');
+
         const total = await this.model.countDocuments({});
 
         return {
@@ -20,7 +24,10 @@ export class MedicoRepository {
     }
 
     async findById(id) {
-        const medicoDoc = await MedicoModel.findById(id);
+        const medicoDoc = await MedicoModel.findById(id)
+            .populate('especialidades')
+            .populate('practicas')
+            .populate('sedes');
 
         if (!medicoDoc) {
             throw new NotFoundError(`Médico con ID ${id} no encontrado`);
@@ -31,6 +38,7 @@ export class MedicoRepository {
     }
 
     async updateById(id, atributos) {
+// TODO ver si no reemplazar findOneAndUpdate por findByIdAndUpdate que trabaja con _id de MongoDB
         const medico = await this.model.findOneAndUpdate(
             { id },
             atributos,
