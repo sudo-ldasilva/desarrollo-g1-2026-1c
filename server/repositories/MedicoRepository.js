@@ -18,11 +18,11 @@ export class MedicoRepository {
             // .populate('practicas', 'nombre codigo costo')
             // .populate('sedes', 'nombre direccion');
 
-        const total = await this.model.countDocuments({});
+        const totalMedicos = await this.model.countDocuments({});
 
         return {
             medicos,
-            total
+            totalMedicos
         };
     }
 
