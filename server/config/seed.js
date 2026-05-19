@@ -2,8 +2,6 @@
 // Crea usuarios, médicos, pacientes, especialidades, turnos, etc
 // Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
 
-import mongoose from "mongoose";
-
 // Importar modelos registrados en Mongoose
 import UsuarioModel from "../models/UsuarioModel.js";
 import EspecialidadModel from "../models/EspecialidadModel.js";
@@ -108,75 +106,7 @@ export const runSeed = async () => {
         console.log("✅ 20 Usuarios creados.");
 
         // =========================================================================
-        // 4. MÉDICOS (10 registros)
-        // =========================================================================
-        console.log("👨‍⚕️ Creando Médicos...");
-
-        // Usamos los _id automáticos capturados de especialidades y usuarios
-        await MedicoModel.create({
-            usuario: usuariosMedicos[0]._id, // ObjectId, no string
-            matricula: "MP-1001",
-            nombre: "Dr. Juan Pérez",
-            especialidades: [cardiologia._id] // Array de ObjectId válidos
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[1]._id,
-            matricula: "MP-1002",
-            nombre: "Dra. María González",
-            especialidades: [dermatologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[2]._id,
-            matricula: "MP-1003",
-            nombre: "Dr. Carlos Rodríguez",
-            especialidades: [pediatria._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[3]._id,
-            matricula: "MP-1004",
-            nombre: "Dra. Ana López",
-            especialidades: [traumatologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[4]._id,
-            matricula: "MP-1005",
-            nombre: "Dr. Luis Martínez",
-            especialidades: [oftalmologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[5]._id,
-            matricula: "MP-1006",
-            nombre: "Dra. Sofía Sánchez",
-            especialidades: [ginecologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[6]._id,
-            matricula: "MP-1007",
-            nombre: "Dr. Pedro Gómez",
-            especialidades: [neurologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[7]._id,
-            matricula: "MP-1008",
-            nombre: "Dra. Laura Díaz",
-            especialidades: [psicologia._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[8]._id,
-            matricula: "MP-1009",
-            nombre: "Dr. Roberto Ruiz",
-            especialidades: [clinicaMedica._id]
-        });
-        await MedicoModel.create({
-            usuario: usuariosMedicos[9]._id,
-            matricula: "MP-1010",
-            nombre: "Dra. Carmen Torres",
-            especialidades: [odontologia._id]
-        });
-        console.log("✅ 10 Médicos creados.");
-
-        // =========================================================================
-        // 5. SEDES (10 registros - Hospitales CABA)
+        // 4. SEDES (10 registros - Hospitales CABA)
         // =========================================================================
         console.log("🏢 Creando Sedes...");
 
@@ -222,6 +152,84 @@ export const runSeed = async () => {
             direccion: "Av. Regimiento de Patricios 555, C1203AAQ CABA"
         });
         console.log("✅ 10 Sedes creadas.");
+
+        // =========================================================================
+        // 5. MÉDICOS (10 registros)
+        // =========================================================================
+        console.log("👨‍⚕️ Creando Médicos...");
+
+        // Usamos los _id automáticos capturados de especialidades y usuarios
+        await MedicoModel.create({
+            usuario: usuariosMedicos[0]._id, // ObjectId, no string
+            matricula: "MP-1001",
+            nombre: "Dr. Juan Pérez",
+            especialidades: [cardiologia._id], // Array de ObjectId válidos
+            sedes: [italiano._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[1]._id,
+            matricula: "MP-1002",
+            nombre: "Dra. María González",
+            especialidades: [dermatologia._id],
+            sedes: [cosmeArgerich._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[2]._id,
+            matricula: "MP-1003",
+            nombre: "Dr. Carlos Rodríguez",
+            especialidades: [pediatria._id],
+            sedes: [cosmeArgerich._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[3]._id,
+            matricula: "MP-1004",
+            nombre: "Dra. Ana López",
+            especialidades: [traumatologia._id],
+            sedes: [santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[4]._id,
+            matricula: "MP-1005",
+            nombre: "Dr. Luis Martínez",
+            especialidades: [oftalmologia._id],
+            sedes: [ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[5]._id,
+            matricula: "MP-1006",
+            nombre: "Dra. Sofía Sánchez",
+            especialidades: [ginecologia._id],
+            sedes: [durand._id, pirovano._id, penna._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[6]._id,
+            matricula: "MP-1007",
+            nombre: "Dr. Pedro Gómez",
+            especialidades: [neurologia._id],
+            sedes: [italiano._id, argerich._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[7]._id,
+            matricula: "MP-1008",
+            nombre: "Dra. Laura Díaz",
+            especialidades: [psicologia._id],
+            sedes: [italiano._id, ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[8]._id,
+            matricula: "MP-1009",
+            nombre: "Dr. Roberto Ruiz",
+            especialidades: [clinicaMedica._id],
+            sedes: [ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[9]._id,
+            matricula: "MP-1010",
+            nombre: "Dra. Carmen Torres",
+            especialidades: [odontologia._id],
+            sedes: [garrahan._id, fernandez._id]
+        });
+        console.log("✅ 10 Médicos creados.");
 
         // =========================================================================
         // 6. PACIENTES (20 registros)
