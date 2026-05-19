@@ -39,6 +39,13 @@ class FactoryNotificacion {
                 remitente: turno.paciente.usuario,
                 mensaje: "El servicio " + turno.servicio.nombre + " está realizado.",
             });
+        
+        case EstadoTurno.PENDIENTE_REPROGRAMACION:
+            return new Notificacion({
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
+                mensaje: "El turno para servicio " + turno.servicio.nombre + " queda pendiente de reprogramacion.",
+            });
 
         default:
             throw new Error(`Falta agregar el estado ${turno.estado} al switch de FactoryNotificacion en crearSegunEstadoTurno`);
