@@ -102,9 +102,24 @@ medicoRouter.route("/")
  *         description: Médico encontrado
  *       404:
  *         description: Médico no existe
+ *   patch:
+ *     summary: Actualiza parcialmente los atributos de un médico por ID
+ *     tags: [Médicos]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del médico
+ *     responses:
+ *       200:
+ *         description: Médico encontrado y se actualizó los campos
+ *       500:
+ *         description: Médico no existe o algún campo ingresado no existe
  */
 medicoRouter.route("/:id")
-    .get(   (req, res, next) => medicoController.getMedicoById(req, res, next) )
+    .get( (req, res, next) => medicoController.getMedicoById(req, res, next) )
     .patch( (req, res, next) => medicoController.patchMedicoById(req, res, next) );
 
 export default medicoRouter;
