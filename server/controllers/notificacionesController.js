@@ -8,7 +8,7 @@ export default class NotificacionesController{
     desplegarNotificaciones = async (req, res, next) => {
         try{
             const { page, limit } = req.validated.query;
-            const estado = req.validated.params?.estado;
+            const estado = req.validated.query?.estado;
 
             const filtros = estado
                 ? { leida: estado === "leidas" }
