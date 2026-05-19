@@ -25,6 +25,25 @@ export default class NotificacionesController{
     };
 
     obtenerPorId = async (req,res,next) =>{
+        try {
+            const { id } = req.validated.params;
+
+            const notificacion = await this.notificacionesService.obtenerNotificacionPorId(id);
+
+            if (!notificacion) {
+                return res.status(404).json({
+                    status: "fail",
+                    message: `No se encontró ninguna notificación con el ID: ${id}`
+                });
+            }
+
+            res.status(200).json({
+                status: "success",
+                data: notificacion
+            });
+        } catch (error) {
+            next(error);
+        }
 
     };
 

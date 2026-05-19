@@ -28,7 +28,13 @@ export default class NotificacionesRepository{
         };
     }
 
-    
+    async obtenerPorId(id) {
+        return await NotificacionModel.findById(id)
+            .populate("destinatario", "nombreUsuario")
+            .populate("remitente", "nombreUsuario");
+    }
+
+
     async actualizar(id, datos) {
         return await NotificacionModel.findByIdAndUpdate(
             id, 

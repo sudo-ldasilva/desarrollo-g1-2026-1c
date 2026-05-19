@@ -17,6 +17,13 @@ export default class NotificacionesService{
         };
     }
 
+    async obtenerNotificacionPorId(id) {
+        const notificacion = await NotificacionesRepository.obtenerPorId(id);
+    
+        return notificacion;
+    }
+
+
     async modificarEstadoLectura(id){
         const datosParaActualizar = {
             leida : true,

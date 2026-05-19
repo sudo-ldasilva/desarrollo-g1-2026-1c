@@ -9,8 +9,9 @@ export const notificacionesParamsSchema = z.object({
     estado: z.enum(["leidas", "pendientes"])
 }).strict();
 
+
 //para acceder a una notificacion en particular debo validar el id que me pasan como path param
-
 export const notificacionIdParamSchema = z.object({
-
+    id: z.string()
+        .regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de notificación no es válido")
 }).strict();
