@@ -32,47 +32,47 @@ export const runSeed = async () => {
         especialidades.push(await EspecialidadModel.create({
             nombre: "Cardiología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 1000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Dermatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 2000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Pediatría",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 3000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Traumatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 4000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Oftalmología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 5000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Ginecología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 6000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Neurología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 7000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Psicología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 8000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Clínica Médica",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 9000
         }));
         especialidades.push(await EspecialidadModel.create({
             nombre: "Odontología",
@@ -272,42 +272,42 @@ export const runSeed = async () => {
             codigo: "CARD-01",
             nombre: "Electrocardiograma de reposo",
             duracionTurnoEnMins: 20,
-            costoConsulta: 15000
+            costoConsulta: 1000
         }));
 
         practicas.push(await PracticaModel.create({
             codigo: "DERM-05",
             nombre: "Dermatoscopía digital",
             duracionTurnoEnMins: 30,
-            costoConsulta: 25000
+            costoConsulta: 2000
         }));
 
         practicas.push(await PracticaModel.create({
             codigo: "CLIN-01",
             nombre: "Consulta Médica General",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costoConsulta: 3000
         }));
 
         practicas.push(await PracticaModel.create({
             codigo: "TRAU-12",
             nombre: "Infiltración articular",
             duracionTurnoEnMins: 45,
-            costoConsulta: 35000
+            costoConsulta: 4000
         }));
 
         practicas.push(await PracticaModel.create({
             codigo: "LAB-99",
             nombre: "Análisis de sangre completo",
             duracionTurnoEnMins: 10,
-            costoConsulta: 8000
+            costoConsulta: 5000
         }));
 
         practicas.push(await PracticaModel.create({
             codigo: "OFTAL-02",
             nombre: "Fondo de ojo",
             duracionTurnoEnMins: 20,
-            costoConsulta: 12000
+            costoConsulta: 6000
         }));
         console.log("✅ 6 Prácticas creadas.");
 
@@ -324,7 +324,7 @@ export const runSeed = async () => {
             practica: practicas[0]._id,
             especialidad: especialidades[0]._id,
             estado: "DISPONIBLE",
-            costo: 0
+            costo: 10000
         });
 
         await TurnoModel.create({
