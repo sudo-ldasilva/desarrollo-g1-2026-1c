@@ -1,9 +1,9 @@
 import request from "supertest";
-import { jest, describe, test, expect, beforeEach, beforeAll, afterAll } from "@jest/globals";
+import { jest, describe, test, expect, beforeEach } from "@jest/globals";
 
 import { Medico } from "../../server/domain/Medico.js";
 import { buildTestApp } from "./utils/testApp.js";
-import { connectDB, disconnectDB } from "./utils/testDb.js";
+import { NotFoundError } from "../../server/errors/AppError.js";
 
 describe("Sweet Medical - Tests de Integración", () => {
     let app;
