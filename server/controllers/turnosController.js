@@ -66,4 +66,17 @@ export default class TurnosController {
             next(error);
         }
     };
+
+    buscarHistorialPaciente = async (req, res, next) => {
+        try {
+            const { pacienteId } = req.params;
+            const { page, limit } = req.validated?.query || req.query;
+            const paginacion = { page: Number(page) || 1, limit: Number(limit) || 10 };
+    
+            const historial = await this.turnosService.buscarHistorialPorPaciente(pacienteId, paginacion);
+            res.json(historial);
+        } catch (error) {
+        next(error);
+    }
+};
 }

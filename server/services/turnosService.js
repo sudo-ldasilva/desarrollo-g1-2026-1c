@@ -57,6 +57,11 @@ export default class TurnosService{
 
         return await this.turnosRepository.buscarPorPaciente(paciente._id, page, limit);
     }
+
+    async buscarHistorialPorPaciente(pacienteId, paginacion) {
+        return await this.turnosRepository.buscarPorPaciente(pacienteId, paginacion.page, paginacion.limit);
+    }
+
 }
 
 export function turnoToDTO(turno) {

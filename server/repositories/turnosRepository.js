@@ -59,12 +59,13 @@ export default class TurnosRepository {
             .limit(limit)
             .populate("medico", "nombre")
             .populate("sede", "nombre")
-            .populate("fechaHora", "hora");
+            .populate("fechaHora", "hora")
+            .populate("servicio", "nombre costoConsulta");
 
         const total = await this.model.countDocuments({ paciente: pacienteId });
 
         return {
-            data: turnos,
+            data: turnos.map(t => turnoToDTO(t)),
             paginacion: { total, limite: limit, pagina: page }
         };
     }
