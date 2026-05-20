@@ -1,7 +1,7 @@
 import TurnosRepository from "../../repositories/turnosRepository.js";
 import NotificacionesRepository from "../../repositories/notificacionesRepository.js";
 import { EstadoTurno } from "../../domain/EstadoTurno.js";
-import {NotFoundError, BadRequestError} from "../../errors/AppError.js";
+import {NotFoundError, BadRequestError, ForbiddenError} from "../../errors/AppError.js";
 
 export default class CancelarTurnoHandler {
     constructor() {
@@ -21,7 +21,7 @@ export default class CancelarTurnoHandler {
             turno.paciente.usuario._id != usuarioId &&
             turno.medico.usuario._id != usuarioId
         ) {
-            throw new BadRequestError("El turno no corresponde al usuario"); 
+            throw new ForbiddenError("El turno no corresponde al usuario"); 
         }
 
         const horaActual = new Date();
