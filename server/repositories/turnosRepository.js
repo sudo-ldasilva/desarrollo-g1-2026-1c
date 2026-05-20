@@ -44,6 +44,10 @@ export default class TurnosRepository {
 function armarQuery(filtros) {
     const query = {};
 
+    if (filtros.estado) {
+        query.estado = filtros.estado;
+    }
+
     if (filtros.medicoId) {
         query.medico = filtros.medicoId;
     }
