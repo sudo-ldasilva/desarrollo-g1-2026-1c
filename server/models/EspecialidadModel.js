@@ -7,5 +7,9 @@ export const EspecialidadSchema = new mongoose.Schema({
     costoConsulta: { type: Number, default: 10000 }
 });
 
+EspecialidadSchema.virtual("id").get(function() { return this._id.toString(); });
+EspecialidadSchema.set("toJSON", { virtuals: true });
+EspecialidadSchema.set("toObject", { virtuals: true });
+
 EspecialidadSchema.loadClass(Especialidad);
 export const EspecialidadModel = mongoose.model("Especialidad", EspecialidadSchema);

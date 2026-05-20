@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import swaggerUri from "swagger-ui-express";
+import swaggerUi from "swagger-ui-express";
 import {createRequire} from "module";
 
 import router from "./routes/router.js";
@@ -12,11 +12,11 @@ const require = createRequire(import.meta.url);
 const swaggerSpec = require("./docs/openapi.json");
 
 dotenv.config();
-
 const app = express();
-
 app.use(express.json());
-app.use("/api-docs", swaggerUri.serve, swaggerUri.setup(swaggerSpec));
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 app.use(router);
 
 app.use(notFoundHandler);

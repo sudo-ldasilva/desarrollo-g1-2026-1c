@@ -1,4 +1,4 @@
-import { PacienteModel } from "../models/pacienteSchema.js";
+import { PacienteModel } from "../models/PacienteModel.js";
 
 export default class PacientesRepository {
     constructor() {

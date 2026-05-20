@@ -1,4 +1,4 @@
-import { NotificacionModel } from "../models/notificacionSchema.js";
+import { NotificacionModel } from "../models/NotificacionModel.js";
 
 export default class NotificacionesRepository{
     constructor(){
@@ -10,7 +10,7 @@ export default class NotificacionesRepository{
 
         const skip = (page - 1) * limit;
 
-        const notificaciones = 
+        const notificaciones =
             await this.model
                 .find(filtros)
                 .populate("destinatario", "nombreUsuario")
@@ -37,8 +37,8 @@ export default class NotificacionesRepository{
 
     async actualizar(id, datos) {
         return await NotificacionModel.findByIdAndUpdate(
-            id, 
-            datos, 
+            id,
+            datos,
             { new: true, runValidators: true }
         );
     }

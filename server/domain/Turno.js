@@ -22,7 +22,7 @@ class Turno {
         this.estado = EstadoTurno.DISPONIBLE;
         this.historialEstados = [];
         this.costo = null;
-    } 
+    }
 
     asignarPaciente(paciente) {
         this.paciente = paciente;
@@ -39,7 +39,7 @@ class Turno {
         this.historialEstados.push(cambio);
 
         this.estado = nuevoEstado;
-        
+
         const factoryNotificacion = new FactoryNotificacion();
         const notificacion = factoryNotificacion.crearSegunEstadoTurno(this);
 
@@ -47,7 +47,7 @@ class Turno {
     }
 
     recordarTurno() {
-        
+
         if (!this.paciente) {
             throw new Error("No se puede recordar un turno sin paciente asignado");
         }

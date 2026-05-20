@@ -7,19 +7,26 @@ import { promises as fs } from "fs"; //para el config de mongodb-memory-server
 let mongoServer = null;
 
 export const connectDB = async () => {
-
     try {
 
         if (process.env.NODE_ENV === "test") {
+            // Modo desarrollo: MongoDB embebido con persistencia en disco
+            const dataDir = path.resolve("./.mongo-data");
+            await fs.mkdir(dataDir, { recursive: true });
 
-            mongoServer = await MongoMemoryServer.create();
+            mongoServer = await MongoMemoryServer.create({
+                instance: {
+                    port: 27017,
+                    dbPath: dataDir
+                }
+            });
 
             const uri = mongoServer.getUri();
-
             await mongoose.connect(uri);
 
             console.log("MongoMemoryServer connected");
-
+            console.log("MongoDB local persistente iniciado en " + uri);
+            console.log(`Datos guardados en: ${dataDir}`);
         } else {
 
             const uri =
@@ -44,7 +51,6 @@ export const connectDB = async () => {
 };
 
 export const disconnectDB = async () => {
-
     try {
 
         if (mongoose.connection.readyState !== 0) {
@@ -62,12 +68,9 @@ export const disconnectDB = async () => {
         }
 
     } catch (error) {
-
         console.error(
             "Error disconnecting MongoDB:",
             error.message
         );
     }
 };
-
-//TODO console.error() --> logger tipo Pino/Winston/Morgan

@@ -1,7 +1,4 @@
-import CoberturaEspecialidad from "./CoberturaEspecialidad.js";
-import CoberturaPractica from "./CoberturaPractica.js";
-
-class Plan {
+export class Plan {
     constructor(id, nombre, coberturasEspecialidad, coberturasPractica) {
         this.id = id;
         this.nombre = nombre;
@@ -14,5 +11,3 @@ class Plan {
     }
 
 }
-
-export default Plan;
