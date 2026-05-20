@@ -12,7 +12,9 @@ describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
     beforeEach(() => {
         // Crear un mock manual que intercepta las llamadas al repositorio
         mockRepository = {
-            obtenerPaginados: jest.fn()
+            obtenerPaginados: jest.fn(),
+            findById: jest.fn(),
+            updateById: jest.fn(),
         };
 
         // Inyectar el mock al servicio para aislar la capa de dominio
