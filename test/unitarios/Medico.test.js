@@ -96,10 +96,10 @@ describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
             expect(medico.usuario).toBe("user_med_01");
             expect(medico.matricula).toBe("MP-9876");
             expect(medico.nombre).toBe("Dr. Juan Pérez");
-            expect(medico._especialidades).toEqual([]);
-            expect(medico._practicas).toEqual([]);
-            expect(medico._sedes).toEqual([]);
-            expect(medico._disponibilidades).toEqual([]);
+            expect(medico.especialidades).toEqual([]);
+            expect(medico.practicas).toEqual([]);
+            expect(medico.sedes).toEqual([]);
+            expect(medico.disponibilidades).toEqual([]);
         });
 
         test("debe agregar y verificar especialidades correctamente", () => {

@@ -1,8 +1,8 @@
 import { describe, beforeEach, test, expect, jest } from "@jest/globals";
-import { Agenda } from "../server/domain/Agenda.js";
-import { DiaSemana } from "../server/domain/DiaSemana.js";
-import { EstadoTurno } from "../server/domain/EstadoTurno.js";
-import DisponibilidadHoraria from "../server/domain/DisponibilidadHoraria.js";
+import { Agenda } from "../../server/domain/Agenda.js";
+import { DiaSemana } from "../../server/domain/DiaSemana.js";
+import { EstadoTurno } from "../../server/domain/EstadoTurno.js";
+import DisponibilidadHoraria from "../../server/domain/DisponibilidadHoraria.js";
 
 describe("Agenda", () => {
 
@@ -122,9 +122,9 @@ describe("Agenda", () => {
                 desde,
                 hasta
             );
-        
-        console.log(turnos);
-    
+
+        // console.log(turnos);
+
         expect(turnos).toHaveLength(4); //2 turnos por lunes
     });
 });
