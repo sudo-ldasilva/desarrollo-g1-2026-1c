@@ -2,6 +2,14 @@ import app from "./app.js";
 import dotenv from "dotenv";
 import { connectDB, disconnectDB } from "./config/db.js";
 
+import "./models/UsuarioModel.js";
+import "./models/EspecialidadModel.js";
+import "./models/SedeModel.js";
+import "./models/PacienteModel.js";
+import "./models/MedicoModel.js";
+import "./models/PracticaModel.js";
+// import "./DisponibilidadHorariaModel.js"; se descomenta cuando esten andando
+
 dotenv.config();
 const port = process.env.PORT;
 

@@ -1,331 +1,360 @@
+// server/config/seed.js
 // Crea usuarios, médicos, pacientes, especialidades, turnos, etc
 // Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
 
-import mongoose from "mongoose";
-
-// --- DEFINICIÓN DE SCHEMAS PARA MONGOOSE ---
-// Definimos los esquemas localmente para asegurar que el seed funcione independientemente de los modelos de dominio.
-
-const UsuarioSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  nombreUsuario: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
-
-const EspecialidadSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  nombre: { type: String, required: true },
-  duracionTurnoEnMins: { type: Number, default: 15 },
-  costoConsulta: { type: Number, default: 10000 }
-});
-
-const MedicoSchema = new mongoose.Schema({
-  usuarioId: { type: String, ref: 'Usuario', required: true },
-  matricula: { type: String, required: true, unique: true },
-  nombre: { type: String, required: true },
-  especialidades: [{ type: String, ref: 'Especialidad' }]
-});
-
-const SedeSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  nombre: { type: String, required: true },
-  direccion: { type: String, required: true }
-});
-
-const PacienteSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  usuarioId: { type: String, ref: 'Usuario', required: true },
-  dni: { type: Number, required: true, unique: true },
-  nombre: { type: String, required: true },
-  obraSocial: { type: String, default: "OSDE" },
-  plan: { type: String, default: "Plan 210" }
-});
-
-// Modelos
-const UsuarioModel = mongoose.model('Usuario', UsuarioSchema);
-const EspecialidadModel = mongoose.model('Especialidad', EspecialidadSchema);
-const MedicoModel = mongoose.model('Medico', MedicoSchema);
-const SedeModel = mongoose.model('Sede', SedeSchema);
-const PacienteModel = mongoose.model('Paciente', PacienteSchema);
+// Importar modelos registrados en Mongoose
+import UsuarioModel from "../models/UsuarioModel.js";
+import EspecialidadModel from "../models/EspecialidadModel.js";
+import MedicoModel from "../models/MedicoModel.js";
+import SedeModel from "../models/SedeModel.js";
+import PacienteModel from "../models/PacienteModel.js";
 
 export const runSeed = async () => {
-  try {
-    console.log("🌱 Iniciando Seed Determinista...");
+    try {
+        console.log("🌱 Iniciando Seed Determinista...");
 
-    // 1. Limpiar colecciones
-    await UsuarioModel.deleteMany({});
-    await EspecialidadModel.deleteMany({});
-    await MedicoModel.deleteMany({});
-    await SedeModel.deleteMany({});
-    await PacienteModel.deleteMany({});
-    console.log("🧹 Colecciones limpiadas.");
+        // 1. Limpiar colecciones
+        await UsuarioModel.deleteMany({});
+        await EspecialidadModel.deleteMany({});
+        await MedicoModel.deleteMany({});
+        await SedeModel.deleteMany({});
+        await PacienteModel.deleteMany({});
+        console.log("🧹 Colecciones limpiadas.");
 
-    // =========================================================================
-    // 2. ESPECIALIDADES (10 registros)
-    // =========================================================================
-    console.log("💉 Creando Especialidades...");
-    
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440001",
-      nombre: "Cardiología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440002",
-      nombre: "Dermatología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440003",
-      nombre: "Pediatría",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440004",
-      nombre: "Traumatología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440005",
-      nombre: "Oftalmología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440006",
-      nombre: "Ginecología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440007",
-      nombre: "Neurología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440008",
-      nombre: "Psicología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440009",
-      nombre: "Clínica Médica",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    await EspecialidadModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440010",
-      nombre: "Odontología",
-      duracionTurnoEnMins: 15,
-      costoConsulta: 10000
-    });
-    console.log("✅ 10 Especialidades creadas.");
+        // =========================================================================
+        // 2. ESPECIALIDADES (10 registros)
+        // =========================================================================
+        console.log("💉 Creando Especialidades...");
 
-    // =========================================================================
-    // 3. USUARIOS (20 registros: 10 para médicos, 10 para pacientes)
-    // =========================================================================
-    console.log("👥 Creando Usuarios...");
-    
-    // Usuarios para Médicos (Índices 1-10)
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440011", nombreUsuario: "medico1", password: "hash_simulado_med1_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440012", nombreUsuario: "medico2", password: "hash_simulado_med2_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440013", nombreUsuario: "medico3", password: "hash_simulado_med3_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440014", nombreUsuario: "medico4", password: "hash_simulado_med4_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440015", nombreUsuario: "medico5", password: "hash_simulado_med5_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440016", nombreUsuario: "medico6", password: "hash_simulado_med6_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440017", nombreUsuario: "medico7", password: "hash_simulado_med7_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440018", nombreUsuario: "medico8", password: "hash_simulado_med8_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440019", nombreUsuario: "medico9", password: "hash_simulado_med9_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440020", nombreUsuario: "medico10", password: "hash_simulado_med10_sha256" });
+        // Capturamos las referencias para usar sus _id automáticos después
+        const cardiologia = await EspecialidadModel.create({
+            nombre: "Cardiología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const dermatologia = await EspecialidadModel.create({
+            nombre: "Dermatología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const pediatria = await EspecialidadModel.create({
+            nombre: "Pediatría",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const traumatologia = await EspecialidadModel.create({
+            nombre: "Traumatología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const oftalmologia = await EspecialidadModel.create({
+            nombre: "Oftalmología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const ginecologia = await EspecialidadModel.create({
+            nombre: "Ginecología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const neurologia = await EspecialidadModel.create({
+            nombre: "Neurología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const psicologia = await EspecialidadModel.create({
+            nombre: "Psicología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const clinicaMedica = await EspecialidadModel.create({
+            nombre: "Clínica Médica",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        const odontologia = await EspecialidadModel.create({
+            nombre: "Odontología",
+            duracionTurnoEnMins: 15,
+            costoConsulta: 10000
+        });
+        console.log("✅ 10 Especialidades creadas.");
 
-    // Usuarios para Pacientes (Índices 11-20)
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440021", nombreUsuario: "paciente1", password: "hash_simulado_pac1_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440022", nombreUsuario: "paciente2", password: "hash_simulado_pac2_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440023", nombreUsuario: "paciente3", password: "hash_simulado_pac3_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440024", nombreUsuario: "paciente4", password: "hash_simulado_pac4_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440025", nombreUsuario: "paciente5", password: "hash_simulado_pac5_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440026", nombreUsuario: "paciente6", password: "hash_simulado_pac6_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440027", nombreUsuario: "paciente7", password: "hash_simulado_pac7_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440028", nombreUsuario: "paciente8", password: "hash_simulado_pac8_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440029", nombreUsuario: "paciente9", password: "hash_simulado_pac9_sha256" });
-    await UsuarioModel.create({ id: "550e8400-e29b-41d4-a716-446655440030", nombreUsuario: "paciente10", password: "hash_simulado_pac10_sha256" });
-    
-    console.log("✅ 20 Usuarios creados.");
+        // =========================================================================
+        // 3. USUARIOS (20 registros: 10 para médicos, 10 para pacientes)
+        // =========================================================================
+        console.log("👥 Creando Usuarios...");
 
-    // =========================================================================
-    // 4. MÉDICOS (10 registros)
-    // =========================================================================
-    console.log("👨‍⚕️ Creando Médicos...");
+        // Capturamos referencias de usuarios para usar sus _id después
+        const usuariosMedicos = [];
+        for (let i = 1; i <= 10; i++) {
+            const user = await UsuarioModel.create({
+                nombreUsuario: `medico${i}`,
+                password: `hash_simulado_med${i}_sha256`
+            });
+            usuariosMedicos.push(user);
+        }
 
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440011", // medico1
-      matricula: "MP-1001",
-      nombre: "Dr. Juan Pérez",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440001"] // Cardiología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440012", // medico2
-      matricula: "MP-1002",
-      nombre: "Dra. María González",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440002"] // Dermatología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440013", // medico3
-      matricula: "MP-1003",
-      nombre: "Dr. Carlos Rodríguez",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440003"] // Pediatría
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440014", // medico4
-      matricula: "MP-1004",
-      nombre: "Dra. Ana López",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440004"] // Traumatología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440015", // medico5
-      matricula: "MP-1005",
-      nombre: "Dr. Luis Martínez",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440005"] // Oftalmología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440016", // medico6
-      matricula: "MP-1006",
-      nombre: "Dra. Sofía Sánchez",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440006"] // Ginecología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440017", // medico7
-      matricula: "MP-1007",
-      nombre: "Dr. Pedro Gómez",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440007"] // Neurología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440018", // medico8
-      matricula: "MP-1008",
-      nombre: "Dra. Laura Díaz",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440008"] // Psicología
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440019", // medico9
-      matricula: "MP-1009",
-      nombre: "Dr. Roberto Ruiz",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440009"] // Clínica Médica
-    });
-    await MedicoModel.create({
-      usuarioId: "550e8400-e29b-41d4-a716-446655440020", // medico10
-      matricula: "MP-1010",
-      nombre: "Dra. Carmen Torres",
-      especialidades: ["550e8400-e29b-41d4-a716-446655440010"] // Odontología
-    });
-    console.log("✅ 10 Médicos creados.");
+        const usuariosPacientes = [];
+        for (let i = 1; i <= 10; i++) {
+            const user = await UsuarioModel.create({
+                nombreUsuario: `paciente${i}`,
+                password: `hash_simulado_pac${i}_sha256`
+            });
+            usuariosPacientes.push(user);
+        }
 
-    // =========================================================================
-    // 5. SEDES (10 registros - Hospitales CABA)
-    // =========================================================================
-    console.log("🏢 Creando Sedes...");
+        console.log("✅ 20 Usuarios creados.");
 
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440041",
-      nombre: "Hospital Garrahan",
-      direccion: "Pichincha 1891, C1240AAD CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440042",
-      nombre: "Hospital Ramos Mejía",
-      direccion: "Urquiza 609, C1182AAD CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440043",
-      nombre: "Hospital Italiano",
-      direccion: "Gascón 450, C1181ACH CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440044",
-      nombre: "Hospital Fernández",
-      direccion: "Cerviño 3356, C1425GMN CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440045",
-      nombre: "Hospital Argerich",
-      direccion: "Pi y Margall 750, C1155AAF CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440046",
-      nombre: "Hospital Durand",
-      direccion: "Díaz Vélez 5044, C1405DCB CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440047",
-      nombre: "Hospital Pirovano",
-      direccion: "Monroe 3555, C1428ASN CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440048",
-      nombre: "Hospital Penna",
-      direccion: "Av. Díaz Vélez 4600, C1405DCB CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440049",
-      nombre: "Hospital Santojanni",
-      direccion: "Pilcomayo 3650, C1207AAH CABA"
-    });
-    await SedeModel.create({
-      id: "550e8400-e29b-41d4-a716-446655440050",
-      nombre: "Hospital Cosme Argerich",
-      direccion: "Av. Regimiento de Patricios 555, C1203AAQ CABA"
-    });
-    console.log("✅ 10 Sedes creadas.");
+        // =========================================================================
+        // 4. SEDES (10 registros - Hospitales CABA)
+        // =========================================================================
+        console.log("🏢 Creando Sedes...");
 
-    // =========================================================================
-    // 6. PACIENTES (20 registros)
-    // =========================================================================
-    console.log("🤒 Creando Pacientes...");
+        // Capturamos referencias de sedes para usar sus _id después
+        const garrahan = await SedeModel.create({
+            nombre: "Hospital Garrahan",
+            direccion: "Pichincha 1891, C1240AAD CABA"
+        });
+        const ramosMejia = await SedeModel.create({
+            nombre: "Hospital Ramos Mejía",
+            direccion: "Urquiza 609, C1182AAD CABA"
+        });
+        const italiano = await SedeModel.create({
+            nombre: "Hospital Italiano",
+            direccion: "Gascón 450, C1181ACH CABA"
+        });
+        const fernandez = await SedeModel.create({
+            nombre: "Hospital Fernández",
+            direccion: "Cerviño 3356, C1425GMN CABA"
+        });
+        const argerich = await SedeModel.create({
+            nombre: "Hospital Argerich",
+            direccion: "Pi y Margall 750, C1155AAF CABA"
+        });
+        const durand = await SedeModel.create({
+            nombre: "Hospital Durand",
+            direccion: "Díaz Vélez 5044, C1405DCB CABA"
+        });
+        const pirovano = await SedeModel.create({
+            nombre: "Hospital Pirovano",
+            direccion: "Monroe 3555, C1428ASN CABA"
+        });
+        const penna = await SedeModel.create({
+            nombre: "Hospital Penna",
+            direccion: "Av. Díaz Vélez 4600, C1405DCB CABA"
+        });
+        const santojanni = await SedeModel.create({
+            nombre: "Hospital Santojanni",
+            direccion: "Pilcomayo 3650, C1207AAH CABA"
+        });
+        const cosmeArgerich = await SedeModel.create({
+            nombre: "Hospital Cosme Argerich",
+            direccion: "Av. Regimiento de Patricios 555, C1203AAQ CABA"
+        });
+        console.log("✅ 10 Sedes creadas.");
 
-    // Pacientes 1-10
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440051", usuarioId: "550e8400-e29b-41d4-a716-446655440021", dni: 10000000, nombre: "Lucía Fernández" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440052", usuarioId: "550e8400-e29b-41d4-a716-446655440022", dni: 10000001, nombre: "Martín Silva" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440053", usuarioId: "550e8400-e29b-41d4-a716-446655440023", dni: 10000002, nombre: "Valeria Romero" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440054", usuarioId: "550e8400-e29b-41d4-a716-446655440024", dni: 10000003, nombre: "Jorge Álvarez" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440055", usuarioId: "550e8400-e29b-41d4-a716-446655440025", dni: 10000004, nombre: "Camila Morales" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440056", usuarioId: "550e8400-e29b-41d4-a716-446655440026", dni: 10000005, nombre: "Diego Castro" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440057", usuarioId: "550e8400-e29b-41d4-a716-446655440027", dni: 10000006, nombre: "Juliana Ortiz" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440058", usuarioId: "550e8400-e29b-41d4-a716-446655440028", dni: 10000007, nombre: "Federico Gómez" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440059", usuarioId: "550e8400-e29b-41d4-a716-446655440029", dni: 10000008, nombre: "Agustina Herrera" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440060", usuarioId: "550e8400-e29b-41d4-a716-446655440030", dni: 10000009, nombre: "Nicolás Vargas" });
+        // =========================================================================
+        // 5. MÉDICOS (10 registros)
+        // =========================================================================
+        console.log("👨‍⚕️ Creando Médicos...");
 
-    // Pacientes 11-20 (Continuación de DNIs)
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440061", usuarioId: "550e8400-e29b-41d4-a716-446655440021", dni: 10000010, nombre: "Sofía Medina" }); // Reutilizando usuario11 por simplicidad o crear nuevos si fuera necesario, aquí reuso para mantener 20 usuarios totales
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440062", usuarioId: "550e8400-e29b-41d4-a716-446655440022", dni: 10000011, nombre: "Mateo Aguilar" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440063", usuarioId: "550e8400-e29b-41d4-a716-446655440023", dni: 10000012, nombre: "Isabella Rojas" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440064", usuarioId: "550e8400-e29b-41d4-a716-446655440024", dni: 10000013, nombre: "Santiago Molina" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440065", usuarioId: "550e8400-e29b-41d4-a716-446655440025", dni: 10000014, nombre: "Mia Delgado" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440066", usuarioId: "550e8400-e29b-41d4-a716-446655440026", dni: 10000015, nombre: "Benjamín Paz" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440067", usuarioId: "550e8400-e29b-41d4-a716-446655440027", dni: 10000016, nombre: "Emma Figueroa" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440068", usuarioId: "550e8400-e29b-41d4-a716-446655440028", dni: 10000017, nombre: "Thiago Cabrera" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440069", usuarioId: "550e8400-e29b-41d4-a716-446655440029", dni: 10000018, nombre: "Olivia Núñez" });
-    await PacienteModel.create({ id: "550e8400-e29b-41d4-a716-446655440070", usuarioId: "550e8400-e29b-41d4-a716-446655440030", dni: 10000019, nombre: "Liam Acosta" });
+        // Usamos los _id automáticos capturados de especialidades y usuarios
+        await MedicoModel.create({
+            usuario: usuariosMedicos[0]._id, // ObjectId, no string
+            matricula: "MP-1001",
+            nombre: "Dr. Juan Pérez",
+            especialidades: [cardiologia._id], // Array de ObjectId válidos
+            sedes: [italiano._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[1]._id,
+            matricula: "MP-1002",
+            nombre: "Dra. María González",
+            especialidades: [dermatologia._id],
+            sedes: [cosmeArgerich._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[2]._id,
+            matricula: "MP-1003",
+            nombre: "Dr. Carlos Rodríguez",
+            especialidades: [pediatria._id],
+            sedes: [cosmeArgerich._id, santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[3]._id,
+            matricula: "MP-1004",
+            nombre: "Dra. Ana López",
+            especialidades: [traumatologia._id],
+            sedes: [santojanni._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[4]._id,
+            matricula: "MP-1005",
+            nombre: "Dr. Luis Martínez",
+            especialidades: [oftalmologia._id],
+            sedes: [ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[5]._id,
+            matricula: "MP-1006",
+            nombre: "Dra. Sofía Sánchez",
+            especialidades: [ginecologia._id],
+            sedes: [durand._id, pirovano._id, penna._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[6]._id,
+            matricula: "MP-1007",
+            nombre: "Dr. Pedro Gómez",
+            especialidades: [neurologia._id],
+            sedes: [italiano._id, argerich._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[7]._id,
+            matricula: "MP-1008",
+            nombre: "Dra. Laura Díaz",
+            especialidades: [psicologia._id],
+            sedes: [italiano._id, ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[8]._id,
+            matricula: "MP-1009",
+            nombre: "Dr. Roberto Ruiz",
+            especialidades: [clinicaMedica._id],
+            sedes: [ramosMejia._id]
+        });
+        await MedicoModel.create({
+            usuario: usuariosMedicos[9]._id,
+            matricula: "MP-1010",
+            nombre: "Dra. Carmen Torres",
+            especialidades: [odontologia._id],
+            sedes: [garrahan._id, fernandez._id]
+        });
+        console.log("✅ 10 Médicos creados.");
 
-    console.log("✅ 20 Pacientes creados.");
-    console.log("🎉 Seed completado exitosamente.");
+        // =========================================================================
+        // 6. PACIENTES (20 registros)
+        // =========================================================================
+        console.log("🤒 Creando Pacientes...");
 
-  } catch (error) {
-    console.error("❌ Error durante el seed:", error);
-    throw error;
-  }
+        // Pacientes 1-10
+        await PacienteModel.create({
+            usuario: usuariosPacientes[0]._id, // 🔹 ObjectId
+            dni: 10000000,
+            nombre: "Lucía Fernández"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[1]._id,
+            dni: 10000001,
+            nombre: "Martín Silva"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[2]._id,
+            dni: 10000002,
+            nombre: "Valeria Romero"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[3]._id,
+            dni: 10000003,
+            nombre: "Jorge Álvarez"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[4]._id,
+            dni: 10000004,
+            nombre: "Camila Morales"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[5]._id,
+            dni: 10000005,
+            nombre: "Diego Castro"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[6]._id,
+            dni: 10000006,
+            nombre: "Juliana Ortiz"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[7]._id,
+            dni: 10000007,
+            nombre: "Federico Gómez"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[8]._id,
+            dni: 10000008,
+            nombre: "Agustina Herrera"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[9]._id,
+            dni: 10000009,
+            nombre: "Nicolás Vargas"
+        });
+
+        // Pacientes 11-20
+        await PacienteModel.create({
+            usuario: usuariosPacientes[0]._id,
+            dni: 10000010,
+            nombre: "Sofía Medina"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[1]._id,
+            dni: 10000011,
+            nombre: "Mateo Aguilar"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[2]._id,
+            dni: 10000012,
+            nombre: "Isabella Rojas"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[3]._id,
+            dni: 10000013,
+            nombre: "Santiago Molina"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[4]._id,
+            dni: 10000014,
+            nombre: "Mia Delgado"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[5]._id,
+            dni: 10000015,
+            nombre: "Benjamín Paz"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[6]._id,
+            dni: 10000016,
+            nombre: "Emma Figueroa"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[7]._id,
+            dni: 10000017,
+            nombre: "Thiago Cabrera"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[8]._id,
+            dni: 10000018,
+            nombre: "Olivia Núñez"
+        });
+        await PacienteModel.create({
+            usuario: usuariosPacientes[9]._id,
+            dni: 10000019,
+            nombre: "Liam Acosta"
+        });
+
+        console.log("✅ 20 Pacientes creados.");
+        console.log("🎉 Seed completado exitosamente.");
+
+    } catch (error) {
+        console.error("❌ Error durante el seed:", error);
+        throw error;
+    }
 };
 
 // Ejecutar si se llama directamente desde consola
-if (process.argv[1] && process.argv[1].includes('seed.js')) {
-  import('./db.js').then(async ({ connectDB, disconnectDB }) => {
-    await connectDB();
-    await runSeed();
-    await disconnectDB();
-    process.exit(0);
-  });
+if (process.argv[1] && process.argv[1].includes("seed.js")) {
+    import("./db.js").then(async ({ connectDB, disconnectDB }) => {
+        await connectDB();
+        await runSeed();
+        await disconnectDB();
+        process.exit(0);
+    });
 }

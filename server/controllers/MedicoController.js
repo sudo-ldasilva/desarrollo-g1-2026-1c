@@ -1,11 +1,11 @@
 import { MedicoRepository } from "../repositories/MedicoRepository.js";
 import { MedicoService } from "../services/MedicoService.js";
-
-const medicoRepository = new MedicoRepository();
+import { BadRequestError } from "../errors/AppError.js";
 
 export class MedicoController {
-    constructor({ medicoService = new MedicoService() } = {}) {
+    constructor({ medicoService = new MedicoService(), medicoRepository = new MedicoRepository() } = {}) {
         this.medicoService = medicoService;
+        this.medicoRepository = medicoRepository;
     }
 
     async findAll(req, res, next) {
@@ -32,7 +32,7 @@ export class MedicoController {
     async getMedicoById(req, res, next) {
         try {
             const { id } = req.params;
-            const medico = await medicoRepository.findById(id);
+            const medico = await this.medicoRepository.findById(id);
 
             res.status(200).json(medico);
         } catch (error) {
@@ -61,7 +61,7 @@ export class MedicoController {
             const { usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades } = req.body;
             this.validarCamposCreate(req.body);
 
-            const nuevoMedico = await medicoRepository.model.create({
+            const nuevoMedico = await this.medicoRepository.model.create({
                 usuario,
                 matricula,
                 nombre,
@@ -83,7 +83,7 @@ export class MedicoController {
 
         const camposNoPermitidos = camposBody.filter((campo) => !camposQuePuedeCambiar.includes(campo));
         if (camposNoPermitidos.length > 0) {
-            throw new Error(`Campos no permitidos en la request: ${camposNoPermitidos.join(", ")}`);
+            throw new BadRequestError(`Campos no permitidos en la request: ${camposNoPermitidos.join(", ")}`);
         }
     }
 
@@ -94,7 +94,7 @@ export class MedicoController {
             // TODO Una vez completado la funcionalidad, estaría bueno checkear que los
             // datos ingresados (dependiendo de cada campo) sean del tipo y forma correctos.
             // Nunca nos tenemos que confiar del input del usuario.
-            const medico = await medicoRepository.updateById(id, req.body);
+            const medico = await this.medicoRepository.updateById(id, req.body);
 
             res.status(200).json(medico);
         } catch (error) {
@@ -116,11 +116,11 @@ export class MedicoController {
         const limitePorPagina = query?.limit === undefined ? 5 : Number(query.limit);
 
         if (numeroPagina <= 0) {
-            throw new Error("El numero de pagina debe ser mayor o igual a 0");
+            throw new BadRequestError("El numero de pagina debe ser mayor o igual a 0");
         }
 
         if (limitePorPagina <= 0) {
-            throw new Error("El límite por pagina debe ser mayor a 0");
+            throw new BadRequestError("El límite por pagina debe ser mayor a 0");
         }
 
         return { numeroPagina, limitePorPagina };

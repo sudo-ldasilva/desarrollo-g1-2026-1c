@@ -11,12 +11,19 @@ export class MedicoRepository {
         //cuantos documentos hay que saltar
         const skip = (numeroPagina - 1) * limitePorPagina;
 
-        const medicos = await this.model.find().skip(skip).limit(limitePorPagina);
-        const total = await this.model.countDocuments({});
+        const medicos = await this.model.find().skip(skip).limit(limitePorPagina)
+            .populate("especialidades") // Traemos todos los datos
+            .populate("practicas")
+            .populate("sedes");
+            // .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // O también podríamos traer selectivamente
+            // .populate('practicas', 'nombre codigo costo')
+            // .populate('sedes', 'nombre direccion');
+
+        const totalMedicos = await this.model.countDocuments({});
 
         return {
             medicos,
-            total
+            totalMedicos
         };
     }
 
@@ -25,7 +32,10 @@ export class MedicoRepository {
             throw new BadRequestError(`Invalid ID ${id}`);
         }
 
-        const medicoDoc = await MedicoModel.findById(id);
+        const medicoDoc = await MedicoModel.findById(id)
+            .populate("especialidades")
+            .populate("practicas")
+            .populate("sedes");
 
         if (!medicoDoc) {
             throw new NotFoundError(`Médico con ID ${id} no encontrado`);
@@ -40,8 +50,8 @@ export class MedicoRepository {
             throw new BadRequestError(`Invalid ID ${id}`);
         }
 
-        const medico = await this.model.findOneAndUpdate(
-            { _id: id },
+        const medico = await this.model.findByIdAndUpdate(
+            id,
             atributos,
             { returnDocument: "after" }
         );
