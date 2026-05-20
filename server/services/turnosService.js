@@ -22,6 +22,10 @@ export default class TurnosService{
             sort
         };
     }
+
+    async listarHistorialPaciente(usuarioId, page, limit) {
+        return await this.turnosRepository.buscarPorUsuario(usuarioId, page, limit);
+    }
 }
 
 export function turnoToDTO(turno) {
@@ -43,5 +47,5 @@ export function turnoToDTO(turno) {
         costo: turno.costo //Sería el costo calculado (cambia segun paciente que consulta)
         //TODO: calcular costo segun el usuario paciente y ordenar los turnos segun el mismo.
         //Por ahora, el ord por costo se hace usando los registros hardcodeados de la seed.
-    };
+    };   
 }

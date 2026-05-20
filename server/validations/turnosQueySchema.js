@@ -32,6 +32,15 @@ export const turnosQuerySchema = z.object({
     limit: z.coerce.number().int().positive().max(25).default(10),
 
     sort: sort,
+
+    estado: z.enum([
+        "DISPONIBLE", 
+        "RESERVADO", 
+        "CONFIRMADO", 
+        "CANCELADO", 
+        "REALIZADO", 
+        "PENDIENTE_REPROGRAMACION"
+    ]).optional(),
     
     medico: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de medico no es válido").optional(),
     sede: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de sede no es válido").optional(),
