@@ -5,7 +5,7 @@ import { MedicoService } from "../../../server/services/MedicoService.js";
 
 export function buildTestApp(medicoRepository) {
     const medicoService = new MedicoService({medicoRepository});
-    const medicoController = new MedicoController({medicoService});
+    const medicoController = new MedicoController({medicoService, medicoRepository});
 
     const app = express();
     app.use(express.json());

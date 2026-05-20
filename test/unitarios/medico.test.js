@@ -140,4 +140,7 @@ describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
             expect(medico.disponibilidades).toHaveLength(1);
         });
     });
+
+    // TODO Falta implementar el testeo de la capa de controller:
+    // - Patch: no se deben poder modificar los atributos: nombre, matricula, usuario
 });

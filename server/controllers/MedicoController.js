@@ -2,11 +2,10 @@ import { MedicoRepository } from "../repositories/MedicoRepository.js";
 import { MedicoService } from "../services/MedicoService.js";
 import { BadRequestError } from "../errors/AppError.js";
 
-const medicoRepository = new MedicoRepository();
-
 export class MedicoController {
-    constructor({ medicoService = new MedicoService() } = {}) {
+    constructor({ medicoService = new MedicoService(), medicoRepository = new MedicoRepository() } = {}) {
         this.medicoService = medicoService;
+        this.medicoRepository = medicoRepository;
     }
 
     async findAll(req, res, next) {
@@ -33,7 +32,7 @@ export class MedicoController {
     async getMedicoById(req, res, next) {
         try {
             const { id } = req.params;
-            const medico = await medicoRepository.findById(id);
+            const medico = await this.medicoRepository.findById(id);
 
             res.status(200).json(medico);
         } catch (error) {
@@ -62,7 +61,7 @@ export class MedicoController {
             const { usuario, matricula, nombre, especialidades, practicas, sedes, disponibilidades } = req.body;
             this.validarCamposCreate(req.body);
 
-            const nuevoMedico = await medicoRepository.model.create({
+            const nuevoMedico = await this.medicoRepository.model.create({
                 usuario,
                 matricula,
                 nombre,
@@ -95,7 +94,7 @@ export class MedicoController {
             // TODO Una vez completado la funcionalidad, estaría bueno checkear que los
             // datos ingresados (dependiendo de cada campo) sean del tipo y forma correctos.
             // Nunca nos tenemos que confiar del input del usuario.
-            const medico = await medicoRepository.updateById(id, req.body);
+            const medico = await this.medicoRepository.updateById(id, req.body);
 
             res.status(200).json(medico);
         } catch (error) {

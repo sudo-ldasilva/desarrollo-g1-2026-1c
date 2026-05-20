@@ -63,4 +63,56 @@ describe("Sweet Medical - Tests de Integración", () => {
             expect(response.body.paginacion.totalPaginas).toBe(1);
         });
     });
+
+    describe("PATCH /medicos/{:id}", () => {
+        test("Si el medico no existe debe retornar 404", async () => {
+            const medicosMock = [
+                new Medico("Dr.House.1950", "123456", "House"),
+                new Medico("Rod.Rod", "123457", "Rodolfo"),
+            ];
+            medicosMock[0].id = 1;
+            medicosMock[1].id = 2;
+
+            medicoRepository.updateById.mockRejectedValue(
+                new NotFoundError("Médico no encontrado")
+            );
+
+            const json = {
+                "especialidades": ["id1", "id2"],
+            };
+
+            const response = await request(app)
+                .patch("/medicos/3")
+                .send(json);
+
+            expect(response.status).toBe(404);
+        });
+    });
+
+    describe("PATCH /medicos/{:id}", () => {
+        test("Se pasan los atributos del médico a modificar y retorna 200", async () => {
+            const medicosMock = [
+                new Medico("Dr.House.1950", "123456", "House"),
+                new Medico("Rod.Rod", "123457", "Rodolfo"),
+            ];
+            medicosMock[0].id = 1;
+            medicosMock[1].id = 2;
+
+            const idEspecialidades = ["idEsp1", "idEsp2"];
+            const json = { "especialidades": idEspecialidades };
+            const medicoActualizado = medicosMock[0];
+            medicoActualizado.especilidades = idEspecialidades;
+
+            medicoRepository.updateById.mockResolvedValue(
+                medicoActualizado
+            );
+
+            const response = await request(app)
+                .patch("/medicos/1")
+                .send(json);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(medicoActualizado);
+        });
+    });
 });
