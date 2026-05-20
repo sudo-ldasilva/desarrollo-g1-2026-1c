@@ -49,7 +49,7 @@ export default class TurnosRepository {
         return await turnoDocument.save();
     }
 
-    async buscarPorUsuario(pacienteId, page, limit) {
+    async buscarPorPaciente(pacienteId, page, limit) {
         const skip = (page - 1) * limit;
 
         // Debería ser funcional tanto para pacientes como para médicos?

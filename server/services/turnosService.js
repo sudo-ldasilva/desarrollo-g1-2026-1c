@@ -1,9 +1,11 @@
-import { BadRequestError } from "../errors/AppError.js";
+import { BadRequestError, NotFoundError } from "../errors/AppError.js";
+import PacientesRepository from "../repositories/pacientesRepository.js";
 import TurnosRepository from "../repositories/turnosRepository.js";
 
 export default class TurnosService{
     constructor() {
         this.turnosRepository = new TurnosRepository();
+        this.pacientesRepository = new PacientesRepository();
     }
 
     async buscarPaginado(filtros, paginacion, ordenamiento) {
@@ -24,7 +26,13 @@ export default class TurnosService{
     }
 
     async listarHistorialPaciente(usuarioId, page, limit) {
-        return await this.turnosRepository.buscarPorUsuario(usuarioId, page, limit);
+        const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
+
+        if(!paciente) {
+            throw new NotFoundError("No se encuentra usuario paciente");
+        }
+
+        return await this.turnosRepository.buscarPorPaciente(paciente._id, page, limit);
     }
 }
 
