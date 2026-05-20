@@ -19,12 +19,9 @@ export default class NotificacionesRepository{
                 .skip(skip)
                 .limit(limit);
 
-        const total = await this.model.countDocuments({destinatario: usuarioId});
-
-        const usuario = await this.model.findOne({destinatario: usuarioId}).populate("plan");
+        const total = await this.model.countDocuments({destinatario: usuarioId, ...filtros});
 
         return {
-            usuario,
             notificaciones,
             total,
             page,

@@ -7,43 +7,43 @@ class FactoryNotificacion {
         switch (turno.estado) {
         case EstadoTurno.DISPONIBLE:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El turno está disponible "
             });
 
         case EstadoTurno.RESERVADO:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.CONFIRMADO:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.CANCELADO:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.servicio.nombre,
             });
 
         case EstadoTurno.REALIZADO:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El servicio " + turno.servicio.nombre + " está realizado.",
             });
         
         case EstadoTurno.PENDIENTE_REPROGRAMACION:
             return new Notificacion({
-                destinatario: turno.medico.usuario,
-                remitente: turno.paciente.usuario,
+                destinatario: turno.paciente.usuario,
+                remitente: turno.medico.usuario,
                 mensaje: "El turno para servicio " + turno.servicio.nombre + " queda pendiente de reprogramacion.",
             });
 

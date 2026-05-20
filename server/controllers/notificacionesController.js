@@ -62,15 +62,16 @@ export default class NotificacionesController{
         try {
             const { id } = req.validated.params; 
 
-           
-            const notificacionActualizada = await this.notificacionesService.modificarEstadoLectura(id);
+            const usuarioId = req.headers["x-usuario-id"];
 
-            if (!notificacionActualizada) {
-                return res.status(404).json({
+            if (!usuarioId) {
+                return res.status(401).json({
                     status: "fail",
-                    message: "No se encontró la notificación"
+                    message: "No se proporcionó una sesión válida"
                 });
             }
+           
+            const notificacionActualizada = await this.notificacionesService.modificarEstadoLectura(id, usuarioId);
 
             res.status(200).json({
                 status: "success",
