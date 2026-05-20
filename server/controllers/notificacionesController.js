@@ -7,6 +7,15 @@ export default class NotificacionesController{
 
     desplegarNotificaciones = async (req, res, next) => {
         try{
+            const usuarioId = req.headers["x-usuario-id"];
+
+            if (!usuarioId) {
+                return res.status(401).json({
+                    status: "fail",
+                    message: "No se proporcionó una sesión válida"
+                });
+            }
+
             const { page, limit } = req.validated.query;
             const estado = req.validated.query?.estado;
 
@@ -15,10 +24,12 @@ export default class NotificacionesController{
                 : {};
 
             const paginacion = { page, limit };
-            //TODO obtener usuario de la request y hacer la búsqueda según ese usuario.
             
-            const busqueda = await this.notificacionesService.desplegarNotificaciones(paginacion, filtros);
-            res.json(busqueda);
+            const busqueda = await this.notificacionesService.desplegarNotificaciones(usuarioId,paginacion, filtros);
+            res.status(200).json({
+                status: "success",
+                ...busqueda
+            });
         } catch(error){
             next(error);
         }

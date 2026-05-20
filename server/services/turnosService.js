@@ -15,11 +15,11 @@ export default class TurnosService{
             throw new BadRequestError("Rango invalido de fechas");
         }
 
-    let plan = null;
-    if (pacienteId) {
-        const paciente = await PacienteModel.findOne({ usuario: pacienteId }).populate("plan");
-        if (paciente) plan = paciente.plan;
-    }
+        let plan = null;
+        if (pacienteId) {
+            const paciente = await PacienteModel.findOne({ usuario: pacienteId }).populate("plan");
+            if (paciente) plan = paciente.plan;
+        }
         
         const { turnos, total, page, totalPages, sort } =
         await this.turnosRepository.buscarPaginado(filtros, paginacion, ordenamiento);
@@ -44,8 +44,8 @@ export default class TurnosService{
                 if (nivel === NivelCobertura.TOTAL) dto.costoEstimado = 0;
                 else if (nivel === NivelCobertura.PARCIAL) dto.costoEstimado = costoBase * 0.5; // 50% copago
             } catch (e) { /* Si no está cubierta o falla, se mantiene el costoBase */ }
-    }
-    return dto;
+        }
+        return dto;
     }
 
     async listarHistorialPaciente(usuarioId, page, limit) {

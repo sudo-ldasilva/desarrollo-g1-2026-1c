@@ -1,20 +1,22 @@
 import NotificacionesRepository from "../repositories/notificacionesRepository.js";
+import PacientesRepository from "../repositories/pacientesRepository.js";
+import { NotFoundError } from "../errors/AppError.js";
 
 export default class NotificacionesService{
     constructor(){
         this.NotificacionesRepository = new NotificacionesRepository();
+        this.PacientesRepository = new PacientesRepository();
     }
 
-    async desplegarNotificaciones(paginacion, filtros = {}) { 
-        const { notificaciones, total, page, totalPages } =
-            await this.NotificacionesRepository.desplegarNotificaciones(paginacion, filtros);
+    async desplegarNotificaciones(usuarioId,paginacion, filtros = {}) { 
+        const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
+
+        if(!paciente) {
+            throw new NotFoundError("No se encuentra usuario paciente");
+        }
+
+        return await this.NotificacionesRepository.desplegarNotificaciones(paciente._id,paginacion, filtros);
     
-        return {
-            notificaciones,
-            total,
-            page,
-            totalPages
-        };
     }
 
     async obtenerNotificacionPorId(id) {
