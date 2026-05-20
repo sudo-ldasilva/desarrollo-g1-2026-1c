@@ -1,12 +1,11 @@
 export class Notificacion {
-    constructor(id, destinatario, remitente, mensaje, fechaHoraCreacion) {
-        this.id = id;
+    constructor({destinatario, remitente, mensaje}) {
         this.destinatario = destinatario;
         this.remitente = remitente;
         this.mensaje = mensaje;
-        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.fechaHoraCreacion = new Date(Date.now());
         this.leida = false;
-        this.fechaHoraLeida = 0;
+        this.fechaHoraLeida = null;
     }
 
     marcarComoLeida() {

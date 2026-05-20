@@ -1,7 +1,8 @@
 export const EstadoTurno = {
-    DISPONIBLE: "Disponible",
-    RESERVADO: "Reservado",
-    CONFIRMADO: "Confirmado",
-    CANCELADO: "Cancelado",
-    REALIZADO: "Realizado"
+    DISPONIBLE: "DISPONIBLE",
+    RESERVADO: "RESERVADO",
+    CONFIRMADO: "CONFIRMADO",
+    CANCELADO: "CANCELADO",
+    REALIZADO: "REALIZADO",
+    PENDIENTE_REPROGRAMACION: "PENDIENTE_REPROGRAMACION"
 };
