@@ -168,6 +168,14 @@ export const runSeed = async () => {
         console.log("✅ 10 Sedes creadas.");
 
         // =========================================================================
+        // PRÁCTICAS (3 registros) - para turnos que no sean de Especialidad
+        // =========================================================================
+        console.log("🧾 Creando Prácticas...");
+        const practicaRx = await PracticaModel.create({ codigo: "P-001", nombre: "Rx Tórax", duracionTurnoEnMins: 15, costo: 5000 });
+        const practicaECG = await PracticaModel.create({ codigo: "P-002", nombre: "Electrocardiograma", duracionTurnoEnMins: 20, costo: 8000 });
+        console.log("✅ 2 Prácticas creadas.");
+
+        // =========================================================================
         // 5. MÉDICOS (10 registros)
         // =========================================================================
         console.log("👨‍⚕️ Creando Médicos...");
@@ -355,6 +363,136 @@ export const runSeed = async () => {
         });
 
         console.log("✅ 20 Pacientes creados.");
+        // =========================================================================
+        // 7. TURNOS (6 registros) y NOTIFICACIONES (5 registros)
+        // =========================================================================
+        console.log("📅 Creando Turnos de ejemplo...");
+
+        // Traemos referencias útiles
+        const medicos = await MedicoModel.find();
+        const pacientes = await PacienteModel.find();
+
+        // Crear 6 turnos usando algunas especialidades ya creadas
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 24 * 60 * 60 * 1000), // mañana
+            medico: medicos[0]._id,
+            paciente: pacientes[0]._id,
+            sede: garrahan._id,
+            servicio: cardiologia._id,
+            tipoServicio: "Especialidad",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: cardiologia.costoConsulta
+        });
+
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+            medico: medicos[1]._id,
+            paciente: pacientes[1]._id,
+            sede: cosmeArgerich._id,
+            servicio: practicaECG._id,
+            tipoServicio: "Practica",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: practicaECG.costo
+        });
+
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            medico: medicos[2]._id,
+            paciente: pacientes[2]._id,
+            sede: santojanni._id,
+            servicio: pediatria._id,
+            tipoServicio: "Especialidad",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: pediatria.costoConsulta
+        });
+
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000),
+            medico: medicos[3]._id,
+            paciente: pacientes[3]._id,
+            sede: italiano._id,
+            servicio: traumatologia._id,
+            tipoServicio: "Especialidad",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: traumatologia.costoConsulta
+        });
+
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+            medico: medicos[4]._id,
+            paciente: pacientes[4]._id,
+            sede: ramosMejia._id,
+            servicio: practicaRx._id,
+            tipoServicio: "Practica",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: practicaRx.costo
+        });
+
+        await TurnoModel.create({
+            fechaHora: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000),
+            medico: medicos[5]._id,
+            paciente: pacientes[5]._id,
+            sede: durand._id,
+            servicio: ginecologia._id,
+            tipoServicio: "Especialidad",
+            estado: "DISPONIBLE",
+            historialEstados: [],
+            costo: ginecologia.costoConsulta
+        });
+
+        console.log("✅ 6 Turnos creados.");
+
+        console.log("🔔 Creando Notificaciones de ejemplo...");
+
+        // Crear 5 notificaciones simples
+        await NotificacionModel.create({
+            destinatario: usuariosPacientes[0]._id,
+            remitente: usuariosMedicos[0]._id,
+            mensaje: "Recordatorio: tiene un turno reservado mañana a las 10:00.",
+            fechaHoraCreacion: new Date(),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuariosPacientes[1]._id,
+            remitente: usuariosMedicos[1]._id,
+            mensaje: "Su turno ha sido confirmado.",
+            fechaHoraCreacion: new Date(),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuariosMedicos[2]._id,
+            remitente: usuariosPacientes[2]._id,
+            mensaje: "El paciente solicitó reprogramar el turno.",
+            fechaHoraCreacion: new Date(),
+            leida: true,
+            fechaHoraLeida: new Date()
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuariosPacientes[3]._id,
+            remitente: usuariosMedicos[3]._id,
+            mensaje: "Su turno fue cancelado por la institución.",
+            fechaHoraCreacion: new Date(),
+            leida: false
+        });
+
+        await NotificacionModel.create({
+            destinatario: usuariosPacientes[4]._id,
+            remitente: usuariosMedicos[4]._id,
+            mensaje: "Gracias por asistir. Por favor complete la encuesta.",
+            fechaHoraCreacion: new Date(),
+            leida: false
+        });
+
+        console.log("✅ 5 Notificaciones creadas.");
+
         console.log("🎉 Seed completado exitosamente.");
 
     } catch (error) {
