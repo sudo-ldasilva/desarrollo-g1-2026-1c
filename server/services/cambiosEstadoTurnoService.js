@@ -3,6 +3,7 @@ import ReservarTurnoHandler from "./cambiosEstadoHandlers/reservarTurnoHandler.j
 import CancelarTurnoHandler from "./cambiosEstadoHandlers/cancelarTurnoHandler.js";
 import ReprogramarTurnoHandler from "./cambiosEstadoHandlers/reprogramarTurnoHandler.js";
 import RealizarTurnoHandler from "./cambiosEstadoHandlers/realizarTurnoHandler.js";
+import ConfirmarTurnoHandler from "./cambiosEstadoHandlers/confirmarTurnoHandler.js";
 import { turnoToDTO } from "./turnosService.js";
 import {BadRequestError} from "../errors/AppError.js";
 
@@ -19,6 +20,9 @@ export default class CambiosEstadoTurnoService {
 
     elegirEstrategia(estado) {
         switch (estado) {
+
+        case EstadoTurno.CONFIRMADO:
+            return new ConfirmarTurnoHandler();
         
         case EstadoTurno.RESERVADO:
             return new ReservarTurnoHandler();

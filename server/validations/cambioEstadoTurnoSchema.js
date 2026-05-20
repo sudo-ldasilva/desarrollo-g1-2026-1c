@@ -5,13 +5,12 @@ export const cambioEstadoTurnoSchema = z.object({
         "RESERVADO",
         "CANCELADO",
         "REALIZADO",
-        "PENDIENTE_REPROGRAMACION"
+        "PENDIENTE_REPROGRAMACION",
+        "CONFIRMADO"
     ]),
 
     usuarioId: z.string().min(1, "El usuarioId es requerido"),
-
     motivo: z.string().optional(),
-
     fechaHora: z.string().datetime().optional()
 }).refine(data => {
     // el motivo es obligatorio para cancelar 
@@ -30,5 +29,5 @@ export const cambioEstadoTurnoSchema = z.object({
     return true;
 }, {
     message: "Debe indicar fechaHora para la reprogramacion",
-    path: ["motivo"]
+    path: ["fechaHora"]
 });
