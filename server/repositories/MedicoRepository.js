@@ -7,11 +7,31 @@ export class MedicoRepository {
         this.model = MedicoModel;
     }
 
+    validarFiltros(filtros) {
+        console.log(filtros);
+        if (filtros.especialidad !== undefined && !mongoose.isValidObjectId(filtros.especialidad)) {
+            throw new BadRequestError(`En el filtro 'especialidad': '${filtros.especialidad} no es un ID válido.`);
+        }
+
+        if (filtros.practica !== undefined && !mongoose.isValidObjectId(filtros.practica)) {
+            throw new BadRequestError(`En el filtro 'practica': '${filtros.practica} no es un ID válido.`);
+        }
+
+        if (filtros.sedes !== undefined && !mongoose.isValidObjectId(filtros.sedes)) {
+            throw new BadRequestError(`En el filtro 'sede': '${filtros.sedes} no es un ID válido.`);
+        }
+    }
+
     async obtenerPaginados(numeroPagina, limitePorPagina, filtros = {}) {
         //cuantos documentos hay que saltar
         const skip = (numeroPagina - 1) * limitePorPagina;
 
-        const medicos = await this.model.find().skip(skip).limit(limitePorPagina)
+        this.validarFiltros(filtros);
+
+        const medicos = await this.model
+            .find(filtros)
+            .skip(skip)
+            .limit(limitePorPagina)
             .populate("especialidades") // Traemos todos los datos
             .populate("practicas")
             .populate("sedes");
@@ -19,7 +39,7 @@ export class MedicoRepository {
             // .populate('practicas', 'nombre codigo costo')
             // .populate('sedes', 'nombre direccion');
 
-        const totalMedicos = await this.model.countDocuments({});
+        const totalMedicos = await this.model.countDocuments(filtros);
 
         return {
             medicos,

@@ -105,8 +105,19 @@ export class MedicoController {
     extraerFiltros(query) {
         const filtros = {};
 
-        // TODO Filtros
-        // Hay que ver que filtros necesitamos para las request de médico
+        // TODO Documentar
+
+        if (query.especialidad !== undefined) {
+            filtros.especialidades = query.especialidad;
+        }
+
+        if (query.practica !== undefined) {
+            filtros.practicas = query.practica;
+        }
+
+        if (query.sede !== undefined) {
+            filtros.sedes = query.sede;
+        }
 
         return filtros;
     }
