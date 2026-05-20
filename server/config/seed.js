@@ -1,13 +1,29 @@
+
 // server/config/seed.js
 // Crea usuarios, médicos, pacientes, especialidades, turnos, etc
 // Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
-
+// TODO A mano resolver conflictos
 // Importar modelos registrados en Mongoose
 import UsuarioModel from "../models/UsuarioModel.js";
 import EspecialidadModel from "../models/EspecialidadModel.js";
 import MedicoModel from "../models/MedicoModel.js";
 import SedeModel from "../models/SedeModel.js";
 import PacienteModel from "../models/PacienteModel.js";
+
+// Crea usuarios, médicos, pacientes, especialidades, turnos, etc
+// Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
+
+import {TurnoModel} from "../models/turnoSchema.js";
+import {EspecialidadModel} from "../models/especialidadSchema.js";
+import {MedicoModel} from "../models/medicoSchema.js";
+import {PacienteModel} from "../models/pacienteSchema.js";
+import {PracticaModel} from "../models/practicaSchema.js";
+import {SedeModel} from "../models/sedeSchema.js";
+import {UsuarioModel} from "../models/usuarioSchema.js";
+import {NotificacionModel} from "../models/notificacionSchema.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 export const runSeed = async () => {
     try {
@@ -19,6 +35,9 @@ export const runSeed = async () => {
         await MedicoModel.deleteMany({});
         await SedeModel.deleteMany({});
         await PacienteModel.deleteMany({});
+        await PracticaModel.deleteMany({});
+        await TurnoModel.deleteMany({});
+        await NotificacionModel.deleteMany({});
         console.log("🧹 Colecciones limpiadas.");
 
         // =========================================================================
@@ -77,6 +96,7 @@ export const runSeed = async () => {
             duracionTurnoEnMins: 15,
             costoConsulta: 10000
         });
+
         console.log("✅ 10 Especialidades creadas.");
 
         // =========================================================================

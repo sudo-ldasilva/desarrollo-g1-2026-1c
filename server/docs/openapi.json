@@ -1,0 +1,439 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API REST Sweet-medical",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Comprobación del estado del servidor"
+    },
+    {
+      "name": "Turnos",
+      "description": "Operaciones para búsquedas y cambios de estado de turnos"
+    },
+    {
+      "name": "Notificaciones",
+      "description": "Operaciones sobre notificaciones"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Verificar estado del servidor",
+        "description": "Devuelve un estado básico de salud del servicio con timestamp y uptime.",
+        "responses": {
+          "200": {
+            "description": "Servicio disponible",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/turnos": {
+      "get": {
+        "tags": ["Turnos"],
+        "summary": "Buscar turnos paginados",
+        "description": "Devuelve una lista de turnos filtrada y paginada según los parámetros de consulta.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página de resultados.",
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de resultados por página (máximo 25).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 25, "default": 10 }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Ordenamiento de resultados. Ejemplo: fechaHora:desc,costo:asc.",
+            "schema": { "type": "string", "example": "fechaHora:desc,costo:asc" }
+          },
+          {
+            "name": "medico",
+            "in": "query",
+            "description": "Filtro por ID del médico.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sede",
+            "in": "query",
+            "description": "Filtro por ID de la sede.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "practica",
+            "in": "query",
+            "description": "Filtro por ID de la práctica.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "especialidad",
+            "in": "query",
+            "description": "Filtro por ID de la especialidad.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "description": "Fecha inicial para buscar turnos (ISO 8601).",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "description": "Fecha final para buscar turnos (ISO 8601).",
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultados de la búsqueda de turnos paginados.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TurnosPaginados"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/turnos/mis-turnos": {
+      "get": {
+        "tags": ["Turnos"],
+        "summary": "Listar los turnos del usuario autenticado",
+        "description": "Devuelve los turnos asociados al usuario autenticado.",
+        "responses": {
+          "200": {
+            "description": "Lista de turnos del usuario obtenida correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Turno" }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/turnos/{idTurno}/cambios-estado": {
+      "post": {
+        "tags": ["Turnos"],
+        "summary": "Enviar un cambio de estado para un turno",
+        "description": "Permite cambiar el estado de un turno, generando el turno actualizado y la notificación asociada.",
+        "parameters": [
+          {
+            "name": "idTurno",
+            "in": "path",
+            "required": true,
+            "description": "ID del turno cuyo estado se va a modificar.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CambioEstadoTurnoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estado del turno actualizado correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "turno": { "$ref": "#/components/schemas/Turno" },
+                    "notificacion": { "$ref": "#/components/schemas/Notificacion" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/notificaciones": {
+      "get": {
+        "tags": ["Notificaciones"],
+        "summary": "Listar las notificaciones de un paciente o médico",
+        "description": "Devuelve una lista paginada de notificaciones. Permite filtrar por leídas o pendientes.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página (debe ser entero positivo)",
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de notificaciones por página (máximo 25).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 25, "default": 10 }
+          },
+          {
+            "name": "estado",
+            "in": "query",
+            "description": "Filtra las notificaciones por estado: leidas o pendientes.",
+            "schema": { "type": "string", "enum": ["leidas", "pendientes"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de notificaciones obtenida correctamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificacionesPaginadas"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/notificaciones/{id}": {
+      "get": {
+        "tags": ["Notificaciones"],
+        "summary": "Consultar una notificación en particular",
+        "description": "Obtiene una notificación específica por su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la notificación.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notificación encontrada correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificacionResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      },
+      "patch": {
+        "tags": ["Notificaciones"],
+        "summary": "Marcar una notificación como leída",
+        "description": "Marca una notificación como leída. El endpoint no requiere un body y actualiza la fecha de lectura automáticamente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID de la notificación que se va a marcar como leída.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notificación marcada como leída exitosamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificacionResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthStatus": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "ok" },
+          "timestamp": { "type": "string", "format": "date-time" },
+          "uptime": { "type": "number", "example": 123.45 }
+        },
+        "required": ["status", "timestamp", "uptime"]
+      },
+      "Turno": {
+        "type": "object",
+        "properties": {
+          "_id": { "type": "string" },
+          "fechaHora": { "type": "string", "format": "date-time" },
+          "medico": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string" },
+              "nombre": { "type": "string" }
+            }
+          },
+          "servicio": {
+            "type": "object",
+            "description": "Información del servicio asociado al turno.",
+            "properties": {
+              "tipo": { "type": "string" },
+              "id": { "type": "string" },
+              "nombre": { "type": "string" },
+              "duracion": { "type": "integer" },
+              "costoConsulta": { "type": "number" }
+            }
+          },
+          "tipoServicio": { "type": "string" },
+          "sede": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string" },
+              "nombre": { "type": "string" },
+              "direccion": { "type": "string" }
+            }
+          },
+          "estado": { "type": "string" },
+          "costo": { "type": "number" }
+        },
+        "required": ["_id", "fechaHora", "medico", "servicio", "tipoServicio", "sede", "estado", "costo"]
+      },
+      "TurnosPaginados": {
+        "type": "object",
+        "properties": {
+          "turnos": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Turno" }
+          },
+          "total": { "type": "integer", "description": "Total de turnos que coinciden con el filtro." },
+          "page": { "type": "integer", "description": "Página actual devuelta." },
+          "totalPages": { "type": "integer", "description": "Cantidad de páginas totales disponibles." },
+          "sort": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer",
+              "description": "Dirección de ordenamiento: 1 para ascendente, -1 para descendente."
+            }
+          }
+        },
+        "required": ["turnos", "total", "page", "totalPages", "sort"]
+      },
+      "Notificacion": {
+        "type": "object",
+        "properties": {
+          "notificacionId": { "type": "string", "example": "6646b9a..." },
+          "destinatario": { "type": "string", "example": "6646b5c32893" },
+          "remitente": { "type": "string", "example": "6646b5c32897" },
+          "mensaje": { "type": "string", "example": "Tu donación fue recibida" },
+          "fechaHoraCreacion": { "type": "string", "format": "date-time" },
+          "fechaHoraLeida": { "type": "string", "format": "date-time", "nullable": true },
+          "leida": { "type": "boolean", "example": false }
+        }
+      },
+      "NotificacionResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "success" },
+          "data": { "$ref": "#/components/schemas/Notificacion" }
+        },
+        "required": ["status", "data"]
+      },
+      "NotificacionesPaginadas": {
+        "type": "object",
+        "properties": {
+          "notificaciones": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Notificacion" }
+          },
+          "total": { "type": "integer" },
+          "page": { "type": "integer" },
+          "totalPages": { "type": "integer" }
+        },
+        "required": ["notificaciones", "total", "page", "totalPages"]
+      },
+      "CambioEstadoTurnoRequest": {
+        "type": "object",
+        "properties": {
+          "estado": {
+            "type": "string",
+            "enum": ["RESERVADO", "CANCELADO", "REALIZADO", "PENDIENTE_REPROGRAMACION"]
+          },
+          "usuarioId": { "type": "string" },
+          "motivo": { "type": "string", "nullable": true },
+          "fechaHora": { "type": "string", "format": "date-time", "nullable": true }
+        },
+        "required": ["estado", "usuarioId"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "fail" },
+          "message": { "type": "string", "example": "Mensaje de error descriptivo" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "required": ["status", "message", "timestamp"]
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Error en los datos de entrada (Fallo de validación).",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso no encontrado.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "status": "fail",
+              "message": "Recurso no encontrado.",
+              "timestamp": "2026-05-17T12:00:00.000Z"
+            }
+          }
+        }
+      }
+    }
+  }
+}

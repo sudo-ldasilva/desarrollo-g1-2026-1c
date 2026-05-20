@@ -2,11 +2,15 @@ import express from "express";
 import dotenv from "dotenv";
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import {createRequire} from "module";
 
 import router from "./routes/router.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errorLogger } from "./middlewares/errorLogger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+
+const require = createRequire(import.meta.url);
+const swaggerSpec = require("./docs/openapi.json");
 
 dotenv.config();
 const app = express();

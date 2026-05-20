@@ -1,4 +1,4 @@
-import Turno from "Turno.js";
+import Turno from "./Turno.js";
 
 export class Practica {
     constructor(id,codigo,nombre,duracionTurnoEnMins,costo) {
