@@ -65,4 +65,8 @@ export default class TurnosService{
             sort
         };
     }
+
+    async listarHistorialPaciente(usuarioId, page, limit) {
+        return await this.turnosRepository.buscarPorUsuario(usuarioId, page, limit);
+    }
 }

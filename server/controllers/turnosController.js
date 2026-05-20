@@ -8,7 +8,33 @@ export default class TurnosController {
     }
 
     async buscarMisTurnos(req, res, next){
-        //TODO
+        try {
+        // --- HOY: Lo sacamos de un header personalizado para Postman ---
+        // --- MAÑANA CON JWT: Esto va a cambiar a: const usuarioId = req.user.id; ---
+            const usuarioId = req.headers["x-usuario-id"]; 
+        
+            
+            if (!usuarioId) {
+                return res.status(401).json({
+                    status: "fail",
+                    message: "No se proporcionó una sesión válida"
+                });
+            }
+
+            
+            const { page, limit } = req.validated.query;
+
+            const historial = await this.turnosService.listarHistorialPaciente(usuarioId, page, limit);
+
+            res.status(200).json({
+                status: "success",
+                ...historial
+            });
+        } catch (error) {
+            next(error);
+        }
+
+
     }
 
     cambiarEstado = async (req, res, next) => {

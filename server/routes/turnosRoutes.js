@@ -14,7 +14,9 @@ turnosRouter
 
 turnosRouter
     .route("/mis-turnos")
-    .get((req, res, next) => turnosController.buscarMisTurnos(req, res, next));
+    .get(validate(turnosQuerySchema, "query"), 
+        (req, res, next) => turnosController.buscarMisTurnos(req, res, next)
+    );
 
 turnosRouter
     .route("/:idTurno/cambios-estado")

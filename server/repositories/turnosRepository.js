@@ -39,6 +39,26 @@ export default class TurnosRepository {
         };
     }
 
+    async buscarPorUsuario(pacienteId, page, limit) {
+        const skip = (page - 1) * limit;
+
+        // Debería ser funcional tanto para pacientes como para médicos?
+        //  Es decir, consultar los turnos que tengo hechos/programados/cancelados como médico y ver los distintos pacientes o como paciente ver tu historial de turnos.
+        const turnos = await this.model.find({ paciente: pacienteId })
+            .skip(skip)
+            .limit(limit)
+            .populate("medico", "nombre")
+            .populate("sede", "nombre")
+            .populate("fechaHora", "hora");
+
+        const total = await this.model.countDocuments({ paciente: pacienteId });
+
+        return {
+            data: turnos,
+            paginacion: { total, limite: limit, pagina: page }
+        };
+    }
+
 }
 
 function armarQuery(filtros) {
