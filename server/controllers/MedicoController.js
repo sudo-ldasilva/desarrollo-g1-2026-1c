@@ -116,11 +116,11 @@ export class MedicoController {
         const limitePorPagina = query?.limit === undefined ? 5 : Number(query.limit);
 
         if (numeroPagina <= 0) {
-            throw new Error("El numero de pagina debe ser mayor o igual a 0");
+            throw new BadRequestError("El numero de pagina debe ser mayor o igual a 0");
         }
 
         if (limitePorPagina <= 0) {
-            throw new Error("El límite por pagina debe ser mayor a 0");
+            throw new BadRequestError("El límite por pagina debe ser mayor a 0");
         }
 
         return { numeroPagina, limitePorPagina };
