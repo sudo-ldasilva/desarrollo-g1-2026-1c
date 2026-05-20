@@ -1,4 +1,21 @@
 import mongoose from "mongoose";
+import { Medico } from "../domain/Medico.js";
+import { DiaSemana } from "../domain/DiaSemana.js";
+
+const DisponibilidadSchema = new mongoose.Schema(
+    {
+        horaInicio: { type: String, required: true },
+        horaFin: { type: String, required: true },
+        diasSemana: [
+            {
+                type: String,
+                enum: Object.values(DiaSemana),
+                required: true,
+            },
+        ],
+    },
+    { _id: false }
+);
 
 const MedicoSchema = new mongoose.Schema({
     usuario:           { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true },
@@ -7,9 +24,7 @@ const MedicoSchema = new mongoose.Schema({
     especialidades:    [{ type: mongoose.Schema.Types.ObjectId, ref: "Especialidad" }],
     practicas:         [{ type: mongoose.Schema.Types.ObjectId, ref: "Practica" }],
     sedes:             [{ type: mongoose.Schema.Types.ObjectId, ref: "Sede" }],
-    // TODO join con Disponibilidades
-    //disponibilidades: [{ type: mongoose.Schema.Types.ObjectId, ref: "DisponibilidadHoraria" }]
-    disponibilidades:  [{ type: String }]
+    disponibilidades:  [DisponibilidadSchema],
 });
 
 // Virtual para exponer "id" en JSON (compatibilidad con dominio)
@@ -18,4 +33,5 @@ MedicoSchema.set("toJSON", { virtuals: true });
 MedicoSchema.set("toObject", { virtuals: true });
 
 // Evita errores por recompilar el modelo en hot-reload
-export default mongoose.models.Medico || mongoose.model("Medico", MedicoSchema);
+MedicoSchema.loadClass(Medico);
+export const MedicoModel = mongoose.model("Medico", MedicoSchema);

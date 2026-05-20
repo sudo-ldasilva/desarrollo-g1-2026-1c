@@ -1,8 +1,8 @@
-import "./especialidadSchema.js";
-import "./medicoSchema.js";
-import "./pacienteSchema.js";
-import "./turnoSchema.js";
-import "./sedeSchema.js";
-import "./practicaSchema.js";
-import "./usuarioSchema.js";
-import "./notificacionSchema.js";
+import "./EspecialidadModel.js";
+import "./MedicoModel.js";
+import "./PacienteModel.js";
+import "./TurnoModel.js";
+import "./SedeModel.js";
+import "./PracticaModel.js";
+import "./UsuarioModel.js";
+import "./NotificacionModel.js";

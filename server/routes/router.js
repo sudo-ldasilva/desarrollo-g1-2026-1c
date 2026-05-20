@@ -10,4 +10,5 @@ router.use("/health", healthRouter);
 router.use("/medicos", medicoRouter);
 router.use("/turnos", turnosRouter);
 router.use("/notificaciones", notificacionesRouter);
+
 export default router;

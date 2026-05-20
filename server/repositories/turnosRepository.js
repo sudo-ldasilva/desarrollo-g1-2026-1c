@@ -1,9 +1,9 @@
-import {TurnoModel} from "../models/turnoSchema.js";
+import {TurnoModel} from "../models/TurnoModel.js";
 
 export default class TurnosRepository {
     constructor() {
         this.model = TurnoModel;
-    } 
+    }
 
     async buscarPaginado(filtros, paginacion, ordenamiento) {
         const page = paginacion.page;
@@ -48,7 +48,7 @@ export default class TurnosRepository {
     async actualizar(turnoDocument){
         return await turnoDocument.save();
     }
-    
+
     async buscarPorUsuario(pacienteId, page, limit) {
         const skip = (page - 1) * limit;
 
@@ -85,7 +85,7 @@ function armarQuery(filtros) {
     if (filtros.especialidad) {
         query.servicio = filtros.especialidad;
     }
-        
+
     if (filtros.practica) {
         query.practica = filtros.practica;
     }

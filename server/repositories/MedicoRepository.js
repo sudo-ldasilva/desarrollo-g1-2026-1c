@@ -1,4 +1,4 @@
-import MedicoModel from "../models/MedicoModel.js";
+import { MedicoModel } from "../models/MedicoModel.js";
 import { NotFoundError, BadRequestError } from "../errors/AppError.js";
 import mongoose from "mongoose";
 

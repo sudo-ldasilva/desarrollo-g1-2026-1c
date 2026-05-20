@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 import Turno from "../domain/Turno.js";
 
 const TurnoSchema = new mongoose.Schema({
-    fechaHora:{ type: Date },
+    fechaHora: { type: Date },
     medico: {
         type:mongoose.Schema.Types.ObjectId,
         ref: "Medico",
         required: true
     },
-    
+
     paciente: {
         type:mongoose.Schema.Types.ObjectId,
         ref: "Paciente"
@@ -33,19 +33,19 @@ const TurnoSchema = new mongoose.Schema({
     },
 
     estado: {
-        type: String, 
-        enum: [ "DISPONIBLE", "RESERVADO", "CONFIRMADO", "CANCELADO", "REALIZADO", "PENDIENTE_REPROGRAMACION"], 
+        type: String,
+        enum: [ "DISPONIBLE", "RESERVADO", "CONFIRMADO", "CANCELADO", "REALIZADO", "PENDIENTE_REPROGRAMACION"],
         default: "DISPONIBLE"
     },
 
     historialEstados: [{
         fechaIngreso: { type: Date, default: Date.now },
-        estado: { type: String },
-        usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
-        motivo: { type: String }
+        estado:       { type: String },
+        usuario:      { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" },
+        motivo:       { type: String }
     }],
 
-    costo: {type: Number}    
+    costo: {type: Number}
 });
 
 TurnoSchema.loadClass(Turno);

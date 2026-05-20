@@ -16,6 +16,7 @@ export const connectDB = async () => {
 
             mongoServer = await MongoMemoryServer.create({
                 instance: {
+                    port: 27017,
                     dbPath: dataDir
                 }
             });
