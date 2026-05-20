@@ -11,8 +11,12 @@ export class Medico {
         this.disponibilidades = [];
     }
 
-    definirDisponibilidad(disponibilidad){
+    agregarDisponibilidad(disponibilidad){
         this.disponibilidades.push(disponibilidad);
+    }
+
+    eliminarDisponibilidad(disponibilidad){
+        this.disponibilidades = this.disponibilidades.filter( (e) => e !== disponibilidad);
     }
 
     definirEspecialidad(especialidad) {

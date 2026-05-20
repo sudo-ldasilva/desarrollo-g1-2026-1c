@@ -135,7 +135,7 @@ describe("Sweet Medical - Tests de Servicios y Dominio (Medicos)", () => {
         test("debe gestionar disponibilidades mediante getter y metodo setter", () => {
             const dispLunes = { dia: "LUNES", horaDesde: "09:00", horaHasta: "14:00" };
 
-            medico.definirDisponibilidad(dispLunes);
+            medico.agregarDisponibilidad(dispLunes);
 
             // Verificamos el getter y la acumulación en el array privado
             expect(medico.disponibilidades).toContain(dispLunes);
