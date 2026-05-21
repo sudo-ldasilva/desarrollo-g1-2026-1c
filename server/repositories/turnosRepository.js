@@ -65,8 +65,10 @@ export default class TurnosRepository {
         const total = await this.model.countDocuments({ paciente: pacienteId });
 
         return {
-            data: turnos.map(t => turnoToDTO(t)),
-            paginacion: { total, limite: limit, pagina: page }
+            turnos: turnos,
+            total, 
+            page,
+            totalPages: Math.ceil(total / limit)
         };
     }
 

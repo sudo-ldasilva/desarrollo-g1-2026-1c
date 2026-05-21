@@ -48,18 +48,40 @@ export default class TurnosService{
         return dto;
     }
 
-    async listarHistorialPaciente(usuarioId, page, limit) {
+    async turnosPorUsuario(usuarioId, pagina, limit) {
         const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
 
         if(!paciente) {
             throw new NotFoundError("No se encuentra usuario paciente");
         }
 
-        return await this.turnosRepository.buscarPorPaciente(paciente._id, page, limit);
+        const { turnos, total, page, totalPages} =
+        await this.turnosRepository.buscarPorPaciente(paciente._id, pagina, limit);
+
+        return {
+            turnos: turnos.map(t => turnoToDTO(t)),
+            total,
+            page,
+            totalPages,
+        };
     }
 
-    async buscarHistorialPorPaciente(pacienteId, paginacion) {
-        return await this.turnosRepository.buscarPorPaciente(pacienteId, paginacion.page, paginacion.limit);
+    async turnosPorPaciente(pacienteId, pagina, limit) {
+        const paciente = await this.pacientesRepository.findById(pacienteId);
+
+        if(!paciente) {
+            throw new NotFoundError("No se encuentra usuario paciente");
+        }
+
+        const { turnos, total, page, totalPages} =
+        await this.turnosRepository.buscarPorPaciente(paciente._id, pagina, limit);
+
+        return {
+            turnos: turnos.map(t => turnoToDTO(t)),
+            total,
+            page,
+            totalPages,
+        };
     }
 
 }

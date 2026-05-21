@@ -8,4 +8,8 @@ export default class PacientesRepository {
     async buscarPorUsuarioId(usuarioId) {
         return await this.model.findOne({ usuario: usuarioId }).populate("plan");
     }
+
+    async findById(pacienteId) {
+        return await this.model.findById(pacienteId);
+    }
 }

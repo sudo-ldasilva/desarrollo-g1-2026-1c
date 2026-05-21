@@ -24,7 +24,7 @@ export default class TurnosController {
             
             const { page, limit } = req.validated.query;
 
-            const historial = await this.turnosService.listarHistorialPaciente(usuarioId, page, limit);
+            const historial = await this.turnosService.turnosPorUsuario(usuarioId, page, limit);
 
             res.status(200).json({
                 status: "success",
@@ -73,7 +73,7 @@ export default class TurnosController {
             const { page, limit } = req.validated?.query || req.query;
             const paginacion = { page: Number(page) || 1, limit: Number(limit) || 10 };
     
-            const historial = await this.turnosService.buscarHistorialPorPaciente(pacienteId, paginacion);
+            const historial = await this.turnosService.turnosPorPaciente(pacienteId, paginacion.page, paginacion.limit);
             res.json(historial);
         } catch (error) {
             next(error);
