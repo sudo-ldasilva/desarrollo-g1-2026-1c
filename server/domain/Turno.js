@@ -41,7 +41,7 @@ class Turno {
         this.estado = nuevoEstado;
 
         const factoryNotificacion = new FactoryNotificacion();
-        const notificacion = factoryNotificacion.crearSegunEstadoTurno(this);
+        const notificacion = factoryNotificacion.crearSegunEstadoTurno(this, quien);
 
         return notificacion; // TODO Qué hacer con la notificación? Como se la pueda enviar al medico y/o al paciente?
     }

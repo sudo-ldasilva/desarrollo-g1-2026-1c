@@ -2,20 +2,14 @@ import { EstadoTurno } from "./EstadoTurno.js";
 import { Notificacion } from "./Notificacion.js";
 
 class FactoryNotificacion {
-    crearSegunEstadoTurno(turno) {
-        // TODO Está bien?
+    crearSegunEstadoTurno(turno, quien) {
+        
         switch (turno.estado) {
-        case EstadoTurno.DISPONIBLE:
-            return new Notificacion({
-                destinatario: turno.paciente.usuario,
-                remitente: turno.medico.usuario,
-                mensaje: "El turno está disponible "
-            });
 
         case EstadoTurno.RESERVADO:
             return new Notificacion({
-                destinatario: turno.paciente.usuario,
-                remitente: turno.medico.usuario,
+                destinatario: turno.medico.usuario,
+                remitente: turno.paciente.usuario,
                 mensaje: "El paciente " + turno.paciente.nombre + " solicito el servicio " + turno.servicio.nombre,
             });
 
@@ -23,21 +17,31 @@ class FactoryNotificacion {
             return new Notificacion({
                 destinatario: turno.paciente.usuario,
                 remitente: turno.medico.usuario,
-                mensaje: "El paciente " + turno.paciente.nombre + " confirmo el servicio " + turno.servicio.nombre,
+                mensaje: turno.paciente.nombre + ", el turno para  " + turno.servicio.nombre + 
+                " a las " + turno.fechaHora + " fue confirmado",
             });
 
-        case EstadoTurno.CANCELADO:
+        case EstadoTurno.CANCELADO: {
+            const canceloPaciente = quien == turno.paciente.usuario._id;
+
             return new Notificacion({
-                destinatario: turno.paciente.usuario,
-                remitente: turno.medico.usuario,
-                mensaje: "El paciente " + turno.paciente.nombre + " cancelo el servicio " + turno.servicio.nombre,
-            });
 
+                destinatario: canceloPaciente
+                    ? turno.medico.usuario
+                    : turno.paciente.usuario,
+
+                remitente: quien,
+
+                mensaje: canceloPaciente
+                    ? `El paciente ${turno.paciente.nombre} canceló el turno`
+                    : `El médico ${turno.medico.nombre} canceló el turno`
+            });
+        }
         case EstadoTurno.REALIZADO:
             return new Notificacion({
                 destinatario: turno.paciente.usuario,
                 remitente: turno.medico.usuario,
-                mensaje: "El servicio " + turno.servicio.nombre + " está realizado.",
+                mensaje: "El turno para servicio " + turno.servicio.nombre + " está realizado.",
             });
         
         case EstadoTurno.PENDIENTE_REPROGRAMACION:
