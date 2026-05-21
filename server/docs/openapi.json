@@ -97,6 +97,21 @@
             "schema": { "type": "string" }
           },
           {
+            "name": "estado",
+            "in": "query",
+            "description": "Filtro por estado del turno.",
+            "schema": {
+              "type": "string",
+              "enum": ["DISPONIBLE", "RESERVADO", "CONFIRMADO", "CANCELADO", "REALIZADO", "PENDIENTE_REPROGRAMACION"]
+            }
+          },
+          {
+            "name": "pacienteId",
+            "in": "query",
+            "description": "ID del paciente para calcular cobertura y filtros específicos.",
+            "schema": { "type": "string" }
+          },
+          {
             "name": "fechaInicio",
             "in": "query",
             "description": "Fecha inicial para buscar turnos (ISO 8601).",
@@ -129,14 +144,27 @@
         "tags": ["Turnos"],
         "summary": "Listar los turnos del usuario autenticado",
         "description": "Devuelve los turnos asociados al usuario autenticado.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página de resultados.",
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de resultados por página (máximo 25).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 25, "default": 10 }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de turnos del usuario obtenida correctamente.",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": { "$ref": "#/components/schemas/Turno" }
+                  "$ref": "#/components/schemas/TurnosUsuarioResponse"
                 }
               }
             }
@@ -186,6 +214,110 @@
           },
           "400": { "$ref": "#/components/responses/BadRequest" },
           "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/turnos/pacientes/{pacienteId}/historial": {
+      "get": {
+        "tags": ["Turnos"],
+        "summary": "Listar historial de turnos de un paciente",
+        "description": "Devuelve el historial de turnos del paciente indicado.",
+        "parameters": [
+          {
+            "name": "pacienteId",
+            "in": "path",
+            "required": true,
+            "description": "ID del paciente cuyo historial de turnos se desea consultar.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número de página de resultados.",
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Cantidad de resultados por página (máximo 25).",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 25, "default": 10 }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Ordenamiento de resultados. Ejemplo: fechaHora:desc,costo:asc.",
+            "schema": { "type": "string", "example": "fechaHora:desc,costo:asc" }
+          },
+          {
+            "name": "medico",
+            "in": "query",
+            "description": "Filtro por ID del médico.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "sede",
+            "in": "query",
+            "description": "Filtro por ID de la sede.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "practica",
+            "in": "query",
+            "description": "Filtro por ID de la práctica.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "especialidad",
+            "in": "query",
+            "description": "Filtro por ID de la especialidad.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "fechaInicio",
+            "in": "query",
+            "description": "Fecha inicial para buscar turnos (ISO 8601).",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "fechaFin",
+            "in": "query",
+            "description": "Fecha final para buscar turnos (ISO 8601).",
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial de turnos del paciente obtenido correctamente.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TurnosHistorialPacienteResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/medicos/batch-generar": {
+      "post": {
+        "tags": ["Médicos"],
+        "summary": "Generar turnos en batch para médicos",
+        "description": "Ejecuta la generación masiva de turnos para los médicos configurados.",
+        "responses": {
+          "200": {
+            "description": "Generación de turnos en batch ejecutada correctamente.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "data": { "type": "object", "description": "Resultado del proceso de generación." }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -545,6 +677,48 @@
         }
       },
       "required": ["turnos", "total", "page", "totalPages", "sort"]
+    },
+    "TurnosUsuarioResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "success"
+        },
+        "data": {
+          "type": "array",
+          "items": { "$ref": "#/components/schemas/Turno" }
+        },
+        "paginacion": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer" },
+            "limite": { "type": "integer" },
+            "pagina": { "type": "integer" }
+          },
+          "required": ["total", "limite", "pagina"]
+        }
+      },
+      "required": ["status", "data", "paginacion"]
+    },
+    "TurnosHistorialPacienteResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": { "$ref": "#/components/schemas/Turno" }
+        },
+        "paginacion": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer" },
+            "limite": { "type": "integer" },
+            "pagina": { "type": "integer" }
+          },
+          "required": ["total", "limite", "pagina"]
+        }
+      },
+      "required": ["data", "paginacion"]
     },
     "Notificacion": {
       "type": "object",

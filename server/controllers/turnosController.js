@@ -76,7 +76,7 @@ export default class TurnosController {
             const historial = await this.turnosService.buscarHistorialPorPaciente(pacienteId, paginacion);
             res.json(historial);
         } catch (error) {
-        next(error);
-    }
-};
+            next(error);
+        }
+    };
 }

@@ -25,7 +25,7 @@ turnosRouter
 // Tambien podria ir en pacientesRoutes. Pero como el pacienteId actua
 // como filtro/contexto, y no como recurso principal, lo dejo aca.
 turnosRouter
-  .route("/pacientes/:pacienteId/historial")
-  .get(validate(turnosQuerySchema, "query"), turnosController.buscarHistorialPaciente);
+    .route("/pacientes/:pacienteId/historial")
+    .get(validate(turnosQuerySchema, "query"), turnosController.buscarHistorialPaciente);
 
 export default turnosRouter;
