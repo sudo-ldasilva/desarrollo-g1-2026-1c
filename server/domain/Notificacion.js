@@ -3,7 +3,7 @@ export class Notificacion {
         this.destinatario = destinatario;
         this.remitente = remitente;
         this.mensaje = mensaje;
-        this.fechaHoraCreacion = new Date(Date.now());
+        this.fechaHoraCreacion = new Date();
         this.leida = false;
         this.fechaHoraLeida = null;
     }
@@ -14,6 +14,6 @@ export class Notificacion {
         }
 
         this.leida = true;
-        this.fechaHoraLeida = new Date(Date.now());
+        this.fechaHoraLeida = new Date();
     }
 }

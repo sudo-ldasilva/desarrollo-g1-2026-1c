@@ -4,7 +4,7 @@ export default class NotificacionesRepository{
     constructor(){
         this.model = NotificacionModel;
     }
-    async desplegarNotificaciones(paginacion, filtros = {}){
+    async desplegarNotificaciones(usuarioId,paginacion, filtros = {}){
         const page = paginacion.page;
         const limit = paginacion.limit;
 
@@ -12,13 +12,14 @@ export default class NotificacionesRepository{
 
         const notificaciones =
             await this.model
+                .find({destinatario: usuarioId})
                 .find(filtros)
                 .populate("destinatario", "nombreUsuario")
                 .populate("remitente", "nombreUsuario")
                 .skip(skip)
                 .limit(limit);
 
-        const total = await this.model.countDocuments(filtros);
+        const total = await this.model.countDocuments({destinatario: usuarioId, ...filtros});
 
         return {
             notificaciones,
@@ -29,19 +30,24 @@ export default class NotificacionesRepository{
     }
 
     async obtenerPorId(id) {
-        return await NotificacionModel.findById(id)
+        return await this.model.findById(id)
             .populate("destinatario", "nombreUsuario")
             .populate("remitente", "nombreUsuario");
     }
 
 
     async actualizar(id, datos) {
-        return await NotificacionModel.findByIdAndUpdate(
+        return await this.model.findByIdAndUpdate(
             id,
             datos,
             { new: true, runValidators: true }
         );
     }
+
+    async guardar(notificacion) {
+        return await notificacion.save();
+    }
+
 
     async crear(notificacion) {
         return await this.model.create(notificacion);

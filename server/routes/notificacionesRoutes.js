@@ -10,7 +10,7 @@ const notificacionesRouter = express.Router();
 notificacionesRouter
     .route("/")
     .get(validate(notificacionesQuerySchema, "query"),
-        notificacionesController.desplegarNotificaciones);
+        (req, res, next) => notificacionesController.desplegarNotificaciones(req, res, next));
 
     
 notificacionesRouter
