@@ -49,14 +49,12 @@ export default class NotificacionesService{
         if(notificacion.leida) {
             throw new BadRequestError("La notificacion ya esta leida");
         }
-        
-        const datosParaActualizar = {
-            leida : true,
-            fechaHoraLeida: new Date()
-        };
-        const notificacionActualizada = await this.NotificacionesRepository.actualizar(id, datosParaActualizar);
 
-        return notificacionActualizada;
+        notificacion.marcarComoLeida();
+        
+        const notificacionActualizada = await this.NotificacionesRepository.guardar(notificacion);
+
+        return notificacionToDto(notificacionActualizada);
     }
 
 }

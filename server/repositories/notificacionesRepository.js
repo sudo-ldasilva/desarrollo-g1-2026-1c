@@ -30,19 +30,24 @@ export default class NotificacionesRepository{
     }
 
     async obtenerPorId(id) {
-        return await NotificacionModel.findById(id)
+        return await this.model.findById(id)
             .populate("destinatario", "nombreUsuario")
             .populate("remitente", "nombreUsuario");
     }
 
 
     async actualizar(id, datos) {
-        return await NotificacionModel.findByIdAndUpdate(
+        return await this.model.findByIdAndUpdate(
             id,
             datos,
             { new: true, runValidators: true }
         );
     }
+
+    async guardar(notificacion) {
+        return await notificacion.save();
+    }
+
 
     async crear(notificacion) {
         return await this.model.create(notificacion);
