@@ -27,6 +27,11 @@ export class MedicoRepository {
 
         this.validarFiltros(filtros);
 
+        const totalMedicos = await this.model.countDocuments(filtros);
+        if (totalMedicos <= skip) {
+            throw new BadRequestError("La pagina solicitada excede la cantidad de paginas totales");
+        }
+
         const medicos = await this.model
             .find(filtros)
             .skip(skip)
@@ -37,8 +42,6 @@ export class MedicoRepository {
             // .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // O también podríamos traer selectivamente
             // .populate('practicas', 'nombre codigo costo')
             // .populate('sedes', 'nombre direccion');
-
-        const totalMedicos = await this.model.countDocuments(filtros);
 
         return {
             medicos,

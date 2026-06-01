@@ -69,18 +69,12 @@ describe("Sweet Medical - Tests de Integración", () => {
             expect(response.body.paginacion.totalPaginas).toBe(5);
         });
 
-        // TODO No falla
-        // test("Debe retornar 400 si la pagina supera el limite", async () => {
-        //     const response = await request(app).get("/medicos?page=3");
-        //
-        //     expect(response.status).toBe(400);
-        //     expect(response.body.status).toBe("failed");
-        //     expect(response.body.data).toHaveLength(0);
-        //     expect(response.body.paginacion.numeroPagina).toBe(3);
-        //     expect(response.body.paginacion.limitePorPagina).toBe(5);
-        //     expect(response.body.paginacion.totalMedicos).toBe(10);
-        //     expect(response.body.paginacion.totalPaginas).toBe(2);
-        // });
+        test("Debe retornar 400 si la pagina supera el limite", async () => {
+            const response = await request(app).get("/medicos?page=3");
+
+            console.log(response);
+            expect(response.status).toBe(400);
+        });
     });
 
     describe("PATCH /medicos/{:id}", () => {
