@@ -8,7 +8,6 @@ export class MedicoRepository {
     }
 
     validarFiltros(filtros) {
-        console.log(filtros);
         if (filtros.especialidad !== undefined && !mongoose.isValidObjectId(filtros.especialidad)) {
             throw new BadRequestError(`En el filtro 'especialidad': '${filtros.especialidad} no es un ID válido.`);
         }

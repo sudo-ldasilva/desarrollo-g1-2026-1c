@@ -3,3 +3,4 @@
 
 # Base de datos local persistente de mongodb-memory-server
 .mongo-data/
+.mongo-data-tests/
