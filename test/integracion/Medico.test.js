@@ -1,118 +1,124 @@
 import request from "supertest";
-import { jest, describe, test, expect, beforeEach } from "@jest/globals";
+import { describe, test, expect, beforeEach, beforeAll, afterAll } from "@jest/globals";
 
-import { Medico } from "../../server/domain/Medico.js";
 import { buildTestApp } from "./utils/testApp.js";
-import { NotFoundError } from "../../server/errors/AppError.js";
+import { startTestDB, reloadTestData, disconnectTestDB } from "./utils/testDb.js";
 
 describe("Sweet Medical - Tests de Integración", () => {
     let app;
-    let medicoRepository;
 
-    beforeEach(() => {
-        medicoRepository = {
-            obtenerPaginados: jest.fn(),
-            findById: jest.fn(),
-            updateById: jest.fn(),
-        };
+    beforeAll(async () => {
+        await startTestDB();
+    });
 
-        app = buildTestApp(medicoRepository);
+    afterAll(async () => {
+        await disconnectTestDB();
+    });
+
+    beforeEach(async () => {
+        await reloadTestData();
+        app = buildTestApp();
     });
 
     describe("GET /medicos", () => {
-        test("Para una lista vacía de médicos debe retornar 200 con la lista de médicos vacía", async () => {
-            const medicosMock = [];
-
-            medicoRepository.obtenerPaginados.mockResolvedValue({
-                medicos: medicosMock,
-                totalMedicos: 0,
-            });
-
+        test("Debe retornar 200 con la lista de médicos paginada", async () => {
             const response = await request(app).get("/medicos");
 
             expect(response.status).toBe(200);
             expect(response.body.status).toBe("success");
-            expect(response.body.data).toHaveLength(0);
+            expect(response.body.data).toHaveLength(5);
             expect(response.body.paginacion.numeroPagina).toBe(1);
             expect(response.body.paginacion.limitePorPagina).toBe(5);
-            expect(response.body.paginacion.totalMedicos).toBe(0);
-            expect(response.body.paginacion.totalPaginas).toBe(0);
+            expect(response.body.paginacion.totalMedicos).toBe(10);
+            expect(response.body.paginacion.totalPaginas).toBe(2);
         });
 
-        test("Debe retornar 200 con la lista de médicos paginada", async () => {
-            const medicosMock = [
-                new Medico("Dr.House.1950", "123456", "House"),
-                new Medico("Rod.Rod", "123457", "Rodolfo"),
-            ];
-            medicosMock[0].id = 1;
-            medicosMock[1].id = 2;
+        test("Debe retornar 200 con la lista de médicos paginada, pagina = 2", async () => {
+            const response = await request(app).get("/medicos?page=2");
 
-            medicoRepository.obtenerPaginados.mockResolvedValue({
-                medicos: medicosMock,
-                totalMedicos: 2,
-            });
+            expect(response.status).toBe(200);
+            expect(response.body.status).toBe("success");
+            expect(response.body.data).toHaveLength(5);
+            expect(response.body.paginacion.numeroPagina).toBe(2);
+            expect(response.body.paginacion.limitePorPagina).toBe(5);
+            expect(response.body.paginacion.totalMedicos).toBe(10);
+            expect(response.body.paginacion.totalPaginas).toBe(2);
+        });
 
-            const response = await request(app).get("/medicos");
+        test("Debe retornar 200 con la lista de médicos paginada, limite = 2", async () => {
+            const response = await request(app).get("/medicos?limit=2");
 
             expect(response.status).toBe(200);
             expect(response.body.status).toBe("success");
             expect(response.body.data).toHaveLength(2);
             expect(response.body.paginacion.numeroPagina).toBe(1);
-            expect(response.body.paginacion.limitePorPagina).toBe(5);
-            expect(response.body.paginacion.totalMedicos).toBe(2);
-            expect(response.body.paginacion.totalPaginas).toBe(1);
+            expect(response.body.paginacion.limitePorPagina).toBe(2);
+            expect(response.body.paginacion.totalMedicos).toBe(10);
+            expect(response.body.paginacion.totalPaginas).toBe(5);
+        });
+
+        test("Debe retornar 200 con la lista de médicos paginada, pagina = 5, limite = 2", async () => {
+            const response = await request(app).get("/medicos?page=5&limit=2");
+
+            expect(response.status).toBe(200);
+            expect(response.body.status).toBe("success");
+            expect(response.body.data).toHaveLength(2);
+            expect(response.body.paginacion.numeroPagina).toBe(5);
+            expect(response.body.paginacion.limitePorPagina).toBe(2);
+            expect(response.body.paginacion.totalMedicos).toBe(10);
+            expect(response.body.paginacion.totalPaginas).toBe(5);
+        });
+
+        test("Debe retornar 400 si la pagina supera el limite", async () => {
+            const response = await request(app).get("/medicos?page=3");
+
+            console.log(response);
+            expect(response.status).toBe(400);
         });
     });
 
     describe("PATCH /medicos/{:id}", () => {
-        test("Si el medico no existe debe retornar 404", async () => {
-            const medicosMock = [
-                new Medico("Dr.House.1950", "123456", "House"),
-                new Medico("Rod.Rod", "123457", "Rodolfo"),
-            ];
-            medicosMock[0].id = 1;
-            medicosMock[1].id = 2;
-
-            medicoRepository.updateById.mockRejectedValue(
-                new NotFoundError("Médico no encontrado")
-            );
-
+        test("Si el ID del medico es invalido debe retornar 400", async () => {
             const json = {
-                "especialidades": ["id1", "id2"],
+                "especialidades": ["000000000000000000000001", "000000000000000000000002"],
             };
 
             const response = await request(app)
-                .patch("/medicos/3")
+                .patch("/medicos/858478")
+                .send(json);
+
+            expect(response.status).toBe(400);
+        });
+
+        test("Si el medico no existe debe retornar 404", async () => {
+            const json = {
+                "especialidades": ["000000000000000000000001", "000000000000000000000002"],
+            };
+
+            const response = await request(app)
+                .patch("/medicos/100000000000000000000000")
                 .send(json);
 
             expect(response.status).toBe(404);
         });
-    });
 
-    describe("PATCH /medicos/{:id}", () => {
-        test("Se pasan los atributos del médico a modificar y retorna 200", async () => {
-            const medicosMock = [
-                new Medico("Dr.House.1950", "123456", "House"),
-                new Medico("Rod.Rod", "123457", "Rodolfo"),
-            ];
-            medicosMock[0].id = 1;
-            medicosMock[1].id = 2;
-
-            const idEspecialidades = ["idEsp1", "idEsp2"];
-            const json = { "especialidades": idEspecialidades };
-            const medicoActualizado = medicosMock[0];
-            medicoActualizado.especilidades = idEspecialidades;
-
-            medicoRepository.updateById.mockResolvedValue(
-                medicoActualizado
-            );
+        test("Debe retornar 200 al modificar la especialidad del médico", async () => {
+            const id = "500000000000000000000003";
+            const json = {
+                "especialidades": ["000000000000000000000001", "000000000000000000000002"],
+            };
 
             const response = await request(app)
-                .patch("/medicos/1")
+                .patch(`/medicos/${id}`)
                 .send(json);
 
+            // Para comprobar si el resto de los campos se mantienen igual luego del post
+            // Lo comento para que el test sea independiente de get by id
+            // const medico = await request(app).get(`/medicos/${id}`);
+            // const medicoActualizado = medico; medicoActualizado.especialidades = json["especialidades"];
+
             expect(response.status).toBe(200);
-            expect(response.body).toEqual(medicoActualizado);
+            expect(response.body.especialidades).toEqual(json["especialidades"]);
         });
     });
 });
