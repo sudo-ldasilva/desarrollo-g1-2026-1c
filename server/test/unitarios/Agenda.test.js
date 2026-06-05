@@ -1,8 +1,8 @@
 import { describe, beforeEach, test, expect, jest } from "@jest/globals";
-import { Agenda } from "../../server/domain/Agenda.js";
-import { DiaSemana } from "../../server/domain/DiaSemana.js";
-import { EstadoTurno } from "../../server/domain/EstadoTurno.js";
-import DisponibilidadHoraria from "../../server/domain/DisponibilidadHoraria.js";
+import { Agenda } from "../../domain/Agenda.js";
+import { DiaSemana } from "../../domain/DiaSemana.js";
+import { EstadoTurno } from "../../domain/EstadoTurno.js";
+import DisponibilidadHoraria from "../../domain/DisponibilidadHoraria.js";
 
 describe("Agenda", () => {
 
