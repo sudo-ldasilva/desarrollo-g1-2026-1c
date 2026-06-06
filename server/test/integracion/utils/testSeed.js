@@ -1,4 +1,3 @@
-// server/config/seed.js
 // Crea usuarios, médicos, pacientes, especialidades, turnos, etc
 // Facilita enormemente el testing porque todos trabajamos sobre los mismos datos
 
@@ -7,14 +6,14 @@
 
 // Importar modelos registrados en Mongoose
 import mongoose from "mongoose";
-import {EspecialidadModel} from "../../../server/models/EspecialidadModel.js";
-import {MedicoModel} from "../../../server/models/MedicoModel.js";
-import {NotificacionModel} from "../../../server/models/NotificacionModel.js";
-import {PacienteModel} from "../../../server/models/PacienteModel.js";
-import {PracticaModel} from "../../../server/models/PracticaModel.js";
-import {SedeModel} from "../../../server/models/SedeModel.js";
-import {TurnoModel} from "../../../server/models/TurnoModel.js";
-import {UsuarioModel} from "../../../server/models/UsuarioModel.js";
+import {EspecialidadModel} from "../../../models/EspecialidadModel.js";
+import {MedicoModel} from "../../../models/MedicoModel.js";
+import {NotificacionModel} from "../../../models/NotificacionModel.js";
+import {PacienteModel} from "../../../models/PacienteModel.js";
+import {PracticaModel} from "../../../models/PracticaModel.js";
+import {SedeModel} from "../../../models/SedeModel.js";
+import {TurnoModel} from "../../../models/TurnoModel.js";
+import {UsuarioModel} from "../../../models/UsuarioModel.js";
 import dotenv from "dotenv";
 dotenv.config();
 

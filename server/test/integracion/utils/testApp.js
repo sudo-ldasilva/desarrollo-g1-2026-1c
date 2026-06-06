@@ -1,7 +1,7 @@
 import express from "express";
 
-import { MedicoController } from "../../../server/controllers/MedicoController.js";
-import { MedicoService } from "../../../server/services/MedicoService.js";
+import { MedicoController } from "../../../controllers/MedicoController.js";
+import { MedicoService } from "../../../services/MedicoService.js";
 
 export function buildTestApp(medicoRepository) {
     const medicoService = new MedicoService({medicoRepository});

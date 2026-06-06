@@ -13,6 +13,8 @@ import "./models/PracticaModel.js";
 // import "./DisponibilidadHorariaModel.js"; se descomenta cuando esten andando
 
 dotenv.config();
+
+// Si process.env.PORT no viene (por si falla algo más), le dejamos el 3000 por defecto para que no explote
 const port = process.env.PORT;
 
 connectDB().then(() => {
