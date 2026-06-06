@@ -9,46 +9,16 @@ import './CalendarioMensualTurnos.css';
 const CalendarioMensualTurnos = (props) => {
     const startDate = "2024/02/13"
     const turnos = [
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 15),
-            color: 'brown',
-        },
-        {
-            date: new Date(2024, 1, 20),
-            color: 'blue',
-        },
-        {
-            date: new Date(2024, 1, 27),
-            color: 'green',
-        },
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 15),
+        new Date(2024, 1, 20),
+        new Date(2024, 1, 27),
     ]
 
     return (
@@ -68,25 +38,30 @@ const CalendarioMensualTurnos = (props) => {
                         const isInCurrentMonth = !!meta?.isInCurrentMonth
                         const dateParsed=date.toLocaleDateString('en-US', { day: '2-digit' })
 
-                        const turnosDelDia = turnos.filter( (turno) => turno.date.getTime() === date.getTime() )
+                        const turnosDelDia = turnos.filter( (turno) => turno.getTime() === date.getTime() )
+                        const hayTurnos = turnosDelDia.length > 0
                         return (
                             <div className="py-1">
-                                <div>{dateParsed}</div>
+                                <div style={{fontSize:"1.2rem"}}>{dateParsed}</div>
 
                                 <div className="day">
-                                    {
-                                        turnosDelDia.map( (turno) => (
-                                            <div
-                                                // className={ isSelected ? 'text-reset' : true && !isInCurrentMonth ? 'text-body-tertiary opacity-75' : 'text-body-tertiary'}
-                                                style={{
-                                                    fontSize: '1rem',
-                                                    color: turno ? turno.color : "transparent"
-                                                }}
-                                            >
-                                                •
-                                            </div>
-                                        ))
-                                    }
+                                    <div
+                                        // className={ isSelected ? 'text-reset' : true && !isInCurrentMonth ? 'text-body-tertiary opacity-75' : 'text-body-tertiary'}
+                                        style={{
+                                            fontSize: '0.75rem',
+                                            color: "white",
+                                            width: '1.5rem',
+                                            height: '1.5rem',
+                                            display: "flex",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                            backgroundColor: hayTurnos ? "red" : undefined,
+                                            borderRadius: hayTurnos ? "50%" : undefined,
+                                            border: hayTurnos ? "1px solid white" : undefined,
+                                        }}
+                                    >
+                                        {hayTurnos != 0 ? turnosDelDia.length : ""}
+                                    </div>
                                 </div>
                             </div>
                         )
