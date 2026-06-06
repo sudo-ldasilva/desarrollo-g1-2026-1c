@@ -7,6 +7,7 @@ const ConfirmarPreseleccion = (props) => {
     return (
         <Card sx={{
             width: "100%",
+            height: "fit-content",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -24,7 +25,7 @@ const ConfirmarPreseleccion = (props) => {
 
         <Button
             style={{
-                width: "100%",
+                margin: "1rem",
             }}
             variant="contained"
         >
