@@ -1,0 +1,15 @@
+@import "../../index.css";
+
+.EstadisticaTurnos_title {
+    color: var(--texto-oscuro);
+    font-size: 0.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.EstadisticaTurnos_content {
+    color: var(--rojo-principal);
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+}

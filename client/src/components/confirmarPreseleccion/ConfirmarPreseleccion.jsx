@@ -1,33 +1,9 @@
 import { Card, CardHeader, CardContent, Button } from '@mui/material';
-import TurnoPreseleccion from '../turnoPreseleccion/TurnoPreseleccion.jsx';
+import TurnoInfo from '../turnoInfo/TurnoInfo.jsx';
 
 import './ConfirmarPreseleccion.css';
 
-const ConfirmarPreseleccion = () => {
-    const turnos = [
-        {
-            servicio: "Dermatologia",
-            medico: "Dr. Gomez",
-            sede: "Palermo",
-            cobertura: "Cubierto Totalmente",
-            fechaHora: "15/6/2026 - 11:30 a. m. hs"
-        },
-        {
-            servicio: "Cardiologia",
-            medico: "Dr. Gomez",
-            sede: "Palermo",
-            cobertura: "Cubierto Totalmente",
-            fechaHora: "15/6/2026 - 11:30 a. m. hs"
-        },
-        {
-            servicio: "Oftalmologia",
-            medico: "Dr. Gomez",
-            sede: "Palermo",
-            cobertura: "Cubierto Totalmente",
-            fechaHora: "15/6/2026 - 11:30 a. m. hs"
-        },
-    ]
-
+const ConfirmarPreseleccion = (props) => {
     return (
         <Card sx={{
             width: "100%",
@@ -37,10 +13,10 @@ const ConfirmarPreseleccion = () => {
         }}>
             <div>
                 <CardHeader title="Confirmar Pre-selección"></CardHeader>
-                <CardContent>
+                <CardContent className="ConfirmarPreseleccion_turnos">
                     {
-                        turnos.map( (turno) => (
-                            <TurnoPreseleccion turno={turno} />
+                        props.turnosPreseleccionados.map( (turno) => (
+                            <TurnoInfo turno={turno} />
                         ))
                     }
                 </CardContent>

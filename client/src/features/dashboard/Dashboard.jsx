@@ -5,11 +5,10 @@ import ProximosTurnos from '../../components/proximosTurnos/ProximosTurnos.jsx';
 import ConfirmarPreseleccion from '../../components/confirmarPreseleccion/ConfirmarPreseleccion.jsx';
 import './Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     return (
-        <>
-            <p>Dashboard</p>
-            <EstadisticaTurnos />
+        <div className="content">
+            <EstadisticaTurnos className="estadisticas" />
             <Box
               sx={{
                 width: "100%",
@@ -17,10 +16,10 @@ const Dashboard = () => {
                 gap: 5,
               }}
             >
-                <ProximosTurnos />
-                <ConfirmarPreseleccion />
+                <ProximosTurnos turnos={props.turnos} />
+                <ConfirmarPreseleccion turnosPreseleccionados={props.turnosPreseleccionados} />
             </Box>
-        </>
+        </div>
     )
 };
 
