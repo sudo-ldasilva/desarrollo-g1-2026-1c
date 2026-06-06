@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 
 import EstadisticaTurnos from '../../components/estadisticaTurnos/EstadisticaTurnos.jsx';
 import ProximosTurnos from '../../components/proximosTurnos/ProximosTurnos.jsx';
-import ConfirmarCarrito from '../../components/confirmarCarrito/ConfirmarCarrito.jsx';
+import ConfirmarPreseleccion from '../../components/confirmarPreseleccion/ConfirmarPreseleccion.jsx';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -18,7 +18,7 @@ const Dashboard = () => {
               }}
             >
                 <ProximosTurnos />
-                <ConfirmarCarrito />
+                <ConfirmarPreseleccion />
             </Box>
         </>
     )
