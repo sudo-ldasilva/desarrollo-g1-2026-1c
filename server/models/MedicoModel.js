@@ -34,4 +34,4 @@ MedicoSchema.set("toObject", { virtuals: true });
 
 // Evita errores por recompilar el modelo en hot-reload
 MedicoSchema.loadClass(Medico);
-export const MedicoModel = mongoose.model("Medico", MedicoSchema);
+export const MedicoModel = mongoose.model("Medico", MedicoSchema, "medicos");

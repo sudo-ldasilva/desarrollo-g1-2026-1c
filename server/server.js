@@ -20,9 +20,9 @@ const port = process.env.PORT;
 connectDB().then(() => {
     app.listen(port, () => {
         const urlBase = `http://localhost:${port}`;
-        console.log(`Servidor conectado en: \t${urlBase}`);
-        console.log(`Health check en: \t${urlBase}/health`);
-        console.log(`Documentacion API REST en: \t${urlBase}/api-docs`);
+        console.log(`Servidor conectado en:\t${urlBase}`);
+        console.log(`Health check en:\t${urlBase}/health`);
+        console.log(`Documentacion API REST:\t${urlBase}/api-docs`);
     });
 });
 
