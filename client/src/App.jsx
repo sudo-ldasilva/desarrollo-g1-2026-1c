@@ -1,26 +1,24 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import Dashboard from "./features/dashboard/Dashboard.jsx"
-import MisTurnos from './features/MisTurnos/MisTurnos.jsx';
+import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx"
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#c90e31'
+    palette: {
+        primary: {
+            main: '#c90e31'
+        }
+    },
+    typography: {
+        fontFamily: "'Poppins', sans-serif"
     }
-  },
-  typography: {
-    fontFamily: "'Poppins', sans-serif"
-  }
 });
 
 function App() {
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Dashboard />
-      <MisTurnos />
-    </ThemeProvider>
-  );
+    return (
+        <ThemeProvider theme={theme}>
+            <EntornoUsuario />
+        </ThemeProvider>
+    );
 }
 
 export default App;
