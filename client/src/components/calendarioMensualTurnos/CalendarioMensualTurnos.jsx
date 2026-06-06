@@ -23,7 +23,7 @@ const CalendarioMensualTurnos = (props) => {
                     // Fuente: https://coreui.io/react/docs/components/calendar/#custom-cell-rendering
 
                     // const isSelected = !!meta?.isSelected
-                    const isInCurrentMonth = !!meta?.isInCurrentMonth
+                    // const isInCurrentMonth = !!meta?.isInCurrentMonth
                     const dateParsed=date.toLocaleDateString('en-US', { day: '2-digit' })
 
                     const turnosDelDia = turnos.filter( (turno) => turno.fechaHora.setHours(0,0,0,0) === date.getTime())
@@ -48,7 +48,7 @@ const CalendarioMensualTurnos = (props) => {
                                         border: hayTurnos ? "1px solid white" : undefined,
                                     }}
                                 >
-                                    {hayTurnos != 0 ? turnosDelDia.length : ""}
+                                    {hayTurnos ? turnosDelDia.length : ""}
                                 </div>
                             </div>
                         </div>
