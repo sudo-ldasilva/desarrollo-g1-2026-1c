@@ -1,0 +1,21 @@
+.calendar {
+    width: 100%;
+    --cui-calendar-cell-selected-bg: red;
+    /* --cui-calendar-cell-selected-color: gray; */
+}
+
+.calendar table {
+    width: 100%;
+}
+
+.calendar-cell.selected:not(th) .calendar-cell-inner {
+    background: green;
+}
+
+.day {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    /* min-height: 1rem; */
+    justify-content: center;
+}

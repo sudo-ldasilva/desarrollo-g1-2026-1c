@@ -17,6 +17,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Dashboard />
       <MisTurnos />
     </ThemeProvider>
   );
