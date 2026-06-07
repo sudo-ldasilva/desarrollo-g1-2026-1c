@@ -5,21 +5,57 @@ import { CardHeader, CardContent, Box, Card, Skeleton } from '@mui/material';
 import './EstadisticaTurnos.css';
 
 const EstadisticaTurnos = ({className, turnos}) => {
-    // Dentro de valor tendríamos que usar variables que se creen con
-    // useState, y setHook para que se actualize EstadisticaTurnos
-    //
-    // Dentro de cada card debe de haber una funcion que se encargue
-    // de calcular las estadísticas
+    const hoy = new Date()
+
     const cards = [
-        { titulo: "Proximos Turnos esta semana", valor: -1},
-        { titulo: "Proximos Turnos este mes", valor: -1},
-        { titulo: "Turnos del ultimo mes", valor: -1},
-        { titulo: "Turnos realizados", valor: -1},
+        {
+            titulo: "Turnos de los próximos 7 días",
+            obtenerValor: () => {
+                const limite = new Date()
+                limite.setDate(hoy.getDate() + 7)
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= limite ).length
+            }
+        },
+        {
+            titulo: "Proximos Turnos este mes",
+            obtenerValor: () => {
+                const finDeMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() + 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                ).length;
+            }
+        },
+        {
+            titulo: "Turnos del ultimo mes",
+            obtenerValor: () => {
+                const finDeMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() - 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                ).length;
+            }
+        },
+        {
+            titulo: "Turnos realizados",
+            obtenerValor: () => turnos.filter( (turno) => turno.fechaHora < hoy).length
+        },
     ]
 
-    useEffect(() => {
-        // TODO Actualiza estadisticas de las cards
-    }, [turnos])
+    useEffect(() => { }, [turnos])
 
     return (
         <Box
@@ -33,10 +69,10 @@ const EstadisticaTurnos = ({className, turnos}) => {
             {
                 turnos.length !== 0 ?
                 (
-                    cards.map(({titulo, valor}) => (
+                    cards.map(({titulo, obtenerValor}) => (
                         <Card key={titulo} sx={{width: "100%"}}>
                             <CardHeader className="EstadisticaTurnos_title" title={titulo}></CardHeader>
-                            <CardContent className="EstadisticaTurnos_content">{valor}</CardContent>
+                            <CardContent className="EstadisticaTurnos_content">{obtenerValor()}</CardContent>
                         </Card>
                     ))
                 ) : (
