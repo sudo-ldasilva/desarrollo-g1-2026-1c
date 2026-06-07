@@ -1,33 +1,85 @@
 // import CardActions from '@mui/material/CardActions';
-import { CardHeader, CardContent, Box, Card } from '@mui/material';
+import {useEffect} from 'react'
+import { CardHeader, CardContent, Box, Card, Skeleton } from '@mui/material';
 
 import './EstadisticaTurnos.css';
 
-const EstadisticaTurnos = () => {
-    // Dentro de valor tendríamos que usar variables que se creen con
-    // useState, y setHook para que se actualize EstadisticaTurnos
+const EstadisticaTurnos = ({className, turnos}) => {
+    const hoy = new Date()
+
     const cards = [
-        { titulo: "Proximos Turnos esta semana", valor: 2},
-        { titulo: "Proximos Turnos este mes", valor: 15},
-        { titulo: "Turnos del ultimo mes", valor: 50},
-        { titulo: "Turnos realizados", valor: 1150},
+        {
+            titulo: "Turnos de los próximos 7 días",
+            obtenerValor: () => {
+                const limite = new Date()
+                limite.setDate(hoy.getDate() + 7)
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= limite ).length
+            }
+        },
+        {
+            titulo: "Proximos Turnos este mes",
+            obtenerValor: () => {
+                const finDeMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() + 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                ).length;
+            }
+        },
+        {
+            titulo: "Turnos del ultimo mes",
+            obtenerValor: () => {
+                const finDeMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() - 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
+
+                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                ).length;
+            }
+        },
+        {
+            titulo: "Turnos realizados",
+            obtenerValor: () => turnos.filter( (turno) => turno.fechaHora < hoy).length
+        },
     ]
+
+    useEffect(() => { }, [turnos])
 
     return (
         <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            gap: 5,
-          }}
+            sx={{
+                width: "100%",
+                display: "flex",
+                gap: 5,
+            }}
+            className={className}
         >
             {
-                cards.map(({titulo, valor}) => (
-                    <Card sx={{width: "100%"}}>
-                        <CardHeader title={titulo}></CardHeader>
-                        <CardContent>{valor}</CardContent>
-                    </Card>
-                ))
+                turnos.length !== 0 ?
+                (
+                    cards.map(({titulo, obtenerValor}) => (
+                        <Card key={titulo} sx={{width: "100%"}}>
+                            <CardHeader className="EstadisticaTurnos_title" title={titulo}></CardHeader>
+                            <CardContent className="EstadisticaTurnos_content">{obtenerValor()}</CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    cards.map(() => (
+                        <Skeleton variant="rounded" height="150px" width="100%" />
+                    ))
+                )
             }
         </Box>
     );

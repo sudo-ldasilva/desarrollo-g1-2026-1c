@@ -1,0 +1,9 @@
+.ProximosTurnos {
+    padding: 25px;
+}
+
+.ProximosTurnos_turnos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
