@@ -3,7 +3,7 @@ import { CardHeader, CardContent, Box, Card } from '@mui/material';
 
 import './EstadisticaTurnos.css';
 
-const EstadisticaTurnos = (props) => {
+const EstadisticaTurnos = ({className}) => {
     // Dentro de valor tendríamos que usar variables que se creen con
     // useState, y setHook para que se actualize EstadisticaTurnos
     const cards = [
@@ -20,11 +20,11 @@ const EstadisticaTurnos = (props) => {
                 display: "flex",
                 gap: 5,
             }}
-            className={props.className}
+            className={className}
         >
             {
                 cards.map(({titulo, valor}) => (
-                    <Card sx={{width: "100%"}}>
+                    <Card key={titulo} sx={{width: "100%"}}>
                         <CardHeader className="EstadisticaTurnos_title" title={titulo}></CardHeader>
                         <CardContent className="EstadisticaTurnos_content">{valor}</CardContent>
                     </Card>

@@ -1,24 +1,24 @@
 // https://coreui.io/react/docs/components/calendar/
+import {useEffect} from 'react'
 import { CCalendar } from '@coreui/react-pro'
 import '@coreui/coreui-pro/dist/css/coreui.min.css'; // css para el calendario
 
 import './CalendarioMensualTurnos.css';
 
-const CalendarioMensualTurnos = (props) => {
-    const turnos = props.turnos
-    const soloNuevos = props.soloNuevos
-
+const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, className}) => {
     const now = new Date()
     const startDate = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
 
+    useEffect( () => { }, [turnos])
+
     return (
-        <div className={props.className}>
+        <div className={className}>
             <CCalendar
                 className="border rounded w-100"
                 locale="es-AR"
                 startDate={startDate}
                 minDate={soloNuevos ? startDate : undefined}
-                onStartDateChange={props.eventoSeleccionarFecha}
+                onStartDateChange={eventoSeleccionarFecha}
                 renderDayCell={(date: Date, meta: any) => {
                     // Fuente: https://coreui.io/react/docs/components/calendar/#custom-cell-rendering
 

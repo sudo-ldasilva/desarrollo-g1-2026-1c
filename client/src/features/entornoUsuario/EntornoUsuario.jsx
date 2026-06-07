@@ -11,6 +11,7 @@ const EntornoUsuario = () => {
     // TODO De ejemplo. Eliminar
     useEffect(() => setTurnosPreseleccionados([
         {
+            id: 1,
             servicio: "Dermatologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
@@ -18,6 +19,7 @@ const EntornoUsuario = () => {
             fechaHora: "15/6/2026 - 11:30 a. m. hs"
         },
         {
+            id: 2,
             servicio: "Cardiologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
@@ -25,13 +27,18 @@ const EntornoUsuario = () => {
             fechaHora: "15/6/2026 - 11:30 a. m. hs"
         },
         {
+            id: 3,
             servicio: "Oftalmologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
             cobertura: "Cubierto Totalmente",
-            fechaHora: "15/6/2026 - 11:30 a. m. hs"
+            fechaHora: "5/6/2026 - 11:30 a. m. hs"
         },
     ]), []);
+    const confirmarReserva = () => {
+        setTurnosPreseleccionados([])
+        alert("Seleccionados!")
+    }
 
     // TURNOS DEL USUARIO
     const [turnos, setTurnos] = useState([]);
@@ -39,6 +46,7 @@ const EntornoUsuario = () => {
     useEffect(() => setTurnos([
         // TODO Obtener de la BD
         {
+            id: 1,
             servicio: "Cardiologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
@@ -46,13 +54,15 @@ const EntornoUsuario = () => {
             fechaHora: new Date("2026-06-15T11:30:00")
         },
         {
+            id: 2,
             servicio: "Oftalmologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
             cobertura: "Cubierto Totalmente",
-            fechaHora: new Date("2026-06-12T11:30:00")
+            fechaHora: new Date("2026-06-07T11:30:00")
         },
         {
+            id: 3,
             servicio: "Dermatologia",
             medico: "Dr. Gomez",
             sede: "Palermo",
@@ -63,7 +73,7 @@ const EntornoUsuario = () => {
 
     return (
         <>
-            <Dashboard turnosPreseleccionados={turnosPreseleccionados} turnos={turnos} />
+            <Dashboard turnosPreseleccionados={turnosPreseleccionados} turnos={turnos} confirmarReserva={confirmarReserva} />
             <MisTurnos />
         </>
     )
