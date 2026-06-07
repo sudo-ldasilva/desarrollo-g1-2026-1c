@@ -8,27 +8,21 @@ import './ProximosTurnos.css';
 
 const ProximosTurnos = (props) => {
     const turnos = props.turnos;
-    let [turnosFiltrados, setTurnosFiltrados] = useState([])
     let [fechaSeleccionada, setFechaSeleccionada] = useState(new Date(new Date().setHours(0,0,0,0)))
+    let turnosFiltrados = turnos.filter( (fecha) => fecha.fechaHora.toDateString() === fechaSeleccionada.toDateString() )
 
-    const filtrarTurnos = () => {
-        setTurnosFiltrados(turnos.filter( (fecha) => fecha.fechaHora.toDateString() === fechaSeleccionada.toDateString() ))
-    }
-
-    const filtrarTurnosHandler = (fecha) => {
+    const filtrarTurnos = (fecha) => {
         setFechaSeleccionada(fecha)
-        // filtrarTurnos() // NO VA ACÁ. Para eso está useEffect porque el set es asincrónico
     }
 
     // Si los turnos cambian, entonces filtra de vuelta los turnos
     useEffect(() => {
-        filtrarTurnos()
     }, [turnos, fechaSeleccionada])
 
     return (
         <Card sx={{width: "100%"}} className="ProximosTurnos" >
             <CardHeader title="Turnos Próximos"></CardHeader>
-            <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnosHandler} />
+            <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnos} />
 
             <div className="ProximosTurnos_turnos">
                 {
