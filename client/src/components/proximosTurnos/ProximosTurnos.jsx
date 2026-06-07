@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import CalendarioMensualTurnos from "../calendarioMensualTurnos/CalendarioMensualTurnos.jsx"
 import TurnoInfo from "../turnoInfo/TurnoInfo.jsx"
 
-import { Card, CardHeader, Skeleton } from '@mui/material';
+import { Card, CardHeader, Skeleton, Alert } from '@mui/material';
 
 import './ProximosTurnos.css';
 
@@ -20,7 +20,7 @@ const ProximosTurnos = (props) => {
     }, [turnos, fechaSeleccionada])
 
     return (
-        <Card sx={{width: "100%"}} className="ProximosTurnos" >
+        <Card sx={{width: "100%", height: "fit-content"}} className="ProximosTurnos" >
             <CardHeader title="Turnos Próximos"></CardHeader>
             {
                 turnos.length !== 0 ?
@@ -42,7 +42,7 @@ const ProximosTurnos = (props) => {
                             ))
                         ) :
                         (
-                            <p>No hay turnos</p>
+                            <Alert severity="info">No hay turnos para el dia seleccionado</Alert>
                         )
                     ) : (
                         <>
