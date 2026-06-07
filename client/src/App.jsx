@@ -1,5 +1,9 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx"
+import { LogtoProvider } from '@logto/react';
+import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Callback from './components/Callback.jsx';
+import Home from './features/Home.jsx';
 
 const theme = createTheme({
     palette: {
@@ -13,12 +17,28 @@ const theme = createTheme({
 });
 
 function App() {
+  const config = {
+    endpoint: 'https://mm32is.logto.app/',
+    appId: 'o5yyg82jt0gb2b8nbiuje',
+    redirectUri: 'http://localhost:3000/callback',
+    postLogoutRedirectUri: 'http://localhost:3000/',
+  };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <EntornoUsuario />
-        </ThemeProvider>
-    );
+  
+
+  return (
+      <LogtoProvider config={config}>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/callback" element={<Callback />} />
+              <Route path="/app" element={<EntornoUsuario />} />
+            </Routes>
+          </ThemeProvider>
+         </BrowserRouter>
+      </LogtoProvider>
+  );
 }
 
 export default App;
