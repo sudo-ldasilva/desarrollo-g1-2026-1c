@@ -4,8 +4,8 @@ import { DiaSemana } from "../domain/DiaSemana.js";
 
 const DisponibilidadSchema = new mongoose.Schema(
     {
-        horaInicio: { type: String, required: true },
-        horaFin: { type: String, required: true },
+        horaDesde: { type: String, required: true },
+        horaHasta: { type: String, required: true },
         diasSemana: [
             {
                 type: String,
