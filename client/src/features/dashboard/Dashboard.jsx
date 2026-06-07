@@ -2,14 +2,13 @@ import { Box } from '@mui/material';
 
 import EstadisticaTurnos from '../../components/estadisticaTurnos/EstadisticaTurnos.jsx';
 import ProximosTurnos from '../../components/proximosTurnos/ProximosTurnos.jsx';
-import ConfirmarCarrito from '../../components/confirmarCarrito/ConfirmarCarrito.jsx';
+import ConfirmarPreseleccion from '../../components/confirmarPreseleccion/ConfirmarPreseleccion.jsx';
 import './Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = ({turnos, turnosPreseleccionados, confirmarReserva}) => {
     return (
-        <>
-            <p>Dashboard</p>
-            <EstadisticaTurnos />
+        <div className="content">
+            <EstadisticaTurnos className="estadisticas" turnos={turnos} />
             <Box
               sx={{
                 width: "100%",
@@ -17,10 +16,10 @@ const Dashboard = () => {
                 gap: 5,
               }}
             >
-                <ProximosTurnos />
-                <ConfirmarCarrito />
+                <ProximosTurnos turnos={turnos} />
+                <ConfirmarPreseleccion turnosPreseleccionados={turnosPreseleccionados} confirmarReserva={confirmarReserva} />
             </Box>
-        </>
+        </div>
     )
 };
 
