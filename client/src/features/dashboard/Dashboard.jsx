@@ -8,7 +8,7 @@ import './Dashboard.css';
 const Dashboard = ({turnos, turnosPreseleccionados, confirmarReserva}) => {
     return (
         <div className="content">
-            <EstadisticaTurnos className="estadisticas" />
+            <EstadisticaTurnos className="estadisticas" turnos={turnos} />
             <Box
               sx={{
                 width: "100%",

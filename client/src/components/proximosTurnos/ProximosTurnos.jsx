@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import CalendarioMensualTurnos from "../calendarioMensualTurnos/CalendarioMensualTurnos.jsx"
 import TurnoInfo from "../turnoInfo/TurnoInfo.jsx"
 
-import { Card, CardHeader } from '@mui/material';
+import { Card, CardHeader, Skeleton } from '@mui/material';
 
 import './ProximosTurnos.css';
 
@@ -22,21 +22,35 @@ const ProximosTurnos = (props) => {
     return (
         <Card sx={{width: "100%"}} className="ProximosTurnos" >
             <CardHeader title="Turnos Próximos"></CardHeader>
-            <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnos} />
+            {
+                turnos.length !== 0 ?
+                (
+                    <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnos} />
+                ) : (
+                    <Skeleton variant="rounded" height="330px" />
+                )
+            }
 
             <div className="ProximosTurnos_turnos">
                 {
-                    turnosFiltrados.length !== 0 ?
+                    turnos.length !== 0 ?
+                    (
+                        turnosFiltrados.length !== 0 ?
                         (
                             turnosFiltrados.map( (turno) => (
                                 <TurnoInfo key={turno.id} turno={turno} />
                             ))
                         ) :
                         (
-                            <div>
-                                Nada por acá, nada por allá
-                            </div>
+                            <p>No hay turnos</p>
                         )
+                    ) : (
+                        <>
+                            <Skeleton variant="rounded" height="180px" />
+                            <Skeleton variant="rounded" height="180px" />
+                            <Skeleton variant="rounded" height="180px" />
+                        </>
+                )
                 }
             </div>
         </Card>

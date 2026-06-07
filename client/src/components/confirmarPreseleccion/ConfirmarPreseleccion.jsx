@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { Card, CardHeader, CardContent, Button } from '@mui/material';
+import { Card, CardHeader, CardContent, Button, Alert } from '@mui/material';
 import TurnoInfo from '../turnoInfo/TurnoInfo.jsx';
 
 import './ConfirmarPreseleccion.css';
@@ -33,9 +33,7 @@ const ConfirmarPreseleccion = ({turnosPreseleccionados, confirmarReserva}) => {
                             </Button>
                         </div>
                     ) : (
-                        <div>
-                            Nada por acá, nada por allá
-                        </div>
+                        <Alert severity="info">No hay turnos pre-seleccionados. Para solicitar turnos, diríjase a la pestaña "Solicitar turno"</Alert>
                     )
                 }
 
