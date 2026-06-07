@@ -1,42 +1,33 @@
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
-import path from "path";
-import { promises as fs } from "fs"; //para el config de mongodb-memory-server
 import { runSeed } from "./testSeed.js";
 
-let mongoServer = null;
+const TEST_DB_URI = process.env.TEST_MONGODB_URI || "mongodb://localhost:27017/sweet_medical_test";
 
 export async function startTestDB() {
-    const dataDir = path.resolve("./.mongo-data-tests");
-    await fs.mkdir(dataDir, { recursive: true });
-
-    mongoServer = await MongoMemoryServer.create({
-        instance: {
-            port: 27010,
-            dbPath: dataDir
-        }
-    });
-
-    const uri = mongoServer.getUri();
-    await mongoose.connect(uri);
+    try {
+        await mongoose.connect(TEST_DB_URI);
+        console.log("Conectado a la base de datos de TEST local");
+    } catch (error) {
+        console.error("Error conectando a la DB de test.", error.message);
+        throw error;
+    }
 }
 
 export async function reloadTestData() {
+    // 1. Borrar la base de datos de test
     await mongoose.connection.dropDatabase();
+    
+    // 2. Volver a cargar los datos frescos para este test
     await runSeed();
 }
 
-export const disconnectTestDB = async () => {
+export async function disconnectTestDB() {
     try {
         if (mongoose.connection.readyState !== 0) {
             await mongoose.disconnect();
+            console.log("Desconectado de la base de datos de TEST");
         }
-
-        await mongoServer.stop();
     } catch (error) {
-        console.error(
-            "Error disconnecting MongoDB:",
-            error.message
-        );
+        console.error("Error desconectando MongoDB de test:", error.message);
     }
-};
+}

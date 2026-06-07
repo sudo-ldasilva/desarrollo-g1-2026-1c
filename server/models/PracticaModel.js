@@ -13,4 +13,4 @@ PracticaSchema.set("toJSON", { virtuals: true });
 PracticaSchema.set("toObject", { virtuals: true });
 
 PracticaSchema.loadClass(Practica);
-export const PracticaModel = mongoose.model("Practica", PracticaSchema);
+export const PracticaModel = mongoose.model("Practica", PracticaSchema, "practicas");

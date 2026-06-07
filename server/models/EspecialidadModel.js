@@ -12,4 +12,4 @@ EspecialidadSchema.set("toJSON", { virtuals: true });
 EspecialidadSchema.set("toObject", { virtuals: true });
 
 EspecialidadSchema.loadClass(Especialidad);
-export const EspecialidadModel = mongoose.model("Especialidad", EspecialidadSchema);
+export const EspecialidadModel = mongoose.model("Especialidad", EspecialidadSchema, "especialidades");

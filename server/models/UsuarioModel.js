@@ -11,4 +11,4 @@ UsuarioSchema.set("toJSON", { virtuals: true });
 UsuarioSchema.set("toObject", { virtuals: true });
 
 UsuarioSchema.loadClass(Usuario);
-export const UsuarioModel = mongoose.model("Usuario", UsuarioSchema);
+export const UsuarioModel = mongoose.model("Usuario", UsuarioSchema, "usuarios");

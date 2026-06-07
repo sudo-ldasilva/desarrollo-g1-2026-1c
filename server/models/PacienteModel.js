@@ -14,4 +14,4 @@ PacienteSchema.set("toJSON", { virtuals: true });
 PacienteSchema.set("toObject", { virtuals: true });
 
 PacienteSchema.loadClass(Paciente);
-export const PacienteModel = mongoose.model("Paciente", PacienteSchema);
+export const PacienteModel = mongoose.model("Paciente", PacienteSchema, "pacientes");
