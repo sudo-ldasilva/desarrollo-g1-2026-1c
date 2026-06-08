@@ -14,8 +14,8 @@ const CardTurno = ({ turno }) => {
 
     const manejarCancelacion = () => {
         if (puedeCancelar) {
-            setEstado('CANCELADO'); 
-            alert(`Turno de ${turno.servicio} cancelado con éxito.`);
+            setEstado('CANCELADO');
+            alert(`Turno de ${turno.servicio.nombre} cancelado con éxito.`);
         }
     };
 
@@ -23,12 +23,12 @@ const CardTurno = ({ turno }) => {
         <div className="listado-card">
             <div className={`turno-card ${estado.toLowerCase()}`}>
                 <div className="turno-header">
-                    <h3 className="turno-servicio">{turno.servicio}</h3>
+                    <h3 className="turno-servicio">{turno.servicio.nombre}</h3>
                     <span className={`turno-estado ${estado.toLowerCase()}`}>{estado}</span>
                 </div>
                 <p className="turno-medico">Dr/a. {turno.medico.nombre} (M.N. {turno.medico.matricula})</p>
                 <p className="turno-sede">Sede: {turno.sede.nombre}</p>
-                
+
                 <div className="turno-detalles">
                     <div className="turno-costo">
                         {turno.costo === 0 ? "Cubierto Totalmente" : `$${turno.costo.toLocaleString("es-AR")}`}
@@ -38,9 +38,9 @@ const CardTurno = ({ turno }) => {
                     </div>
                 </div>
 
-                <button 
-                    onClick={manejarCancelacion} 
-                    disabled={!puedeCancelar} 
+                <button
+                    onClick={manejarCancelacion}
+                    disabled={!puedeCancelar}
                     className='btn-cancelar btn-derecha'
                 >
                     Cancelar

@@ -88,7 +88,7 @@ const EntornoUsuario = () => {
                 confirmarReserva={confirmarReserva}
             />
 
-            <MisTurnos />
+            <MisTurnos turnos={turnos} />
         </>
     );
 };
