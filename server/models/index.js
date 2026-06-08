@@ -6,3 +6,5 @@ import "./SedeModel.js";
 import "./PracticaModel.js";
 import "./UsuarioModel.js";
 import "./NotificacionModel.js";
+import "./ObraSocialModel.js";
+import "./PlanModel.js";

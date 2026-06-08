@@ -15,6 +15,9 @@ import {PracticaModel} from "../models/PracticaModel.js";
 import {SedeModel} from "../models/SedeModel.js";
 import {TurnoModel} from "../models/TurnoModel.js";
 import {UsuarioModel} from "../models/UsuarioModel.js";
+import { ObraSocialModel } from "../models/ObraSocialModel.js";
+import { PlanModel } from "../models/PlanModel.js";
+import { NivelCobertura } from "../domain/NivelCobertura.js";           
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -32,6 +35,8 @@ export const runSeed = async () => {
         await PracticaModel.deleteMany({});
         await TurnoModel.deleteMany({});
         await NotificacionModel.deleteMany({});
+        await ObraSocialModel.deleteMany({});
+        await PlanModel.deleteMany({});
         console.log("🧹 Colecciones limpiadas.");
 
         // =========================================================================
@@ -92,6 +97,53 @@ export const runSeed = async () => {
         });
 
         console.log("✅ 10 Especialidades creadas.");
+
+        // =========================================================================
+        // 2.1 OBRAS SOCIALES Y PLANES (5)
+        // =========================================================================
+        console.log("🏥 Creando Obra Social y Planes...");
+
+        // 1. OSDE
+        const osde = await ObraSocialModel.create({ nombre: "OSDE" });
+        const planOsde = await PlanModel.create({ 
+            nombre: "OSDE 210", 
+            obraSocial: osde._id, 
+            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.PARCIAL }] 
+        });
+        
+        // 2. Galeno
+        const galeno = await ObraSocialModel.create({ nombre: "Galeno" });
+        const planGaleno = await PlanModel.create({ 
+            nombre: "Galeno Oro", 
+            obraSocial: galeno._id, 
+            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.TOTAL }] 
+        });
+
+        // 3. Swiss Medical
+        const swiss = await ObraSocialModel.create({ nombre: "Swiss Medical" });
+        const planSwiss = await PlanModel.create({ 
+            nombre: "SMG 30", 
+            obraSocial: swiss._id, 
+            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.PARCIAL }] 
+        });
+
+        // 4. OSL
+        const osl = await ObraSocialModel.create({ nombre: "OSL" });
+        const planOsl = await PlanModel.create({ 
+            nombre: "Plan Basico", 
+            obraSocial: osl._id, 
+            coberturasEspecialidad: [] // Sin cobertura
+        }); 
+
+        // 5. IOMA
+        const ioma = await ObraSocialModel.create({ nombre: "IOMA" });
+        const planIoma = await PlanModel.create({ 
+            nombre: "Afiliado", 
+            obraSocial: ioma._id, 
+            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.TOTAL }] 
+        });
+
+        console.log("✅ Obra Social y Plan creados.");
 
         // =========================================================================
         // 3. USUARIOS (20 registros: 10 para médicos, 10 para pacientes)
@@ -262,104 +314,144 @@ export const runSeed = async () => {
         await PacienteModel.create({
             usuario: usuariosPacientes[0]._id, // 🔹 ObjectId
             dni: 10000000,
-            nombre: "Lucía Fernández"
+            nombre: "Lucía Fernández",
+            obraSocial: osde._id, // 🔹 ObjectId
+            plan: planOsde._id // 🔹 ObjectId
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[1]._id,
             dni: 10000001,
-            nombre: "Martín Silva"
+            nombre: "Martín Silva",
+            obraSocial: galeno._id,
+            plan: planGaleno._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[2]._id,
             dni: 10000002,
-            nombre: "Valeria Romero"
+            nombre: "Valeria Romero",
+            obraSocial: swiss._id,
+            plan: planSwiss._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[3]._id,
             dni: 10000003,
-            nombre: "Jorge Álvarez"
+            nombre: "Jorge Álvarez",
+            obraSocial: osl._id,
+            plan: planOsl._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[4]._id,
             dni: 10000004,
-            nombre: "Camila Morales"
+            nombre: "Camila Morales",
+            obraSocial: ioma._id,
+            plan: planIoma._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[5]._id,
             dni: 10000005,
-            nombre: "Diego Castro"
+            nombre: "Diego Castro",
+            obraSocial: osde._id,
+            plan: planOsde._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[6]._id,
             dni: 10000006,
-            nombre: "Juliana Ortiz"
+            nombre: "Juliana Ortiz",
+            obraSocial: galeno._id,
+            plan: planGaleno._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[7]._id,
             dni: 10000007,
-            nombre: "Federico Gómez"
+            nombre: "Federico Gómez",
+            obraSocial: swiss._id,
+            plan: planSwiss._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[8]._id,
             dni: 10000008,
-            nombre: "Agustina Herrera"
+            nombre: "Agustina Herrera",
+            obraSocial: osl._id,
+            plan: planOsl._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[9]._id,
             dni: 10000009,
-            nombre: "Nicolás Vargas"
+            nombre: "Nicolás Vargas",
+            obraSocial: ioma._id,
+            plan: planIoma._id
         });
 
         // Pacientes 11-20
         await PacienteModel.create({
             usuario: usuariosPacientes[0]._id,
             dni: 10000010,
-            nombre: "Sofía Medina"
+            nombre: "Sofía Medina",
+            obraSocial: osde._id,
+            plan: planOsde._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[1]._id,
             dni: 10000011,
-            nombre: "Mateo Aguilar"
+            nombre: "Mateo Aguilar",
+            obraSocial: galeno._id,
+            plan: planGaleno._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[2]._id,
             dni: 10000012,
-            nombre: "Isabella Rojas"
+            nombre: "Isabella Rojas",
+            obraSocial: swiss._id,
+            plan: planSwiss._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[3]._id,
             dni: 10000013,
-            nombre: "Santiago Molina"
+            nombre: "Santiago Molina",
+            obraSocial: osl._id,
+            plan: planOsl._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[4]._id,
             dni: 10000014,
-            nombre: "Mia Delgado"
+            nombre: "Mia Delgado",
+            obraSocial: ioma._id,
+            plan: planIoma._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[5]._id,
             dni: 10000015,
-            nombre: "Benjamín Paz"
+            nombre: "Benjamín Paz",
+            obraSocial: osde._id,
+            plan: planOsde._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[6]._id,
             dni: 10000016,
-            nombre: "Emma Figueroa"
+            nombre: "Emma Figueroa",
+            obraSocial: galeno._id,
+            plan: planGaleno._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[7]._id,
             dni: 10000017,
-            nombre: "Thiago Cabrera"
+            nombre: "Thiago Cabrera",
+            obraSocial: swiss._id,
+            plan: planSwiss._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[8]._id,
             dni: 10000018,
-            nombre: "Olivia Núñez"
+            nombre: "Olivia Núñez",
+            obraSocial: osl._id,
+            plan: planOsl._id
         });
         await PacienteModel.create({
             usuario: usuariosPacientes[9]._id,
             dni: 10000019,
-            nombre: "Liam Acosta"
+            nombre: "Liam Acosta",
+            obraSocial: ioma._id,
+            plan: planIoma._id
         });
 
         console.log("✅ 20 Pacientes creados.");

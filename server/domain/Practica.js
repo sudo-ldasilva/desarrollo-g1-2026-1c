@@ -1,4 +1,5 @@
 import Turno from "./Turno.js";
+import { CoberturaPractica } from "./CoberturaPractica.js";
 
 export class Practica {
     constructor(id,codigo,nombre,duracionTurnoEnMins,costo) {
@@ -21,5 +22,10 @@ export class Practica {
         return (medico.tienePractica(this))
             ? { msg: "", puede: true }
             : { msg: "El médico no realiza dicha practica", puede: false };
+    }
+
+    obtenerNivelDe(plan) {
+        const buscadorCobertura = new CoberturaPractica(this.id, null);
+        return buscadorCobertura.obtenerNivelDe(plan);
     }
 }

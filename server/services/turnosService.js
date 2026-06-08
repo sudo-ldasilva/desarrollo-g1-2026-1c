@@ -36,14 +36,16 @@ export default class TurnosService{
     calcularCostoTurno(turno, plan) {
         const dto = turnoToDTO(turno);
         const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
-        dto.costoEstimado = costoBase; // Por defecto: NO CUBIERTA
+        dto.costo = costoBase;
+        dto.cobertura = NivelCobertura.NO_CUBIERTA; // Por defecto, sin cobertura
 
         if (plan && turno.servicio) {
             try {
                 const nivel = plan.obtenerCobertura(turno.servicio);
+                dto.cobertura = nivel;
                 if (nivel === NivelCobertura.TOTAL) dto.costoEstimado = 0;
                 else if (nivel === NivelCobertura.PARCIAL) dto.costoEstimado = costoBase * 0.5; // 50% copago
-            } catch (e) { /* Si no está cubierta o falla, se mantiene el costoBase */ }
+            } catch (error) { /* Si no está cubierta o falla, se mantiene el costoBase y cobertura*/ }
         }
         return dto;
     }
@@ -102,8 +104,7 @@ export function turnoToDTO(turno) {
             direccion: turno.sede.direccion
         },
         estado: turno.estado,
-        costo: turno.costo //Sería el costo calculado (cambia segun paciente que consulta)
-        //TODO: calcular costo segun el usuario paciente y ordenar los turnos segun el mismo.
-        //Por ahora, el ord por costo se hace usando los registros hardcodeados de la seed.
+        costo: turno.costo, //Sería el costo calculado (cambia segun paciente que consulta)
+        cobertura: turno.cobertura
     };   
 }
