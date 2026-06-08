@@ -9,9 +9,5 @@ const PacienteSchema = new mongoose.Schema({
     plan: { type: String }
 });
 
-PacienteSchema.virtual("id").get(function() { return this._id.toString(); });
-PacienteSchema.set("toJSON", { virtuals: true });
-PacienteSchema.set("toObject", { virtuals: true });
-
 PacienteSchema.loadClass(Paciente);
 export const PacienteModel = mongoose.model("Paciente", PacienteSchema, "pacientes");
