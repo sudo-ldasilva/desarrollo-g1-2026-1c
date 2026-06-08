@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getTurnosEnRangoFecha = async (fechaInicio, fechaFinal) => {
+export const getTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
     try{
         let turnos = []
         let pagina = 1, totalPaginas = -1
@@ -9,6 +9,8 @@ export const getTurnosEnRangoFecha = async (fechaInicio, fechaFinal) => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
                 params: {
                     page: pagina,
+                    fechaInicio,
+                    fechaFin
                 },
                 headers: {
                     'x-usuario-id': '6a26b58133d704df8b9df054' // TODO NO Hardcodear
@@ -28,9 +30,31 @@ export const getTurnosEnRangoFecha = async (fechaInicio, fechaFinal) => {
     }
 }
 
-export const getCantidadTurnosEnRangoFecha = async (fechaIncio, fechaFinal) => {
+export const getCantidadTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
+            params: {
+                fechaInicio,
+                fechaFin
+            },
+            headers: {
+                'x-usuario-id': '6a26b58133d704df8b9df054' // TODO NO Hardcodear
+            },
+        })
+
+        return response.data.total;
+    } catch (error) {
+        console.error("Error obteniendo los turnos", error);
+        throw error;
+    }
+}
+
+export const getCantidadTurnosEnEstado = async (estado) => {
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
+            params: {
+                estado
+            },
             headers: {
                 'x-usuario-id': '6a26b58133d704df8b9df054' // TODO NO Hardcodear
             },

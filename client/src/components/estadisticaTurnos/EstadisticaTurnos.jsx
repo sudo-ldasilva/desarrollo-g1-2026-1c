@@ -1,7 +1,7 @@
 // import CardActions from '@mui/material/CardActions';
 import {useEffect, useState} from 'react'
 import { CardHeader, CardContent, Box, Card, Skeleton } from '@mui/material';
-import { getCantidadTurnosEnRangoFecha } from "../../services/TurnosService.jsx";
+import { getCantidadTurnosEnRangoFecha, getCantidadTurnosEnEstado } from "../../services/TurnosService.jsx";
 
 import './EstadisticaTurnos.css';
 
@@ -46,8 +46,8 @@ const EstadisticaTurnos = ({className, turnos}) => {
             ] = await Promise.all([
                 getCantidadTurnosEnRangoFecha(hoy, siguienteSemana),
                 getCantidadTurnosEnRangoFecha(hoy, siguienteMes),
-                getCantidadTurnosEnRangoFecha(hoy, anteriorMes),
-                Promise.resolve(0) // TODO
+                getCantidadTurnosEnRangoFecha(anteriorMes, hoy),
+                getCantidadTurnosEnEstado("RESERVADO"),
             ])
 
             setEstadisticas({
