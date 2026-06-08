@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../dashboard/Dashboard.jsx";
 import MisTurnos from "../MisTurnos/MisTurnos.jsx";
+import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
 import { useNavigate } from "react-router-dom";
 
@@ -59,25 +60,25 @@ const EntornoUsuario = () => {
         return <div>Cargando la aplicación...</div>;
     }
 
-    return (
-        <>
-            <p>EntornoUsuario</p>
-
-            <button
-                onClick={() => signOut(`${window.location.origin}/`)}
-                className="boton-signOut"
-            >
-                Cerrar Sesión
-            </button>
-
-            <Dashboard
-                turnosPreseleccionados={turnosPreseleccionados}
-                confirmarReserva={confirmarReserva}
-            />
-
-            <MisTurnos />
-        </>
-    );
+	return (
+		<div className="layout-entorno">
+		    <Sidebar />
+		    <div className="contenido-principal">
+		        <p>EntornoUsuario</p>
+		        <button
+		            onClick={() => signOut(`${window.location.origin}/`)}
+		            className="boton-signOut"
+		        >
+		            Cerrar Sesión
+		        </button>
+		        <Dashboard
+		            turnosPreseleccionados={turnosPreseleccionados}
+		            confirmarReserva={confirmarReserva}
+		        />
+		        <MisTurnos />
+		    </div>
+		</div>
+	);
 };
 
 export default EntornoUsuario;
