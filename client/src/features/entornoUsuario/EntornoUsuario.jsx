@@ -3,7 +3,6 @@ import Dashboard from "../dashboard/Dashboard.jsx";
 import MisTurnos from "../MisTurnos/MisTurnos.jsx";
 import { useLogto } from "@logto/react";
 import { useNavigate } from "react-router-dom";
-import { getTurnos } from "../../services/TurnosService.jsx";
 
 import "./EntornoUsuario.css";
 
@@ -18,19 +17,8 @@ const EntornoUsuario = () => {
         }
     }, [isLoading, isAuthenticated, navigate]);
 
-    // Estados
-    const [turnos, setTurnos] = useState([]);
+    // Turnos
     const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
-
-    // Carga de turnos desde la "BD"
-    useEffect(() => {
-        const cargarTurnosDesdeLaBD = async () => {
-            const turnosBD = await getTurnos();
-            setTurnos(turnosBD);
-        };
-
-        cargarTurnosDesdeLaBD();
-    }, []);
 
     // TODO Datos de ejemplo. Eliminar luego.
     useEffect(() => {
@@ -84,11 +72,10 @@ const EntornoUsuario = () => {
 
             <Dashboard
                 turnosPreseleccionados={turnosPreseleccionados}
-                turnos={turnos}
                 confirmarReserva={confirmarReserva}
             />
 
-            <MisTurnos turnos={turnos} />
+            <MisTurnos />
         </>
     );
 };

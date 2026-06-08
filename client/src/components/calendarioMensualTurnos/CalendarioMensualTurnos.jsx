@@ -5,7 +5,7 @@ import '@coreui/coreui-pro/dist/css/coreui.min.css'; // css para el calendario
 
 import './CalendarioMensualTurnos.css';
 
-const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, className}) => {
+const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, className, eventoCambiarMes}) => {
     const now = new Date()
     const startDate = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
 
@@ -19,6 +19,7 @@ const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, cl
                 startDate={startDate}
                 minDate={soloNuevos ? startDate : undefined}
                 onStartDateChange={eventoSeleccionarFecha}
+                onCalendarDateChange={eventoCambiarMes}
                 renderDayCell={(date: Date, meta: any) => {
                     // Fuente: https://coreui.io/react/docs/components/calendar/#custom-cell-rendering
 
