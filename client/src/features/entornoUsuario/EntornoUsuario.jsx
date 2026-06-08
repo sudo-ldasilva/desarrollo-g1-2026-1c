@@ -111,7 +111,7 @@ const EntornoUsuario = () => {
             <p>EntornoUsuario</p>
 
             <button
-                onClick={() => signOut("http://localhost:3000/")}
+                onClick={() => signOut(`${window.location.origin}/`)}
                 className="boton-signOut"
             >
                 Cerrar Sesión
