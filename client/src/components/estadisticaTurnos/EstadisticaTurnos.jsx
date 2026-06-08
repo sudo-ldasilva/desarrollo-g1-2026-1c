@@ -14,12 +14,13 @@ const EstadisticaTurnos = ({className, turnos}) => {
                 const limite = new Date()
                 limite.setDate(hoy.getDate() + 7)
 
-                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= limite ).length
+                return turnos.filter( (turno) => hoy < new Date(turno.fechaHora) && new Date(turno.fechaHora) <= limite ).length
             }
         },
         {
-            titulo: "Proximos Turnos este mes",
+            titulo: "Proximos turnos este mes",
             obtenerValor: () => {
+                console.log(turnos)
                 const finDeMes = new Date(
                     hoy.getFullYear(),
                     hoy.getMonth() + 1,
@@ -29,7 +30,7 @@ const EstadisticaTurnos = ({className, turnos}) => {
                     59
                 );
 
-                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                return turnos.filter( (turno) => hoy < new Date(turno.fechaHora) && new Date(turno.fechaHora) <= finDeMes
                 ).length;
             }
         },
@@ -45,13 +46,13 @@ const EstadisticaTurnos = ({className, turnos}) => {
                     59
                 );
 
-                return turnos.filter( (turno) => hoy < turno.fechaHora && turno.fechaHora <= finDeMes
+                return turnos.filter( (turno) => hoy < new Date(turno.fechaHora) && new Date(turno.fechaHora) <= finDeMes
                 ).length;
             }
         },
         {
             titulo: "Turnos realizados",
-            obtenerValor: () => turnos.filter( (turno) => turno.fechaHora < hoy).length
+            obtenerValor: () => turnos.filter( (turno) => new Date(turno.fechaHora) < hoy).length
         },
     ]
 

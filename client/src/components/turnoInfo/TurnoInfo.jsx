@@ -7,11 +7,11 @@ const TurnoInfo = (props) => {
 
     return (
         <Card className="TurnoInfo_card">
-            <CardHeader title={turno.servicio}></CardHeader>
+            <CardHeader title={turno.servicio.nombre}></CardHeader>
             <CardContent>
-                <p>Con <b>{turno.medico}</b> en la sede <b>{turno.sede}</b> el <b>{turno.fechaHora.toString()}</b></p>
-                <p>{turno.cobertura}</p>
-                <p></p>
+                { turno.estado && <p>{turno.estado}</p> }
+                <p>Con <b>{turno.medico.nombre}</b> en la sede <b>{turno.sede.nombre}</b> el <b>{turno.fechaHora}</b></p>
+                <p>Costo: ${turno.costo}</p>
             </CardContent>
         </Card>
     )

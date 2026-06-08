@@ -9,7 +9,7 @@ import './ProximosTurnos.css';
 const ProximosTurnos = (props) => {
     const turnos = props.turnos;
     let [fechaSeleccionada, setFechaSeleccionada] = useState(new Date(new Date().setHours(0,0,0,0)))
-    let turnosFiltrados = turnos.filter( (fecha) => fecha.fechaHora.toDateString() === fechaSeleccionada.toDateString() )
+    let turnosFiltrados = turnos.filter( (fecha) => new Date(fecha.fechaHora).toDateString() === fechaSeleccionada.toDateString() )
 
     const filtrarTurnos = (fecha) => {
         setFechaSeleccionada(fecha)

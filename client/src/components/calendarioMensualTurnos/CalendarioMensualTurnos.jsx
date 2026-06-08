@@ -24,10 +24,11 @@ const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, cl
 
                     // const isSelected = !!meta?.isSelected
                     // const isInCurrentMonth = !!meta?.isInCurrentMonth
+                    const isDisabled = !!meta?.isDisabled
                     const dateParsed=date.toLocaleDateString('en-US', { day: '2-digit' })
 
-                    const turnosDelDia = turnos.filter( (turno) => turno.fechaHora.setHours(0,0,0,0) === date.getTime())
-                    const hayTurnos = turnosDelDia.length > 0
+                    const turnosDelDia = turnos.filter( (turno) => new Date(turno.fechaHora).setHours(0,0,0,0) === date.getTime())
+                    const hayTurnos = turnosDelDia.length > 0 && !isDisabled
                     return (
                         <div className="py-1">
                             <div style={{fontSize:"1.2rem"}}>{dateParsed}</div>
