@@ -22,6 +22,7 @@ function App() {
     appId: 'o5yyg82jt0gb2b8nbiuje',
     redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: `${window.location.origin}/`,
+    resources: ['https://api-sweet-medical.com']
   };
 
   return (

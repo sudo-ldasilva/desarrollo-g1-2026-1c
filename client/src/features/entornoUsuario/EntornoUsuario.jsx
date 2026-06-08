@@ -8,7 +8,7 @@ import { getTurnos } from "../../services/TurnosService.jsx";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
-    const { signOut, isAuthenticated, isLoading } = useLogto();
+    const { signOut, isAuthenticated, isLoading, getAccessToken } = useLogto();
     const navigate = useNavigate();
 
     // Si no está autenticado, vuelve al inicio
@@ -25,12 +25,24 @@ const EntornoUsuario = () => {
     // Carga de turnos desde la "BD"
     useEffect(() => {
         const cargarTurnosDesdeLaBD = async () => {
-            const turnosBD = await getTurnos();
-            setTurnos(turnosBD);
+
+            if(!isAuthenticated) return;
+
+            try {
+                const accessToken = await getAccessToken('https://api-sweet-medical.com') //obtener JWT
+
+               // console.log("DEBUG TOKEN:", accessToken);
+                
+                const turnosBD = await getTurnos(accessToken);
+                setTurnos(turnosBD);
+            
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         cargarTurnosDesdeLaBD();
-    }, []);
+    }, [isAuthenticated, getAccessToken]);
 
     // TODO Datos de ejemplo. Eliminar luego.
     useEffect(() => {

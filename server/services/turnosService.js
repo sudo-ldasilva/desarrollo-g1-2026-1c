@@ -49,10 +49,12 @@ export default class TurnosService{
     }
 
     async turnosPorUsuario(usuarioId, pagina, limit) {
-        const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
+        let paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
 
-        if(!paciente) {
-            throw new NotFoundError("No se encuentra usuario paciente");
+        if (!paciente) {
+            paciente = await this.pacientesRepository.crear({
+                usuario: usuarioId
+            });
         }
 
         const { turnos, total, page, totalPages} =
