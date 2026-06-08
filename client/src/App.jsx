@@ -24,8 +24,8 @@ function App() {
   const config = {
     endpoint: 'https://mm32is.logto.app/',
     appId: 'o5yyg82jt0gb2b8nbiuje',
-    redirectUri: 'http://localhost:3000/callback',
-    postLogoutRedirectUri: 'http://localhost:3000/',
+    redirectUri: `${window.location.origin}/callback`,
+    postLogoutRedirectUri: `${window.location.origin}/`,
   };
 
   const [carrito, setCarrito] = useState([]);

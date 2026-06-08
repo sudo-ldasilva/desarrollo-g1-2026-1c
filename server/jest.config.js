@@ -6,4 +6,7 @@ export default {
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
+  // Forzar ejecución serializada de tests para evitar conflictos
+  // de concurrencia en la base de datos compartida de integración
+  maxWorkers: 1,
 };

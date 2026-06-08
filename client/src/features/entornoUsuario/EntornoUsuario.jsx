@@ -10,46 +10,6 @@ const EntornoUsuario = () => {
     const { signOut, isAuthenticated, isLoading } = useLogto();
     const navigate = useNavigate();
 
-    // Estados
-    const [turnos, setTurnos] = useState([]);
-    const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
-
-    // TODO Esto debería ir en un Service que se conecte con la BD
-    const bd = () => {
-        return new Promise((resolve) =>
-            setTimeout(
-                () =>
-                    resolve([
-                        {
-                            id: 1,
-                            servicio: "Cardiologia",
-                            medico: "Dr. Gomez",
-                            sede: "Palermo",
-                            cobertura: "Cubierto Totalmente",
-                            fechaHora: new Date("2026-06-15T11:30:00"),
-                        },
-                        {
-                            id: 2,
-                            servicio: "Oftalmologia",
-                            medico: "Dr. Gomez",
-                            sede: "Palermo",
-                            cobertura: "Cubierto Totalmente",
-                            fechaHora: new Date("2026-06-07T11:30:00"),
-                        },
-                        {
-                            id: 3,
-                            servicio: "Dermatologia",
-                            medico: "Dr. Gomez",
-                            sede: "Palermo",
-                            cobertura: "Cubierto Totalmente",
-                            fechaHora: new Date("2026-06-15T11:30:00"),
-                        },
-                    ]),
-                2000
-            )
-        );
-    };
-
     // Si no está autenticado, vuelve al inicio
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
@@ -57,22 +17,15 @@ const EntornoUsuario = () => {
         }
     }, [isLoading, isAuthenticated, navigate]);
 
-    // Carga de turnos desde la "BD"
-    useEffect(() => {
-        const cargarTurnosDesdeLaBD = async () => {
-            const turnosBD = await bd();
-            setTurnos(turnosBD);
-        };
-
-        cargarTurnosDesdeLaBD();
-    }, []);
+    // Turnos
+    const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
 
     // TODO Datos de ejemplo. Eliminar luego.
     useEffect(() => {
         setTurnosPreseleccionados([
             {
                 id: 1,
-                servicio: "Dermatologia",
+                servicio: {nombre: "Dermatologia"},
                 medico: "Dr. Gomez",
                 sede: "Palermo",
                 cobertura: "Cubierto Totalmente",
@@ -80,7 +33,7 @@ const EntornoUsuario = () => {
             },
             {
                 id: 2,
-                servicio: "Cardiologia",
+                servicio: {nombre: "Cardiologia"},
                 medico: "Dr. Gomez",
                 sede: "Palermo",
                 cobertura: "Cubierto Totalmente",
@@ -88,7 +41,7 @@ const EntornoUsuario = () => {
             },
             {
                 id: 3,
-                servicio: "Oftalmologia",
+                servicio: {nombre: "Oftalmologia"},
                 medico: "Dr. Gomez",
                 sede: "Palermo",
                 cobertura: "Cubierto Totalmente",
@@ -111,7 +64,7 @@ const EntornoUsuario = () => {
             <p>EntornoUsuario</p>
 
             <button
-                onClick={() => signOut("http://localhost:3000/")}
+                onClick={() => signOut(`${window.location.origin}/`)}
                 className="boton-signOut"
             >
                 Cerrar Sesión
@@ -119,7 +72,6 @@ const EntornoUsuario = () => {
 
             <Dashboard
                 turnosPreseleccionados={turnosPreseleccionados}
-                turnos={turnos}
                 confirmarReserva={confirmarReserva}
             />
 

@@ -35,11 +35,6 @@ const PlanSchema = new mongoose.Schema({
     coberturasPractica: [CoberturaPracticaSchema]
 });
 
-// Virtual para exponer "id" en JSON
-PlanSchema.virtual("id").get(function() { return this._id.toString(); });
-PlanSchema.set("toJSON", { virtuals: true });
-PlanSchema.set("toObject", { virtuals: true });
-
 // Cargar métodos del dominio si los hubiera
 PlanSchema.loadClass(Plan);
 

@@ -13,7 +13,7 @@ const Home = () => {
         navigate('/app');
       } else {
         // Si no está logueado, al login de Logto automaticamente
-        signIn('http://localhost:3000/callback');
+        signIn(`${window.location.origin}/callback`);
       }
     }
   }, [isAuthenticated, isLoading, navigate, signIn]);
