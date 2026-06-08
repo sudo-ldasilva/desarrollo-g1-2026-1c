@@ -24,9 +24,6 @@ const PlanSchema = new mongoose.Schema({
     }]
 });
 
-PlanSchema.virtual("id").get(function() { return this._id.toString(); });
-PlanSchema.set("toJSON", { virtuals: true });
-PlanSchema.set("toObject", { virtuals: true });
 
 PlanSchema.loadClass(Plan);
 export const PlanModel = mongoose.model("Plan", PlanSchema);
