@@ -27,7 +27,7 @@ function App() {
     endpoint: 'https://mm32is.logto.app/',
     appId: 'o5yyg82jt0gb2b8nbiuje',
     redirectUri: `${window.location.origin}/callback`,
-    postLogoutRedirectUri: `http://localhost:3000`,
+    postLogoutRedirectUri: window.location.origin,
     resources: ['https://api-sweet-medical.com']
   };
 
