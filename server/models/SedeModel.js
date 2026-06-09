@@ -6,5 +6,9 @@ const SedeSchema = new mongoose.Schema({
     direccion: { type: String, required: true }
 });
 
+SedeSchema.virtual("id").get(function() { return this._id.toString(); });
+SedeSchema.set("toJSON", { virtuals: true });
+SedeSchema.set("toObject", { virtuals: true });
+
 SedeSchema.loadClass(Sede);
-export const SedeModel = mongoose.model("Sede", SedeSchema, "sedes");
+export const SedeModel = mongoose.model("Sede", SedeSchema);

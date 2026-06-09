@@ -8,5 +8,9 @@ const PracticaSchema = new mongoose.Schema({
     costo:               { type: Number }
 });
 
+PracticaSchema.virtual("id").get(function() { return this._id.toString(); });
+PracticaSchema.set("toJSON", { virtuals: true });
+PracticaSchema.set("toObject", { virtuals: true });
+
 PracticaSchema.loadClass(Practica);
-export const PracticaModel = mongoose.model("Practica", PracticaSchema, "practicas");
+export const PracticaModel = mongoose.model("Practica", PracticaSchema);

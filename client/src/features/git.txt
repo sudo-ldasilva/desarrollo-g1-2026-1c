@@ -1,1 +1,0 @@
-Aquí desarrollaremos todas las pantallas del proyecto

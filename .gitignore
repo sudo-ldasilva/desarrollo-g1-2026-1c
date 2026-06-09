@@ -1,6 +1,5 @@
-**/node_modules
-/server/.env
-/client/.env
+/node_modules
+/.env
 
 # Base de datos local persistente de mongodb-memory-server
 .mongo-data/

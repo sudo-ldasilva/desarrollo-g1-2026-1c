@@ -6,5 +6,9 @@ const UsuarioSchema = new mongoose.Schema({
     password:      { type: String, required: true }
 });
 
+UsuarioSchema.virtual("id").get(function() { return this._id.toString(); });
+UsuarioSchema.set("toJSON", { virtuals: true });
+UsuarioSchema.set("toObject", { virtuals: true });
+
 UsuarioSchema.loadClass(Usuario);
-export const UsuarioModel = mongoose.model("Usuario", UsuarioSchema, "usuarios");
+export const UsuarioModel = mongoose.model("Usuario", UsuarioSchema);
