@@ -24,7 +24,6 @@ const ProximosTurnos = (props) => {
 
     useEffect(() => {
         const obtenerTurnosParaCalendario = async () => {
-
             if (!isAuthenticated) return;
 
             const accessToken = await getAccessToken(

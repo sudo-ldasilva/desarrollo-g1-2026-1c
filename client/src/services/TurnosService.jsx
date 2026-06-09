@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const getTurnos = async (accessToken) => {
+    console.log("pregunto turnos");
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, 
             {
@@ -18,6 +19,7 @@ export const getTurnos = async (accessToken) => {
 }
 
 export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
+     console.log("pregunto turnos en rango fecha");
     try{
         let turnos = []
         let pagina = 1, totalPaginas = -1
@@ -48,6 +50,7 @@ export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) 
 }
 
 export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
+     console.log("pregunto cantidad turnos");
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
             params: {
@@ -67,6 +70,7 @@ export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fe
 }
 
 export const getCantidadTurnosEnEstado = async (accessToken, estado) => {
+     console.log("pregunto cantidad turnos en estado");
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
             params: {

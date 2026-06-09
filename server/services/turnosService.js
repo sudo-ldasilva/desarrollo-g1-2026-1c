@@ -56,9 +56,7 @@ export default class TurnosService{
         }
 
         if (!paciente) {
-            paciente = await this.pacientesRepository.crear({
-                usuario: usuarioId
-            });
+            throw new BadRequestError("paciente no encontrado");
         }
 
         const { turnos, total, page, totalPages} =

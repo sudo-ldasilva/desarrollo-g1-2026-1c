@@ -8,8 +8,15 @@ import {UsuarioModel} from "../models/UsuarioModel.js";
 const jwks = createRemoteJWKSet(new URL("https://mm32is.logto.app/oidc/jwks"));
 
 export const authMiddleware = async (req, res, next) => {
+    //console.log("HEADERS RECIBIDOS:", req.headers.authorization);
     // Extract the token 
     const token = extractBearerTokenFromHeaders(req.headers);
+
+    // console.log("AUTH HEADER:", req.headers.authorization);
+
+    if (!token || token.split(".").length !== 3) {
+        throw new BadRequestError("Invalid or missing JWT");
+    }
 
     const { payload } = await jwtVerify(
     // The raw Bearer Token extracted from the request header

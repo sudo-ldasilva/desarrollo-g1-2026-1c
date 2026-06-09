@@ -3,38 +3,31 @@ import Dashboard from "../dashboard/Dashboard.jsx";
 import MisTurnos from "../MisTurnos/MisTurnos.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { getTurnos } from "../../services/TurnosService.jsx";
+import { getMe } from "../../services/PerfilService.jsx";
 
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
+    const [estadoPerfil, setEstadoPerfil] = useState("LOADING");
     const [turnos, setTurnos] = useState([]);
     const { signOut, isAuthenticated, isLoading, getAccessToken} = useLogto();
     const navigate = useNavigate();
 
-    // Si no está autenticado, vuelve al inicio
-    useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            navigate("/");
-        }
-    }, [isLoading, isAuthenticated, navigate]);
+    console.log("ENTORNO USUARIO (/app)")
 
     useEffect(() => {
-    const cargarTurnos = async () => {
-        if (!isAuthenticated) return;
-
-        const token = await getAccessToken(
-            "https://api-sweet-medical.com"
-        );
-
+        const cargar = async () => {
+        const token = await getAccessToken("https://api-sweet-medical.com");
         const data = await getTurnos(token);
-
         setTurnos(data);
-    };
+        };
 
-    cargarTurnos();
-}, [isAuthenticated, getAccessToken]);
+        if (isAuthenticated) {
+        cargar();
+        }
+    }, [isAuthenticated, getAccessToken]);
 
     // Turnos
     const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
@@ -74,17 +67,13 @@ const EntornoUsuario = () => {
         alert("¡Seleccionados!");
     };
 
-    if (isLoading) {
-        return <div>Cargando la aplicación...</div>;
-    }
-
 	return (
 		<div className="layout-entorno">
 		    <Sidebar />
 		    <div className="contenido-principal">
 		        <p>EntornoUsuario</p>
 		        <button
-		            onClick={() => signOut(`${window.location.origin}/`)}
+		            onClick={() =>{ console.log("CLICKEO SIGN OUT"); signOut(`http://localhost:3000`)}}
 		            className="boton-signOut"
 		        >
 		            Cerrar Sesión

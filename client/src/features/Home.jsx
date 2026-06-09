@@ -1,29 +1,22 @@
 import { useLogto } from '@logto/react';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import LoadingSplash from '../components/LoadingSplash.jsx';
 
 const Home = () => {
-  const { signIn, isAuthenticated, isLoading } = useLogto();
-  const navigate = useNavigate();
+  const { signIn, isLoading } = useLogto();
+
+  const called = useRef(false);
+
+  console.log("HOME");
 
   useEffect(() => {
-    if (!isLoading) {
-      if (isAuthenticated) {
-        // Si ya está logueado, navega a la app
-        navigate('/app');
-      } else {
-        // Si no está logueado, al login de Logto automaticamente
-        signIn(`${window.location.origin}/callback`);
-      }
+    if (!isLoading && !called.current) {
+      called.current = true;
+      signIn(`${window.location.origin}/callback`);
     }
-  }, [isAuthenticated, isLoading, navigate, signIn]);
+  }, [isLoading, signIn]);
 
-  return (
-    <div style={{ textAlign: 'center', marginTop: '5rem', fontFamily: "'Poppins', sans-serif" }}>
-      <h2>Conectando con Sweet Medical...</h2>
-      <p>Redireccionando al inicio de sesión seguro.</p>
-    </div>
-  );
+  return <LoadingSplash message="Conectando con Sweet Medical..." />;
 };
 
 export default Home;

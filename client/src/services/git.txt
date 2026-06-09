@@ -1,1 +1,0 @@
-vamos a realizar las funcionalidades de los componentes
