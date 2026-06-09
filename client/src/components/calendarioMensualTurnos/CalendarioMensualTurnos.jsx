@@ -2,10 +2,11 @@
 import {useEffect} from 'react'
 import { CCalendar } from '@coreui/react-pro'
 import '@coreui/coreui-pro/dist/css/coreui.min.css'; // css para el calendario
+import { Skeleton } from '@mui/material';
 
 import './CalendarioMensualTurnos.css';
 
-const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, className, eventoCambiarMes}) => {
+const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, className, eventoCambiarMes, eventosCargados}) => {
     const now = new Date()
     const startDate = `${now.getFullYear()}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getDate().toString().padStart(2, '0')}`;
 
@@ -14,7 +15,7 @@ const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, cl
     return (
         <div className={className}>
             <CCalendar
-                className="border rounded w-100"
+                className="rounded w-100"
                 locale="es-AR"
                 startDate={startDate}
                 minDate={soloNuevos ? startDate : undefined}
@@ -34,25 +35,31 @@ const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, cl
                         <div className="py-1">
                             <div style={{fontSize:"1.2rem"}}>{dateParsed}</div>
 
-                            <div className="day">
-                                <div
-                                    // className={ isSelected ? 'text-reset' : true && !isInCurrentMonth ? 'text-body-tertiary opacity-75' : 'text-body-tertiary'}
-                                    style={{
-                                        fontSize: '0.75rem',
-                                        color: "white",
-                                        width: '1.5rem',
-                                        height: '1.5rem',
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        backgroundColor: hayTurnos ? "var(--rojo-principal)" : undefined,
-                                        borderRadius: hayTurnos ? "50%" : undefined,
-                                        border: hayTurnos ? "1px solid white" : undefined,
-                                    }}
-                                >
-                                    {hayTurnos ? turnosDelDia.length : ""}
-                                </div>
-                            </div>
+                            {
+                                eventosCargados ? (
+                                    <div className="day">
+                                        <div
+                                            // className={ isSelected ? 'text-reset' : true && !isInCurrentMonth ? 'text-body-tertiary opacity-75' : 'text-body-tertiary'}
+                                            style={{
+                                                fontSize: '0.75rem',
+                                                color: "white",
+                                                width: '1.5rem',
+                                                height: '1.5rem',
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                backgroundColor: hayTurnos ? "var(--rojo-principal)" : undefined,
+                                                borderRadius: hayTurnos ? "50%" : undefined,
+                                                border: hayTurnos ? "1px solid white" : undefined,
+                                            }}
+                                        >
+                                            {hayTurnos ? turnosDelDia.length : ""}
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <Skeleton variant="rounded" height="1.5rem" />
+                                )
+                            }
                         </div>
                     )
                 }}

@@ -1,11 +1,13 @@
 // import CardActions from '@mui/material/CardActions';
 import {useEffect, useState} from 'react'
 import { CardHeader, CardContent, Box, Card, Skeleton } from '@mui/material';
+import { useLogto } from "@logto/react"
 import { getCantidadTurnosEnRangoFecha, getCantidadTurnosEnEstado } from "../../services/TurnosService.jsx";
-
 import './EstadisticaTurnos.css';
 
 const EstadisticaTurnos = ({className, turnos}) => {
+    const { isAuthenticated, getAccessToken } = useLogto();
+
     const [estadisticas, setEstadisticas] = useState({
         proximos7Dias: -1,
         proximoMes: -1,
@@ -15,6 +17,13 @@ const EstadisticaTurnos = ({className, turnos}) => {
 
     useEffect( () => {
         const obtenerDatos = async () => {
+
+            if (!isAuthenticated) return;
+
+            const accessToken = await getAccessToken(
+                "https://api-sweet-medical.com"
+            );
+
             const hoy = new Date()
 
             const siguienteSemana = new Date();
@@ -44,10 +53,10 @@ const EstadisticaTurnos = ({className, turnos}) => {
                 previoMes,
                 reservados,
             ] = await Promise.all([
-                getCantidadTurnosEnRangoFecha(hoy, siguienteSemana),
-                getCantidadTurnosEnRangoFecha(hoy, siguienteMes),
-                getCantidadTurnosEnRangoFecha(anteriorMes, hoy),
-                getCantidadTurnosEnEstado("RESERVADO"),
+                getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteSemana),
+                getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteMes),
+                getCantidadTurnosEnRangoFecha(accessToken, anteriorMes, hoy),
+                getCantidadTurnosEnEstado(accessToken, "RESERVADO"),
             ])
 
             setEstadisticas({
@@ -59,7 +68,7 @@ const EstadisticaTurnos = ({className, turnos}) => {
         };
 
         obtenerDatos();
-    }, []);
+    }, [isAuthenticated, getAccessToken]);
 
     const cards = [
         {

@@ -3,20 +3,31 @@ import Dashboard from "../dashboard/Dashboard.jsx";
 import MisTurnos from "../MisTurnos/MisTurnos.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import { getTurnos } from "../../services/TurnosService.jsx";
+import { getMe } from "../../services/PerfilService.jsx";
 
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
-    const { signOut, isAuthenticated, isLoading } = useLogto();
+    const [estadoPerfil, setEstadoPerfil] = useState("LOADING");
+    const [turnos, setTurnos] = useState([]);
+    const { signOut, isAuthenticated, isLoading, getAccessToken} = useLogto();
     const navigate = useNavigate();
 
-    // Si no está autenticado, vuelve al inicio
+    console.log("ENTORNO USUARIO (/app)")
+
     useEffect(() => {
-        if (!isLoading && !isAuthenticated) {
-            navigate("/");
+        const cargar = async () => {
+        const token = await getAccessToken("https://api-sweet-medical.com");
+        const data = await getTurnos(token);
+        setTurnos(data);
+        };
+
+        if (isAuthenticated) {
+        cargar();
         }
-    }, [isLoading, isAuthenticated, navigate]);
+    }, [isAuthenticated, getAccessToken]);
 
     // Turnos
     const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
@@ -56,26 +67,23 @@ const EntornoUsuario = () => {
         alert("¡Seleccionados!");
     };
 
-    if (isLoading) {
-        return <div>Cargando la aplicación...</div>;
-    }
-
 	return (
 		<div className="layout-entorno">
 		    <Sidebar />
 		    <div className="contenido-principal">
 		        <p>EntornoUsuario</p>
 		        <button
-		            onClick={() => signOut(`${window.location.origin}/`)}
+		            onClick={() =>{ console.log("CLICKEO SIGN OUT"); signOut(`http://localhost:3000`)}}
 		            className="boton-signOut"
 		        >
 		            Cerrar Sesión
 		        </button>
 		        <Dashboard
+                    turnos={turnos}
 		            turnosPreseleccionados={turnosPreseleccionados}
 		            confirmarReserva={confirmarReserva}
 		        />
-		        <MisTurnos />
+		        <MisTurnos turnos={turnos}/>
 		    </div>
 		</div>
 	);

@@ -1,16 +1,13 @@
-import {useState} from 'react'
 import { Card, CardHeader, CardContent, Button, Alert } from '@mui/material';
 import TurnoInfo from '../turnoInfo/TurnoInfo.jsx';
 
 import './ConfirmarPreseleccion.css';
 
 const ConfirmarPreseleccion = ({turnosPreseleccionados, confirmarReserva}) => {
-    useState( () => { }, [turnosPreseleccionados])
-
     return (
-        <Card style={{width: "100%", height: "fit-content"}}>
+        <Card className="ConfirmarPreseleccion_card">
             <CardHeader title="Turnos Pre-Seleccionados"></CardHeader>
-            <CardContent style={{width: "100%"}}>
+            <CardContent className="ConfirmarPreseleccion_content">
 
 
                 {
@@ -23,9 +20,7 @@ const ConfirmarPreseleccion = ({turnosPreseleccionados, confirmarReserva}) => {
                                 ))
                             }
                             <Button
-                                style={{
-                                    margin: "1rem",
-                                }}
+                                className="ConfirmarPreseleccion_button"
                                 variant="contained"
                                 onClick={confirmarReserva}
                             >

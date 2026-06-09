@@ -6,6 +6,8 @@ import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
 import CarritoPreseleccion from './features/CarritoPreseleccion/CarritoPreseleccion.jsx';
+import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
+import RequiereAuth from './components/RequiereAuth.jsx';
 import axios from 'axios';
 import React, {useState} from 'react';
 
@@ -25,7 +27,8 @@ function App() {
     endpoint: 'https://mm32is.logto.app/',
     appId: 'o5yyg82jt0gb2b8nbiuje',
     redirectUri: `${window.location.origin}/callback`,
-    postLogoutRedirectUri: `${window.location.origin}/`,
+    postLogoutRedirectUri: `http://localhost:3000`,
+    resources: ['https://api-sweet-medical.com']
   };
 
   const [carrito, setCarrito] = useState([]);
@@ -48,9 +51,7 @@ function App() {
     //REVISAR
     //ACÁ falta resolver como reservamos todos los turnos preseleccionados
     await axios.post('http://localhost:3000/turnos/{t.id}/cambios-estado', { turnos: ids });
-  };
-
-  
+  };  
 
   return (
       <LogtoProvider config={config}>
@@ -59,17 +60,38 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<Callback />} />
-              <Route path="/app" element={<EntornoUsuario />} />
-              <Route path="/solicitar-turnos" 
-                    element={<SolicitarTurnos agregarAlCarrito={agregarAlCarrito} carrito={carrito} />}/>
+              <Route path="/completar-perfil" element={<CompletarPerfil />} />
 
-              <Route path="/solicitar-turnos/carrito" 
-                      element={
-                        <CarritoPreseleccion 
-                          carrito={carrito} 
-                          eliminarDelCarrito={eliminarDelCarrito}
-                          limpiarCarrito={limpiarCarrito}
-                          persistirReservasEnBackend={persistirReservasEnBackend}/>} />
+              <Route
+                path="/app"
+                element={<EntornoUsuario />}
+              />
+
+              <Route
+                path="/solicitar-turnos"
+                element={
+                  <RequiereAuth>
+                    <SolicitarTurnos
+                      carrito={carrito}
+                      agregarAlCarrito={agregarAlCarrito}
+                    />
+                  </RequiereAuth>
+                }
+              />
+
+              <Route
+                path="/solicitar-turnos/carrito"
+                element={
+                  <RequiereAuth>
+                    <CarritoPreseleccion
+                      carrito={carrito}
+                      eliminarDelCarrito={eliminarDelCarrito}
+                      limpiarCarrito={limpiarCarrito}
+                      persistirReservasEnBackend={persistirReservasEnBackend}
+                    />
+                  </RequiereAuth>
+                }
+              />
             </Routes>
           </ThemeProvider>
          </BrowserRouter>

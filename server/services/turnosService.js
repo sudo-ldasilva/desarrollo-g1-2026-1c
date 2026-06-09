@@ -49,14 +49,14 @@ export default class TurnosService{
     }
 
     async turnosPorUsuario(filtros, usuarioId, pagina, limit) {
+        let paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
+  
         if(filtros.fechaInicio && filtros.fechaFin && filtros.fechaFin < filtros.fechaInicio) {
             throw new BadRequestError("Rango invalido de fechas");
         }
 
-        const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
-
-        if(!paciente) {
-            throw new NotFoundError("No se encuentra usuario paciente");
+        if (!paciente) {
+            throw new BadRequestError("paciente no encontrado");
         }
 
         const { turnos, total, page, totalPages} =

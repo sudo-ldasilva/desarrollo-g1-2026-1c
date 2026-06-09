@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import './Sidebar.css';
 
