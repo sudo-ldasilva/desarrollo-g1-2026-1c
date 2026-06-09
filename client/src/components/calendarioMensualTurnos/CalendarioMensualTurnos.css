@@ -1,0 +1,33 @@
+.CalendarioMensualTurno_calendario_info {
+    color: var(--texto-oscuro);
+    text-align: center;
+}
+
+.calendar {
+    width: 100%;
+    --cui-calendar-cell-selected-bg: var(--rojo-principal);
+    /* --cui-calendar-cell-selected-color: gray; */
+}
+
+.calendar table {
+    width: 98%;
+    margin: 0px;
+    margin-left: 1%;
+}
+
+.calendar-row {
+    border-bottom: 1px solid lightgray;
+}
+
+.calendar .today .calendar-cell-inner{
+    border: 1px solid var(--rojo-principal);
+    border-radius: var(--cui-calendar-nav-btn-border-radius);
+}
+
+.day {
+    display: flex;
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+    /* min-height: 1rem; */
+    justify-content: center;
+}

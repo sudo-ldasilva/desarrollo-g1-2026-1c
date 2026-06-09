@@ -4,15 +4,27 @@ import { DiaSemana } from "../domain/DiaSemana.js";
 
 const DisponibilidadSchema = new mongoose.Schema(
     {
-        horaInicio: { type: String, required: true },
-        horaFin: { type: String, required: true },
-        diasSemana: [
-            {
-                type: String,
-                enum: Object.values(DiaSemana),
-                required: true,
-            },
-        ],
+        diaSemana: {
+            type: String,
+            enum: Object.values(DiaSemana),
+            required: true,
+        },
+        horaDesde: { type: String, required: true },
+        horaHasta: { type: String, required: true },
+        sede: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Sede",
+            required: true,
+        },
+        servicio: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            refPath: "tipoServicioDisp",
+        },
+        tipoServicioDisp: {
+            type: String,
+           enum: ["Especialidad", "Practica"],
+        },
     },
     { _id: false }
 );
@@ -27,11 +39,6 @@ const MedicoSchema = new mongoose.Schema({
     disponibilidades:  [DisponibilidadSchema],
 });
 
-// Virtual para exponer "id" en JSON (compatibilidad con dominio)
-MedicoSchema.virtual("id").get(function() { return this._id.toString(); });
-MedicoSchema.set("toJSON", { virtuals: true });
-MedicoSchema.set("toObject", { virtuals: true });
-
 // Evita errores por recompilar el modelo en hot-reload
 MedicoSchema.loadClass(Medico);
-export const MedicoModel = mongoose.model("Medico", MedicoSchema);
+export const MedicoModel = mongoose.model("Medico", MedicoSchema, "medicos");

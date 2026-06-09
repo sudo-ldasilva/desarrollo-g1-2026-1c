@@ -20,7 +20,7 @@ export default class TurnosService{
             const paciente = await PacienteModel.findById(pacienteId).populate("plan");
             if (paciente) plan = paciente.plan;
         }
-        
+
         const { turnos, total, page, totalPages, sort } =
         await this.turnosRepository.buscarPaginado(filtros, paginacion, ordenamiento);
 
@@ -70,7 +70,11 @@ export default class TurnosService{
         return dto;
     }
 
-    async turnosPorUsuario(usuarioId, pagina, limit) {
+    async turnosPorUsuario(filtros, usuarioId, pagina, limit) {
+        if(filtros.fechaInicio && filtros.fechaFin && filtros.fechaFin < filtros.fechaInicio) {
+            throw new BadRequestError("Rango invalido de fechas");
+        }
+
         const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
 
         if(!paciente) {
@@ -78,7 +82,7 @@ export default class TurnosService{
         }
 
         const { turnos, total, page, totalPages} =
-        await this.turnosRepository.buscarPorPaciente(paciente._id, pagina, limit);
+        await this.turnosRepository.buscarPorPaciente(filtros, paciente._id, pagina, limit);
 
         return {
             turnos: turnos.map(t => turnoToDTO(t)),
