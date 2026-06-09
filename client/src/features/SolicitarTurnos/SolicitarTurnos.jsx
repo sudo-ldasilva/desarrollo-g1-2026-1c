@@ -50,7 +50,7 @@ const SolicitarTurnos = ({ agregarAlCarrito, carrito }) => {
         <Button 
           variant="contained" 
           disabled={carrito.length === 0}
-          onClick={() => navigate('/solicitar-turnos/carrito')}
+          onClick={() => navigate('/app/solicitar-turnos/carrito')}
           style={{ backgroundColor: carrito.length > 0 ? '#c90e31' : '#ccc', color: 'white', fontWeight: 'bold' }}
         >
           🛒 Ver mi Preselección ({carrito.length})

@@ -68,7 +68,7 @@ function App() {
               />
 
               <Route
-                path="/solicitar-turnos"
+                path="/app/solicitar-turnos"
                 element={
                   <RequiereAuth>
                     <SolicitarTurnos
@@ -80,7 +80,7 @@ function App() {
               />
 
               <Route
-                path="/solicitar-turnos/carrito"
+                path="/app/solicitar-turnos/carrito"
                 element={
                   <RequiereAuth>
                     <CarritoPreseleccion

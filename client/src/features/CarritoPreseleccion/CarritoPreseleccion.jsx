@@ -25,7 +25,7 @@ const CarritoPreseleccion = ({ carrito, eliminarDelCarrito, limpiarCarrito, pers
   const handleCancelarTodo = () => {
     if (window.confirm("¿Estás seguro de que querés cancelar toda la preselección? Se vaciará el carrito.")) {
       limpiarCarrito();
-      navigate('/solicitar-turnos');
+      navigate('/app/solicitar-turnos');
     }
   };
 
