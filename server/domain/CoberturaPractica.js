@@ -6,7 +6,7 @@ export class CoberturaPractica{
 
     obtenerNivelDe(plan) {
         const cobertura = plan.coberturasPractica.find(
-            p => p.practica === this.practica
+            p => String(p.practica) === String(this.practica)
         );
         if (!cobertura) throw new Error(`Práctica ${this.practica} no cubierta en este plan`);
         return cobertura.nivel;

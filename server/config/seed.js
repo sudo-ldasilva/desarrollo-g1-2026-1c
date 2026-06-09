@@ -99,54 +99,76 @@ export const runSeed = async () => {
         console.log("✅ 10 Especialidades creadas.");
 
         // =========================================================================
-        // 2.1 OBRAS SOCIALES Y PLANES (5)
+        // 3. PRÁCTICAS (2 registros) - para turnos que no sean de Especialidad
+        // =========================================================================
+        console.log("🧾 Creando Prácticas...");
+        const practicaRx = await PracticaModel.create({ codigo: "P-001", nombre: "Rx Tórax", duracionTurnoEnMins: 15, costo: 5000 });
+        const practicaECG = await PracticaModel.create({ codigo: "P-002", nombre: "Electrocardiograma", duracionTurnoEnMins: 20, costo: 8000 });
+        console.log("✅ 2 Prácticas creadas.");
+
+        // =========================================================================
+        // 4 OBRAS SOCIALES Y PLANES (5)
         // =========================================================================
         console.log("🏥 Creando Obra Social y Planes...");
 
-        // 1. OSDE
+        // Array con todas las especialidades para facilitar la asignación
+        const todasEspecialidades = [
+            cardiologia, dermatologia, pediatria, traumatologia, oftalmologia,
+            ginecologia, neurologia, psicologia, clinicaMedica, odontologia
+        ];
+
+        // Array con todas las prácticas
+        const todasPracticas = [practicaRx, practicaECG];
+
+        // 1. OSDE - Cobertura parcial
         const osde = await ObraSocialModel.create({ nombre: "OSDE" });
         const planOsde = await PlanModel.create({ 
             nombre: "OSDE 210", 
             obraSocial: osde._id, 
-            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.PARCIAL }] 
+            coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.PARCIAL })),
+            coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.PARCIAL }))
         });
         
-        // 2. Galeno
+        // 2. Galeno - Cobertura total
         const galeno = await ObraSocialModel.create({ nombre: "Galeno" });
         const planGaleno = await PlanModel.create({ 
             nombre: "Galeno Oro", 
             obraSocial: galeno._id, 
-            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.TOTAL }] 
+            coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.TOTAL })),
+            coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.TOTAL }))
         });
 
-        // 3. Swiss Medical
+        // 3. Swiss Medical - Cobertura parcial
         const swiss = await ObraSocialModel.create({ nombre: "Swiss Medical" });
         const planSwiss = await PlanModel.create({ 
             nombre: "SMG 30", 
             obraSocial: swiss._id, 
-            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.PARCIAL }] 
+            coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.PARCIAL })),
+            coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.PARCIAL }))
         });
 
-        // 4. OSL
+        // 4. OSL - Sin cobertura
         const osl = await ObraSocialModel.create({ nombre: "OSL" });
         const planOsl = await PlanModel.create({ 
             nombre: "Plan Basico", 
             obraSocial: osl._id, 
-            coberturasEspecialidad: [] // Sin cobertura
+            coberturasEspecialidad: [],
+            coberturasPractica: []
         }); 
 
-        // 5. IOMA
+        // 5. IOMA - Cobertura total
         const ioma = await ObraSocialModel.create({ nombre: "IOMA" });
         const planIoma = await PlanModel.create({ 
             nombre: "Afiliado", 
             obraSocial: ioma._id, 
-            coberturasEspecialidad: [{ especialidad: cardiologia._id, nivel: NivelCobertura.TOTAL }] 
+            coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.TOTAL })),
+            coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.TOTAL }))
         });
 
         console.log("✅ Obra Social y Plan creados.");
 
         // =========================================================================
-        // 3. USUARIOS (20 registros: 10 para médicos, 10 para pacientes)
+        // 5. USUARIOS (20 registros: 10 para médicos, 10 para pacientes)
         // =========================================================================
         console.log("👥 Creando Usuarios...");
 
@@ -172,7 +194,7 @@ export const runSeed = async () => {
         console.log("✅ 20 Usuarios creados.");
 
         // =========================================================================
-        // 4. SEDES (10 registros - Hospitales CABA)
+        // 6. SEDES (10 registros - Hospitales CABA)
         // =========================================================================
         console.log("🏢 Creando Sedes...");
 
@@ -220,15 +242,7 @@ export const runSeed = async () => {
         console.log("✅ 10 Sedes creadas.");
 
         // =========================================================================
-        // PRÁCTICAS (3 registros) - para turnos que no sean de Especialidad
-        // =========================================================================
-        console.log("🧾 Creando Prácticas...");
-        const practicaRx = await PracticaModel.create({ codigo: "P-001", nombre: "Rx Tórax", duracionTurnoEnMins: 15, costo: 5000 });
-        const practicaECG = await PracticaModel.create({ codigo: "P-002", nombre: "Electrocardiograma", duracionTurnoEnMins: 20, costo: 8000 });
-        console.log("✅ 2 Prácticas creadas.");
-
-        // =========================================================================
-        // 5. MÉDICOS (10 registros)
+        // 7. MÉDICOS (10 registros)
         // =========================================================================
         console.log("👨‍⚕️ Creando Médicos...");
 
@@ -306,7 +320,7 @@ export const runSeed = async () => {
         console.log("✅ 10 Médicos creados.");
 
         // =========================================================================
-        // 6. PACIENTES (20 registros)
+        // 8. PACIENTES (20 registros)
         // =========================================================================
         console.log("🤒 Creando Pacientes...");
 
@@ -456,7 +470,7 @@ export const runSeed = async () => {
 
         console.log("✅ 20 Pacientes creados.");
         // =========================================================================
-        // 7. TURNOS (6 registros) y NOTIFICACIONES (5 registros)
+        // 9. TURNOS (6 registros) y NOTIFICACIONES (5 registros)
         // =========================================================================
         console.log("📅 Creando Turnos de ejemplo...");
 

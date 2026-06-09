@@ -17,7 +17,7 @@ export default class TurnosService{
 
         let plan = null;
         if (pacienteId) {
-            const paciente = await PacienteModel.findOne({ usuario: pacienteId }).populate("plan");
+            const paciente = await PacienteModel.findById(pacienteId).populate("plan");
             if (paciente) plan = paciente.plan;
         }
         
@@ -37,16 +37,36 @@ export default class TurnosService{
         const dto = turnoToDTO(turno);
         const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
         dto.costo = costoBase;
-        dto.cobertura = NivelCobertura.NO_CUBIERTA; // Por defecto, sin cobertura
+        dto.cobertura = NivelCobertura.NO_CUBIERTA;
 
         if (plan && turno.servicio) {
-            try {
-                const nivel = plan.obtenerCobertura(turno.servicio);
+            let nivel = null;
+            
+            if (turno.tipoServicio === "Especialidad") {
+
+                const cobertura = plan.coberturasEspecialidad?.find(
+                    c => String(c.especialidad) === String(turno.servicio._id)
+                );
+                nivel = cobertura?.nivel;
+            } else if (turno.tipoServicio === "Practica") {
+
+                const cobertura = plan.coberturasPractica?.find(
+                    c => String(c.practica) === String(turno.servicio._id)
+                );
+                nivel = cobertura?.nivel;
+            }
+
+            if (nivel) {
                 dto.cobertura = nivel;
-                if (nivel === NivelCobertura.TOTAL) dto.costoEstimado = 0;
-                else if (nivel === NivelCobertura.PARCIAL) dto.costoEstimado = costoBase * 0.5; // 50% copago
-            } catch (error) { /* Si no está cubierta o falla, se mantiene el costoBase y cobertura*/ }
+
+                if (nivel === NivelCobertura.TOTAL) {
+                    dto.costo = 0; 
+                } else if (nivel === NivelCobertura.PARCIAL) {
+                    dto.costo = costoBase * 0.5; // 50% de descuento
+                }
+            }
         }
+
         return dto;
     }
 
@@ -89,6 +109,8 @@ export default class TurnosService{
 }
 
 export function turnoToDTO(turno) {
+    const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
+    
     return {
         _id: turno._id,
         fechaHora: turno.fechaHora,
@@ -104,7 +126,8 @@ export function turnoToDTO(turno) {
             direccion: turno.sede.direccion
         },
         estado: turno.estado,
-        costo: turno.costo, //Sería el costo calculado (cambia segun paciente que consulta)
+        costoBase: costoBase, 
+        costo: turno.costo,
         cobertura: turno.cobertura
     };   
 }
