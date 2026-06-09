@@ -8,7 +8,6 @@ import {UsuarioModel} from "../models/UsuarioModel.js";
 const jwks = createRemoteJWKSet(new URL("https://mm32is.logto.app/oidc/jwks"));
 
 export const authMiddleware = async (req, res, next) => {
-    console.log("DEBUG: ENTRE AL AUTH MIDDLEWARE"); 
     // Extract the token 
     const token = extractBearerTokenFromHeaders(req.headers);
 
@@ -39,7 +38,7 @@ export const authMiddleware = async (req, res, next) => {
             rol: "PACIENTE" //por default, los usuarios nuevos en la app son pacientes
         });
       
-        console.log("DEBUG: PACIENTE NUEVO CREADO");
+        //console.log("DEBUG: PACIENTE NUEVO CREADO");
     }
 
     // Disponibilizarlo para los controllers

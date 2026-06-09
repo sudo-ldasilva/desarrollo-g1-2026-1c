@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Dashboard from "../dashboard/Dashboard.jsx";
 import MisTurnos from "../MisTurnos/MisTurnos.jsx";
+import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
 import { useNavigate } from "react-router-dom";
 import { getTurnos } from "../../services/TurnosService.jsx";
@@ -8,7 +9,8 @@ import { getTurnos } from "../../services/TurnosService.jsx";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
-    const { signOut, isAuthenticated, isLoading, getAccessToken } = useLogto();
+    const [turnos, setTurnos] = useState([]);
+    const { signOut, isAuthenticated, isLoading, getAccessToken} = useLogto();
     const navigate = useNavigate();
 
     // Si no está autenticado, vuelve al inicio
@@ -18,31 +20,24 @@ const EntornoUsuario = () => {
         }
     }, [isLoading, isAuthenticated, navigate]);
 
-    // Estados
-    const [turnos, setTurnos] = useState([]);
-    const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
-
-    // Carga de turnos desde la "BD"
     useEffect(() => {
-        const cargarTurnosDesdeLaBD = async () => {
+    const cargarTurnos = async () => {
+        if (!isAuthenticated) return;
 
-            if(!isAuthenticated) return;
+        const token = await getAccessToken(
+            "https://api-sweet-medical.com"
+        );
 
-            try {
-                const accessToken = await getAccessToken('https://api-sweet-medical.com') //obtener JWT
+        const data = await getTurnos(token);
 
-               // console.log("DEBUG TOKEN:", accessToken);
-                
-                const turnosBD = await getTurnos(accessToken);
-                setTurnos(turnosBD);
-            
-            } catch (error) {
-                console.error(error);
-            }
-        };
+        setTurnos(data);
+    };
 
-        cargarTurnosDesdeLaBD();
-    }, [isAuthenticated, getAccessToken]);
+    cargarTurnos();
+}, [isAuthenticated, getAccessToken]);
+
+    // Turnos
+    const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
 
     // TODO Datos de ejemplo. Eliminar luego.
     useEffect(() => {
@@ -83,26 +78,26 @@ const EntornoUsuario = () => {
         return <div>Cargando la aplicación...</div>;
     }
 
-    return (
-        <>
-            <p>EntornoUsuario</p>
-
-            <button
-                onClick={() => signOut(`${window.location.origin}/`)}
-                className="boton-signOut"
-            >
-                Cerrar Sesión
-            </button>
-
-            <Dashboard
-                turnosPreseleccionados={turnosPreseleccionados}
-                turnos={turnos}
-                confirmarReserva={confirmarReserva}
-            />
-
-            <MisTurnos turnos={turnos} />
-        </>
-    );
+	return (
+		<div className="layout-entorno">
+		    <Sidebar />
+		    <div className="contenido-principal">
+		        <p>EntornoUsuario</p>
+		        <button
+		            onClick={() => signOut(`${window.location.origin}/`)}
+		            className="boton-signOut"
+		        >
+		            Cerrar Sesión
+		        </button>
+		        <Dashboard
+                    turnos={turnos}
+		            turnosPreseleccionados={turnosPreseleccionados}
+		            confirmarReserva={confirmarReserva}
+		        />
+		        <MisTurnos turnos={turnos}/>
+		    </div>
+		</div>
+	);
 };
 
 export default EntornoUsuario;
