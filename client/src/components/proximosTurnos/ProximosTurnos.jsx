@@ -14,6 +14,7 @@ const ProximosTurnos = (props) => {
     const hoy = new Date()
 
     let [turnos, setTurnos] = useState([]);
+    let [calendarioActualizado, setCalendarioActualizado] = useState(false);
     let [mesCalendario, setMesCalendario] = useState(hoy)
     let [fechaSeleccionada, setFechaSeleccionada] = useState(new Date(hoy.setHours(0,0,0,0)))
     const turnosFiltrados = turnos.filter( (fecha) => new Date(fecha.fechaHora).toDateString() === fechaSeleccionada.toDateString() )
@@ -50,32 +51,32 @@ const ProximosTurnos = (props) => {
 
             const turnosRecibidos = await getTurnosEnRangoFecha(
                 accessToken,
-                anteriorMes, 
+                anteriorMes,
                 siguienteMes
             );
 
             setTurnos(turnosRecibidos);
+            setCalendarioActualizado(true);
         };
 
         obtenerTurnosParaCalendario();
     }, [mesCalendario, isAuthenticated, getAccessToken])
 
+    const cambiarMesCalendario = (mes) => {
+        setCalendarioActualizado(false);
+        setMesCalendario(mes)
+    }
+
     return (
         <Card sx={{width: "100%", height: "fit-content"}} className="ProximosTurnos" >
             <CardHeader title="Turnos Próximos"></CardHeader>
             {
-                turnos.length !== 0 ?
-                (
-                    <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnos} eventoCambiarMes={setMesCalendario} />
-                ) : (
-                    <Skeleton variant="rounded" height="330px" />
-                )
+                <CalendarioMensualTurnos soloNuevos turnos={turnos} eventoSeleccionarFecha={filtrarTurnos} eventoCambiarMes={cambiarMesCalendario} eventosCargados={calendarioActualizado} />
             }
 
             <div className="ProximosTurnos_turnos">
                 {
-                    turnos.length !== 0 ?
-                    (
+                    calendarioActualizado ? (
                         turnosFiltrados.length !== 0 ?
                         (
                             turnosFiltrados.map( (turno) => (
@@ -86,12 +87,8 @@ const ProximosTurnos = (props) => {
                             <Alert severity="info">No hay turnos para el dia seleccionado</Alert>
                         )
                     ) : (
-                        <>
-                            <Skeleton variant="rounded" height="180px" />
-                            <Skeleton variant="rounded" height="180px" />
-                            <Skeleton variant="rounded" height="180px" />
-                        </>
-                )
+                        <Skeleton variant="rounded" height="50px" />
+                    )
                 }
             </div>
         </Card>
