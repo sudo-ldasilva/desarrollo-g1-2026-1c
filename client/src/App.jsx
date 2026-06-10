@@ -11,6 +11,7 @@ import RequiereAuth from './components/RequiereAuth.jsx';
 import axios from 'axios';
 import React, {useState} from 'react';
 import MisServicios from './features/MisServicios/MisServicios.jsx';
+import MisSedes from './features/MisSedes/MisSedes.jsx';
 
 const theme = createTheme({
     palette: {
@@ -96,6 +97,12 @@ function App() {
               <Route path='/app/mis-servicios' element={
                 <RequiereAuth>
                   <MisServicios/>
+                </RequiereAuth>
+              }
+              />
+              <Route path='/app/mis-sedes' element={
+                <RequiereAuth>
+                  <MisSedes/>
                 </RequiereAuth>
               }
               />
