@@ -1,6 +1,25 @@
 import axios from "axios";
 
-export const getTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
+export const getTurnos = async (accessToken) => {
+    console.log("pregunto turnos");
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                },
+            }
+        );
+
+        return response.data.turnos;
+    } catch (error) {
+        console.error("Error obteniendo los turnos", error);
+        throw error;
+    }
+}
+
+export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
+     console.log("pregunto turnos en rango fecha");
     try{
         let turnos = []
         let pagina = 1, totalPaginas = -1
@@ -13,7 +32,8 @@ export const getTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
                     fechaFin
                 },
                 headers: {
-                    'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                    // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
                                                                // Paciente 1, Lucia Fernandez, Plan Oro
                 },
             })
@@ -31,7 +51,8 @@ export const getTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
     }
 }
 
-export const getCantidadTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
+export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
+     console.log("pregunto cantidad turnos");
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
             params: {
@@ -39,7 +60,8 @@ export const getCantidadTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
                 fechaFin
             },
             headers: {
-                'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+                Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
             },
         })
 
@@ -50,14 +72,16 @@ export const getCantidadTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
     }
 }
 
-export const getCantidadTurnosEnEstado = async (estado) => {
+export const getCantidadTurnosEnEstado = async (accessToken, estado) => {
+     console.log("pregunto cantidad turnos en estado");
     try{
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
             params: {
                 estado
             },
-            headers: {
-                'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+           headers: {
+                Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
             },
         })
 
