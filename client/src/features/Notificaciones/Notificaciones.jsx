@@ -15,7 +15,7 @@ const Notificaciones = () => {
     const cargarNotificaciones = async () => {
       try {
         setCargando(true);
-        // Solicitamos las notificaciones pendientes. Puedes agregar un toggle para ver "leídas" si lo deseas.
+        // Solicitamos las notificaciones pendientes
         const data = await obtenerNotificaciones("pendientes");
         setNotificaciones(data.notificaciones || []);
       } catch (err) {

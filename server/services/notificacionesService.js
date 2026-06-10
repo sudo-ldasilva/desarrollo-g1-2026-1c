@@ -42,7 +42,7 @@ export default class NotificacionesService{
             throw new NotFoundError("No se encuentra notificacion");
         }
 
-        if(usuarioId != notificacion.destinatario._id) {
+        if(usuarioId.toString() !== notificacion.destinatario._id.toString()) {
             throw new ForbiddenError("El usuario no es destinatario");
         }
 

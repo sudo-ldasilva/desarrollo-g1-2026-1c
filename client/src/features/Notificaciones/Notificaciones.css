@@ -29,3 +29,14 @@
 .notificacion-item:last-child {
   border-bottom: none;
 }
+
+.btn-marcar-leida {
+  color: var(--rojo-principal) !important;
+  border-color: var(--rojo-principal) !important;
+  font-size: 0.75rem !important;
+}
+
+.btn-marcar-leida:hover {
+  background-color: var(--rojo-principal) !important;
+  color: white !important;
+}

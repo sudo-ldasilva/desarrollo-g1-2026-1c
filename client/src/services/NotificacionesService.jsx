@@ -12,8 +12,11 @@ const getConfig = () => ({
 
 export const obtenerNotificaciones = async (estado = "pendientes", page = 1, limit = 10) => {
   try {
+    const params = { page, limit };
+    if (estado) params.estado = estado;
+    
     const response = await axios.get(`${API_URL}/notificaciones`, {
-      params: { estado, page, limit },
+      params,
       ...getConfig(),
     });
     return response.data;
