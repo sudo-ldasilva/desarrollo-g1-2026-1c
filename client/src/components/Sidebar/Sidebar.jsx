@@ -26,8 +26,7 @@ const Sidebar = () => {
   };
 
   const handleNotificationsClick = () => {
-    // Preparado para manejar notificaciones
-    console.log('Notificaciones clickeadas');
+    navigate('/app/notificaciones');
   };
 
   return (

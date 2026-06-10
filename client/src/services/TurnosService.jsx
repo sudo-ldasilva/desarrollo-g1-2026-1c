@@ -13,7 +13,8 @@ export const getTurnosEnRangoFecha = async (fechaInicio, fechaFin) => {
                     fechaFin
                 },
                 headers: {
-                    'x-usuario-id': '6a26b58133d704df8b9df054' // TODO NO Hardcodear
+                    'x-usuario-id': '6a2969300f5614f4b3d73274' // TODO NO Hardcodear
+                                                               // Paciente 1, Lucia Fernandez, Plan Oro
                 },
             })
 

@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
-import Dashboard from "../dashboard/Dashboard.jsx";
-import MisTurnos from "../MisTurnos/MisTurnos.jsx";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
 import { useNavigate } from "react-router-dom";
-
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
     const { signOut, isAuthenticated, isLoading } = useLogto();
     const navigate = useNavigate();
+    const location = useLocation();
 
     // Si no está autenticado, vuelve al inicio
     useEffect(() => {
@@ -18,7 +17,7 @@ const EntornoUsuario = () => {
         }
     }, [isLoading, isAuthenticated, navigate]);
 
-    // Turnos
+    // Turnos preseleccionados (estado compartido para el carrito)
     const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
 
     // TODO Datos de ejemplo. Eliminar luego.
@@ -60,25 +59,22 @@ const EntornoUsuario = () => {
         return <div>Cargando la aplicación...</div>;
     }
 
-	return (
-		<div className="layout-entorno">
-		    <Sidebar />
-		    <div className="contenido-principal">
-		        <p>EntornoUsuario</p>
-		        <button
-		            onClick={() => signOut(`${window.location.origin}/`)}
-		            className="boton-signOut"
-		        >
-		            Cerrar Sesión
-		        </button>
-		        <Dashboard
-		            turnosPreseleccionados={turnosPreseleccionados}
-		            confirmarReserva={confirmarReserva}
-		        />
-		        <MisTurnos />
-		    </div>
-		</div>
-	);
+    return (
+        <div className="layout-entorno">
+            <Sidebar />
+            <div className="contenido-principal">
+                <button
+                    onClick={() => signOut(`${window.location.origin}/`)}
+                    className="boton-signOut"
+                >
+                    Cerrar Sesión
+                </button>
+                
+                {/* Outlet renderiza el componente de la ruta hija que matchee */}
+                <Outlet context={{ turnosPreseleccionados, confirmarReserva }} />
+            </div>
+        </div>
+    );
 };
 
 export default EntornoUsuario;

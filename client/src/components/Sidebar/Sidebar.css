@@ -1,93 +1,93 @@
-.sidebar {
-  width: 280px;
-  min-width: 280px;
-  background-color: var(--rojo-principal);
-  color: var(--blanco);
-  display: flex;
-  flex-direction: column;
-  /* Sin position: sticky, sin height: 100vh */
-  /* El contenedor flex padre se encarga de estirarlo */
+/* Aumentamos la especificidad combinando con la clase raíz de MUI */
+.sidebar.MuiBox-root {
+    width: 280px;
+    min-width: 280px;
+    background-color: var(--rojo-principal);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-header {
-  padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-logo {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  color: var(--blanco) !important;
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--blanco);
+    margin: 0;
 }
 
 .sidebar-menu {
-  flex: 1;
-  padding: 1rem 0;
+    flex: 1;
+    padding: 1rem 0;
 }
 
-.sidebar-menu-item {
-  padding: 0.75rem 1.5rem !important;
-  margin: 0.25rem 0.75rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  color: var(--blanco) !important;
+/* Combinamos con la clase de MUI para los items del menú */
+.sidebar-menu-item.MuiButtonBase-root {
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: var(--blanco);
 }
 
-.sidebar-menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.sidebar-menu-item.MuiButtonBase-root:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.sidebar-menu-item.active,
-.sidebar-menu-item.Mui-selected {
-  background-color: rgba(255, 255, 255, 0.2);
-  font-weight: 600;
+.sidebar-menu-item.MuiButtonBase-root.Mui-selected,
+.sidebar-menu-item.MuiButtonBase-root.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
 }
 
 .menu-item-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 .menu-item-subtext {
-  font-size: 0.75rem;
-  opacity: 0.8;
-  font-weight: 400;
+    font-size: 0.75rem;
+    opacity: 0.8;
+    font-weight: 400;
 }
 
 .sidebar-footer {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.notifications-button {
-  color: var(--blanco) !important;
-  padding: 8px !important;
+.notifications-button.MuiIconButton-root {
+    color: var(--blanco);
+    padding: 8px;
 }
 
-.notifications-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.notifications-button.MuiIconButton-root:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .notifications-badge .MuiBadge-badge {
-  background-color: #ff4444;
-  color: white;
-  font-weight: 600;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
-  font-size: 0.75rem;
+    background-color: #ff4444;
+    color: white;
+    font-weight: 600;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font-size: 0.75rem;
 }
 
 .user-greeting {
-  flex: 1;
-  color: var(--blanco);
+    flex: 1;
+    color: var(--blanco);
 }
 
 .user-greeting strong {
-  font-weight: 600;
+    font-weight: 600;
 }

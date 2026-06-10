@@ -552,6 +552,143 @@ export const runSeed = async () => {
     });
     console.log("✅ 5 Notificaciones creadas.");
 
+	// =========================================================================
+	// 9. NOTIFICACIONES DE EJEMPLO ADICIONALES (15 registros con variedad de estados)
+	// =========================================================================
+	console.log("🔔 Creando Notificaciones ADICIONALES de ejemplo...");
+
+	// Notificaciones para paciente1 (Lucía Fernández - Plan ORO)
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[0]._id,
+	  remitente: usuariosMedicos[0]._id,
+	  mensaje: "Recordatorio: tiene un turno reservado mañana a las 10:00 con Dr. Juan Pérez (Cardiología).",
+	  fechaHoraCreacion: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // hace 1 día
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[0]._id,
+	  remitente: usuariosMedicos[0]._id,
+	  mensaje: "Su turno de Cardiología ha sido confirmado para el 15/06/2026 a las 10:00 hs.",
+	  fechaHoraCreacion: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // hace 2 días
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[0]._id,
+	  remitente: usuariosMedicos[1]._id,
+	  mensaje: "Dra. María González solicitó reprogramar su turno de Dermatología.",
+	  fechaHoraCreacion: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // hace 3 días
+	  leida: true,
+	  fechaHoraLeida: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+	});
+
+	// Notificaciones para paciente2 (Martín Silva - Plan ORO)
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[1]._id,
+	  remitente: usuariosMedicos[1]._id,
+	  mensaje: "Su turno con Dra. María González ha sido confirmado.",
+	  fechaHoraCreacion: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[1]._id,
+	  remitente: usuariosMedicos[2]._id,
+	  mensaje: "Recordatorio: Turno de Pediatría mañana a las 14:30 hs.",
+	  fechaHoraCreacion: new Date(Date.now() - 5 * 60 * 60 * 1000), // hace 5 horas
+	  leida: false
+	});
+
+	// Notificaciones para paciente3 (Valeria Romero - Plan ORO)
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[2]._id,
+	  remitente: usuariosMedicos[2]._id,
+	  mensaje: "El turno fue cancelado por el profesional. Por favor, solicite un nuevo turno.",
+	  fechaHoraCreacion: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	// Notificaciones para paciente4 (Jorge Álvarez - Plan PLATA)
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[3]._id,
+	  remitente: usuariosMedicos[3]._id,
+	  mensaje: "Su turno de Traumatología fue cancelado por la institución.",
+	  fechaHoraCreacion: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[3]._id,
+	  remitente: usuariosMedicos[4]._id,
+	  mensaje: "Dr. Luis Martínez confirmó su turno de Oftalmología para el 20/06.",
+	  fechaHoraCreacion: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+	  leida: true,
+	  fechaHoraLeida: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+	});
+
+	// Notificaciones para paciente5 (Camila Morales - Plan PLATA)
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[4]._id,
+	  remitente: usuariosMedicos[4]._id,
+	  mensaje: "Gracias por asistir. Por favor complete la encuesta de satisfacción.",
+	  fechaHoraCreacion: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	// Notificaciones para médico (Dr. Carlos Rodríguez)
+	await NotificacionModel.create({
+	  destinatario: usuariosMedicos[2]._id,
+	  remitente: usuariosPacientes[2]._id,
+	  mensaje: "El paciente Valeria Romero solicitó reprogramar el turno.",
+	  fechaHoraCreacion: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosMedicos[2]._id,
+	  remitente: usuariosPacientes[0]._id,
+	  mensaje: "Nuevo turno reservado: Lucía Fernández - Cardiología - 15/06 10:00 hs",
+	  fechaHoraCreacion: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+	  leida: true,
+	  fechaHoraLeida: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+	});
+
+	// Más notificaciones para tener variedad
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[5]._id,
+	  remitente: usuariosMedicos[5]._id,
+	  mensaje: "Recordatorio: Su turno de Ginecología es pasado mañana a las 16:00 hs.",
+	  fechaHoraCreacion: new Date(Date.now() - 12 * 60 * 60 * 1000), // hace 12 horas
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[6]._id,
+	  remitente: usuariosMedicos[6]._id,
+	  mensaje: "Dr. Pedro Gómez confirmó su turno de Neurología.",
+	  fechaHoraCreacion: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[7]._id,
+	  remitente: usuariosMedicos[7]._id,
+	  mensaje: "Su turno de Psicología ha sido reprogramado para el 25/06 a las 11:00 hs.",
+	  fechaHoraCreacion: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	await NotificacionModel.create({
+	  destinatario: usuariosPacientes[8]._id,
+	  remitente: usuariosMedicos[8]._id,
+	  mensaje: "Turno de Clínica Médica confirmado. Por favor llegue 10 minutos antes.",
+	  fechaHoraCreacion: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+	  leida: false
+	});
+
+	console.log("✅ 15 Notificaciones ADICIONALES creadas con diferentes estados.");
+
     // =========================================================================
     // 🎉 RESUMEN FINAL
     // =========================================================================
