@@ -14,11 +14,11 @@ medicoRouter.route("/:id")
     .patch( (req, res, next) => medicoController.patchMedicoById(req, res, next) );
 
 medicoRouter.post("/batch-generar", async (req, res, next) => {
-    try {
-        const service = new BatchTurnosService();
-        const rta = await service.ejecutar();
-        res.json({ status: "success", data: rta });
-    } catch (e) { next(e); }
+  try {
+    const service = new BatchTurnosService();
+    const rta = await service.ejecutar();
+    res.json({ status: "success", data: rta });
+  } catch (e) { next(e); }
 });
 
 export default medicoRouter;
