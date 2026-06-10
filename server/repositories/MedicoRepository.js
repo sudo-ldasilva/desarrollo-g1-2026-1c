@@ -76,7 +76,7 @@ export class MedicoRepository {
             id,
             atributos,
             { returnDocument: "after" }
-        );
+        ).populate("especialidades").populate("practicas").populate("sedes");
 
         if (!medico) {
             throw new NotFoundError(`Médico con ID ${id} no encontrado`);
