@@ -5,7 +5,7 @@ import ProximosTurnos from "../../components/proximosTurnos/ProximosTurnos.jsx";
 import ConfirmarPreseleccion from "../../components/confirmarPreseleccion/ConfirmarPreseleccion.jsx";
 import "./Dashboard.css";
 
-const Dashboard = ({turnos, turnosPreseleccionados, confirmarReserva}) => {
+const Dashboard = ({turnosPreseleccionados, confirmarReserva}) => {
     return (
         <div className="dashboard-shell">
             <section className="dashboard-block">
