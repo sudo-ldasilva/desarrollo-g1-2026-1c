@@ -5,8 +5,8 @@ const PacienteSchema = new mongoose.Schema({
     usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", required: true },
     dni: { type: Number, required: true, unique: true },
     nombre: { type: String, required: true },
-    obraSocial: { type: String },
-    plan: { type: String }
+    obraSocial: { type: mongoose.Schema.Types.ObjectId, ref: "ObraSocial" },
+    plan: { type: mongoose.Schema.Types.ObjectId, ref: "Plan" }
 });
 
 PacienteSchema.virtual("id").get(function() { return this._id.toString(); });
