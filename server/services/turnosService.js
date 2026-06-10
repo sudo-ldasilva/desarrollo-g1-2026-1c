@@ -20,7 +20,7 @@ export default class TurnosService{
             const paciente = await PacienteModel.findById(pacienteId).populate("plan");
             if (paciente) plan = paciente.plan;
         }
-        
+
         const { turnos, total, page, totalPages, sort } =
         await this.turnosRepository.buscarPaginado(filtros, paginacion, ordenamiento);
 
@@ -41,7 +41,7 @@ export default class TurnosService{
 
         if (plan && turno.servicio) {
             let nivel = null;
-            
+
             if (turno.tipoServicio === "Especialidad") {
 
                 const cobertura = plan.coberturasEspecialidad?.find(
@@ -60,7 +60,7 @@ export default class TurnosService{
                 dto.cobertura = nivel;
 
                 if (nivel === NivelCobertura.TOTAL) {
-                    dto.costo = 0; 
+                    dto.costo = 0;
                 } else if (nivel === NivelCobertura.PARCIAL) {
                     dto.costo = costoBase * 0.5; // 50% de descuento
                 }
@@ -70,7 +70,11 @@ export default class TurnosService{
         return dto;
     }
 
-    async turnosPorUsuario(usuarioId, pagina, limit) {
+    async turnosPorUsuario(filtros, usuarioId, pagina, limit) {
+        if(filtros.fechaInicio && filtros.fechaFin && filtros.fechaFin < filtros.fechaInicio) {
+            throw new BadRequestError("Rango invalido de fechas");
+        }
+
         const paciente = await this.pacientesRepository.buscarPorUsuarioId(usuarioId);
 
         if(!paciente) {
@@ -78,7 +82,7 @@ export default class TurnosService{
         }
 
         const { turnos, total, page, totalPages} =
-        await this.turnosRepository.buscarPorPaciente(paciente._id, pagina, limit);
+        await this.turnosRepository.buscarPorPaciente(filtros, paciente._id, pagina, limit);
 
         return {
             turnos: turnos.map(t => turnoToDTO(t)),
@@ -110,7 +114,7 @@ export default class TurnosService{
 
 export function turnoToDTO(turno) {
     const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
-    
+
     return {
         _id: turno._id,
         fechaHora: turno.fechaHora,
@@ -126,8 +130,8 @@ export function turnoToDTO(turno) {
             direccion: turno.sede.direccion
         },
         estado: turno.estado,
-        costoBase: costoBase, 
+        costoBase: costoBase,
         costo: turno.costo,
         cobertura: turno.cobertura
-    };   
+    };
 }

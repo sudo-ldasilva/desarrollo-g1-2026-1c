@@ -1,0 +1,26 @@
+/* client/src/features/entornoUsuario/EntornoUsuario.css */
+.layout-entorno {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--gris-fondo);
+}
+
+.contenido-principal {
+  flex: 1;
+  padding: 20px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.boton-signOut {
+  background-color: var(--rojo-principal);
+  color: var(--blanco);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  align-self: flex-end;
+}

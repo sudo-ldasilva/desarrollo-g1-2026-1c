@@ -1,0 +1,59 @@
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 1rem;
+}
+
+.form-container {
+    padding: 2rem;          
+    border-radius: 8px;     
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.titulo-preseleccion {
+    font-family: 'Poppins', sans-serif;
+    color: #c90e31;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.caja-vacios {
+    text-align: center;
+    padding: 2rem;
+}
+
+
+.quitar-turno {
+    margin-top: 0.5rem;
+    font-weight: bold ;
+    color: #c90e31 ; 
+}
+
+.carrito-acciones {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+
+.btn-cancelar-todo {
+    font-weight: bold ;
+    border: 1px solid #c90e31 ;
+    color: #c90e31 ;
+}
+
+
+.confirmar {
+    font-weight: bold !;
+    background-color: #089e3a ;
+    color: white ;
+}
+
+.confirmar:hover {
+    background-color: #067d2e ;
+}

@@ -49,12 +49,15 @@ export default class TurnosRepository {
         return await turnoDocument.save();
     }
 
-    async buscarPorPaciente(pacienteId, page, limit) {
+    async buscarPorPaciente(filtros, pacienteId, page, limit) {
         const skip = (page - 1) * limit;
+
+        const query = armarQuery(filtros);
 
         // Debería ser funcional tanto para pacientes como para médicos?
         //  Es decir, consultar los turnos que tengo hechos/programados/cancelados como médico y ver los distintos pacientes o como paciente ver tu historial de turnos.
         const turnos = await this.model.find({ paciente: pacienteId })
+            .find(query)
             .skip(skip)
             .limit(limit)
             .populate("medico", "nombre")
@@ -62,11 +65,11 @@ export default class TurnosRepository {
             .populate("fechaHora", "hora")
             .populate("servicio", "nombre costoConsulta");
 
-        const total = await this.model.countDocuments({ paciente: pacienteId });
+        const total = await this.model.countDocuments({ paciente: pacienteId, ...query });
 
         return {
             turnos: turnos,
-            total, 
+            total,
             page,
             totalPages: Math.ceil(total / limit)
         };

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import {createRequire} from "module";
 
+import cors from "cors";
 import router from "./routes/router.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errorLogger } from "./middlewares/errorLogger.js";
@@ -14,6 +15,12 @@ const swaggerSpec = require("./docs/openapi.json");
 dotenv.config();
 const app = express();
 app.use(express.json());
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+}));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

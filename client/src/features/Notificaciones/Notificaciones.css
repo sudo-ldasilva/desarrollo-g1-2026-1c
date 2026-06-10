@@ -1,0 +1,42 @@
+.notificaciones-container {
+  max-width: 800px;
+  margin-top: 2rem;
+}
+
+.notificaciones-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.notificaciones-titulo {
+  font-family: 'Poppins', sans-serif;
+  color: var(--rojo-principal);
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.notificaciones-vacio {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.notificacion-item {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 1rem 0;
+}
+
+.notificacion-item:last-child {
+  border-bottom: none;
+}
+
+.btn-marcar-leida {
+  color: var(--rojo-principal) !important;
+  border-color: var(--rojo-principal) !important;
+  font-size: 0.75rem !important;
+}
+
+.btn-marcar-leida:hover {
+  background-color: var(--rojo-principal) !important;
+  color: white !important;
+}
