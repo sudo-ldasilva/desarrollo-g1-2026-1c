@@ -1,7 +1,10 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { LogtoProvider } from '@logto/react';
 import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from "./features/dashboard/Dashboard.jsx";
+import MisTurnos from "./features/MisTurnos/MisTurnos.jsx";
+import Notificaciones from "./features/Notificaciones/Notificaciones.jsx";
+import { BrowserRouter, Routes, Route, Navigate, useOutletContext } from 'react-router-dom';
 import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
@@ -25,35 +28,36 @@ const theme = createTheme({
 });
 
 function App() {
-  const config = {
-    endpoint: 'https://mm32is.logto.app/',
-    appId: 'o5yyg82jt0gb2b8nbiuje',
-    redirectUri: `${window.location.origin}/callback`,
-    postLogoutRedirectUri: window.location.origin,
-    resources: ['https://api-sweet-medical.com']
-  };
+    const config = {
+        endpoint: 'https://mm32is.logto.app/',
+        appId: 'o5yyg82jt0gb2b8nbiuje',
+        redirectUri: `${window.location.origin}/callback`,
+        postLogoutRedirectUri: window.location.origin,
+        resources: ['https://api-sweet-medical.com']
+    };
 
-  const [carrito, setCarrito] = useState([]);
 
-  const agregarAlCarrito = (turno) => {
-    setCarrito((prev) => [...prev, turno]);
-  };
+    const [carrito, setCarrito] = useState([]);
 
-  const eliminarDelCarrito = (id) => {
-    setCarrito((prev) => prev.filter(t => t._id !== id && t.id !== id));
-  };
+    const agregarAlCarrito = (turno) => {
+        setCarrito((prev) => [...prev, turno]);
+    };
+  
+    const eliminarDelCarrito = (id) => {
+        setCarrito((prev) => prev.filter(t => t._id !== id && t.id !== id));
+    };
 
-  const limpiarCarrito = () => {
-    setCarrito([]);
-  };
-
-  const persistirReservasEnBackend = async (turnosElegidos) => {
-    const ids = turnosElegidos.map(t => t._id || t.id);
-    
-    //REVISAR
-    //ACÁ falta resolver como reservamos todos los turnos preseleccionados
-    await axios.post('http://localhost:3000/turnos/{t.id}/cambios-estado', { turnos: ids });
-  };  
+    const limpiarCarrito = () => {
+        setCarrito([]);
+    };
+  
+    // TODO Eliminar
+    const persistirReservasEnBackend = async (turnosElegidos) => {
+        const ids = turnosElegidos.map(t => t._id || t.id);
+        //REVISAR
+        //ACÁ falta resolver como reservamos todos los turnos preseleccionados
+        await axios.post('http://localhost:3000/turnos/{t.id}/cambios-estado', { turnos: ids });
+    };
 
   return (
       <LogtoProvider config={config}>
@@ -111,6 +115,7 @@ function App() {
          </BrowserRouter>
       </LogtoProvider>
   );
+
 }
 
 export default App;

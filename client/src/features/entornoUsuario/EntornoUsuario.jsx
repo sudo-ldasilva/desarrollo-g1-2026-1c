@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
-import Dashboard from "../dashboard/Dashboard.jsx";
-import MisTurnos from "../MisTurnos/MisTurnos.jsx";
+import { Outlet, Navigate, useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import { useLogto } from "@logto/react";
-import { useNavigate, Navigate } from "react-router-dom";
-import { getTurnos } from "../../services/TurnosService.jsx";
-import { getMe } from "../../services/PerfilService.jsx";
-
+import { useNavigate } from "react-router-dom";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
@@ -14,6 +10,7 @@ const EntornoUsuario = () => {
     const [turnos, setTurnos] = useState([]);
     const { signOut, isAuthenticated, isLoading, getAccessToken} = useLogto();
     const navigate = useNavigate();
+    const location = useLocation();
 
     console.log("ENTORNO USUARIO (/app)")
 
@@ -29,7 +26,7 @@ const EntornoUsuario = () => {
         }
     }, [isAuthenticated, getAccessToken]);
 
-    // Turnos
+    // Turnos preseleccionados (estado compartido para el carrito)
     const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
 
     // TODO Datos de ejemplo. Eliminar luego.

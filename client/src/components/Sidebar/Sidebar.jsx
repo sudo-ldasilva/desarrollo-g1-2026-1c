@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+// import NotificationsIcon from '@mui/icons-material/Notifications';
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -26,8 +26,7 @@ const Sidebar = () => {
   };
 
   const handleNotificationsClick = () => {
-    // Preparado para manejar notificaciones
-    console.log('Notificaciones clickeadas');
+    navigate('/app/notificaciones');
   };
 
   return (
@@ -63,21 +62,21 @@ const Sidebar = () => {
 
       <Box className="sidebar-footer">
         <Box className="notifications-container">
-          <IconButton 
+          <IconButton
             onClick={handleNotificationsClick}
             className="notifications-button"
             aria-label="notificaciones"
           >
-            <Badge 
-              badgeContent={notificationCount} 
+            <Badge
+              badgeContent={notificationCount}
               color="error"
               className="notifications-badge"
             >
-              <NotificationsIcon />
+              <span>🔔</span>
             </Badge>
           </IconButton>
         </Box>
-        
+
         <Box className="user-greeting">
           <Typography variant="body2">
             ¡Hola, <strong>{userName}</strong>!

@@ -32,7 +32,9 @@ export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) 
                     fechaFin
                 },
                 headers: {
-                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                    // Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                    'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+                                                               // Paciente 1, Lucia Fernandez, Plan Oro
                 },
             })
 
@@ -58,7 +60,8 @@ export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fe
                 fechaFin
             },
             headers: {
-                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                    //Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
             },
         })
 
@@ -77,7 +80,8 @@ export const getCantidadTurnosEnEstado = async (accessToken, estado) => {
                 estado
             },
            headers: {
-                Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                // Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
             },
         })
 
