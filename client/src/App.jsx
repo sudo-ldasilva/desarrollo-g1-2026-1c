@@ -10,6 +10,7 @@ import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
 import axios from 'axios';
 import React, {useState} from 'react';
+import MisServicios from './features/MisServicios/MisServicios.jsx';
 
 const theme = createTheme({
     palette: {
@@ -91,6 +92,12 @@ function App() {
                     />
                   </RequiereAuth>
                 }
+              />
+              <Route path='/app/mis-servicios' element={
+                <RequiereAuth>
+                  <MisServicios/>
+                </RequiereAuth>
+              }
               />
             </Routes>
           </ThemeProvider>
