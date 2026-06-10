@@ -175,6 +175,15 @@ function App() {
                   </RequiereAuth>
                 }
                 />
+                <Route index element={
+                  <RequiereAuth>
+                    <Dashboard
+                        turnosPreseleccionados={turnosPreseleccionados}
+                        confirmarReserva={confirmarReserva}
+                    />
+                  </RequiereAuth>
+                }
+                />
                 <Route path='dashboard' element={
                   <RequiereAuth>
                     <Dashboard
