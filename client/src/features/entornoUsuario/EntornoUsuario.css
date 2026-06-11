@@ -1,0 +1,93 @@
+/* client/src/features/entornoUsuario/EntornoUsuario.css */
+.layout-entorno {
+  display: flex;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(212, 0, 50, 0.08), transparent 22%),
+    linear-gradient(180deg, #f7f8fb 0%, var(--gris-fondo) 100%);
+}
+
+.contenido-principal {
+  flex: 1;
+  padding: 28px 28px 40px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-x: hidden;
+}
+
+.entorno-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 0.25rem 0;
+}
+
+.entorno-copy {
+  max-width: 48rem;
+}
+
+.entorno-kicker {
+  margin: 0 0 0.5rem;
+  color: var(--rojo-principal);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+}
+
+.entorno-title {
+  margin: 0;
+  color: var(--texto-oscuro);
+  font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+  line-height: 1.1;
+}
+
+.entorno-subtitle {
+  margin: 0.65rem 0 0;
+  color: #667085;
+  line-height: 1.55;
+  max-width: 44rem;
+}
+
+.entorno-section {
+  width: 100%;
+}
+
+.boton-signOut {
+  background: linear-gradient(135deg, var(--rojo-principal), #a90028);
+  color: var(--blanco);
+  border: none;
+  padding: 0.9rem 1.4rem;
+  cursor: pointer;
+  border-radius: 14px;
+  font-weight: bold;
+  align-self: flex-start;
+  box-shadow: 0 10px 24px rgba(212, 0, 50, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.boton-signOut:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(212, 0, 50, 0.22);
+}
+
+@media (max-width: 900px) {
+  .entorno-toolbar {
+    flex-direction: column;
+  }
+
+  .boton-signOut {
+    align-self: stretch;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .contenido-principal {
+    padding: 18px;
+    gap: 18px;
+  }
+}

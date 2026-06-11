@@ -1,0 +1,5 @@
+.caja-carrito{
+    display: flex;
+    justify-content : flex-end;
+    margin-bottom : 2rem
+}

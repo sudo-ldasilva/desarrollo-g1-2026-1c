@@ -4,6 +4,7 @@ import TurnosController from "../controllers/turnosController.js";
 import { validate } from "../middlewares/validate.js";
 import { cambioEstadoTurnoSchema } from "../validations/cambioEstadoTurnoSchema.js";
 import { turnosQuerySchema } from "../validations/turnosQueySchema.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const turnosController = new TurnosController();
 const turnosRouter = express.Router();
@@ -14,7 +15,9 @@ turnosRouter
 
 turnosRouter
     .route("/mis-turnos")
-    .get(validate(turnosQuerySchema, "query"), 
+    .get(
+        validate(turnosQuerySchema, "query"), 
+        authMiddleware,
         (req, res, next) => turnosController.buscarMisTurnos(req, res, next)
     );
 

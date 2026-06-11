@@ -9,22 +9,14 @@ export default class TurnosController {
 
     async buscarMisTurnos(req, res, next){
         try {
-        // --- HOY: Lo sacamos de un header personalizado para Postman ---
-        // --- MAÑANA CON JWT: Esto va a cambiar a: const usuarioId = req.user.id; ---
-            const usuarioId = req.headers["x-usuario-id"]; 
-        
-            
-            if (!usuarioId) {
-                return res.status(401).json({
-                    status: "fail",
-                    message: "No se proporcionó una sesión válida"
-                });
-            }
+            const usuario = req.user; //ya cargado por authMiddleware
+
+            console.log("DEBUG: PASO POR MIS TURNOS, USUARIO: " + usuario._id);
 
             
-            const { page, limit } = req.validated.query;
+            const { page, limit, ...filtros } = req.validated.query;
 
-            const historial = await this.turnosService.turnosPorUsuario(usuarioId, page, limit);
+            const historial = await this.turnosService.turnosPorUsuario(filtros, usuario._id, page, limit);
 
             res.status(200).json({
                 status: "success",

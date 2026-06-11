@@ -12,4 +12,8 @@ export default class PacientesRepository {
     async findById(pacienteId) {
         return await this.model.findById(pacienteId);
     }
+
+    async crear(data) {
+        return await PacienteModel.create(data);
+    }
 }
