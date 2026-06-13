@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
+import UserMenu from "../../components/UserMenu/UserMenu.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Dashboard from "../../features/dashboard/Dashboard.jsx";
 import { useLogto } from "@logto/react";
@@ -15,20 +16,20 @@ const EntornoUsuario = () => {
     console.log("ENTORNO USUARIO (/app)")
 
 	return (
-		<div className="layout-entorno">
-		    <Sidebar />
-		    <div className="contenido-principal">
-		        <button
-		            onClick={() =>{ console.log("CLICKEO SIGN OUT"); signOut(`http://localhost:3000`)}}
-		            className="boton-signOut"
-		        >
-		            Cerrar Sesión
-		        </button>
-
-                        <Outlet />
-		    </div>
-		</div>
-	);
+        <div className="layout-entorno">
+        <Sidebar />
+        <div className="contenido-principal">
+            <header className="entorno-header">
+                <div className="entorno-header-spacer"></div>
+                <UserMenu />
+            </header>
+        
+            <main className="entorno-main-content">
+                <Outlet />
+            </main>
+        </div>
+    </div>
+  );
 };
 
 export default EntornoUsuario;

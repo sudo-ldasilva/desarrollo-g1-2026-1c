@@ -72,7 +72,7 @@ const Sidebar = () => {
               color="error"
               className="notifications-badge"
             >
-              <i className="fa-solid fa-bell"></i>
+              <i className="fa-solid fa-bell fa-bell-side"></i>
             </Badge>
           </IconButton>
         </Box>
