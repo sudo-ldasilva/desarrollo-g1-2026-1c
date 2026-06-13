@@ -3,11 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
 import { getObrasSociales, getPlanesObraSocial } from "../../services/ObraSocialService.jsx";
 import "./CompletarPerfil.css";
-
 import { crearPerfil, getMe } from "../../services/PerfilService.jsx";
 
 const CompletarPerfil = () => {
-
     const navigate = useNavigate();
     const { getAccessToken } = useLogto();
     const [guardando, setGuardando] = useState(false);
@@ -85,12 +83,29 @@ const CompletarPerfil = () => {
             await crearPerfil(token, form);
 
             navigate("/callback", { replace: true });
+
         } catch (submitError) {
-          setError("No se pudo completar el perfil. Revisá los datos e intentá otra vez.");
+            let mensajeError = "No se pudo completar el perfil. Revisá los datos e intentá otra vez.";
+      
+            //Axios adjunta la respuesta del servidor en submitError.response.data
+            if (submitError.response?.data) {
+                const data = submitError.response.data;
+                
+                if (data.errors && Array.isArray(data.errors)) {
+                    // Caso 1: Errores de validación de Zod (ej. DNI con formato inválido)
+                    mensajeError = data.errors.map(e => e.mensaje).join(" ");
+                } else if (data.message) {
+                    // Caso 2: Errores de aplicación controlados (ej. ConflictError por DNI duplicado)
+                    mensajeError = data.message;
+                }
+            }
+            
+            setError(mensajeError);
+        
         } finally {
             setGuardando(false);
         }
-    };
+    }
 
     return (
         <div className="completar-perfil-container">
