@@ -31,7 +31,7 @@ export const authMiddleware = async (req, res, next) => {
     );
 
     // Sub es el user ID de logto
-    const { scope, sub } = payload;
+    const { scope, sub, username } = payload;
 
     // Buscar usuario local
     let usuario = await UsuarioModel.findOne({
@@ -41,6 +41,7 @@ export const authMiddleware = async (req, res, next) => {
     // Si no existe, crearlo (primera req al back del usuario)
     if (!usuario) {
         usuario = await UsuarioModel.create({
+            nombreUsuario: username,
             logtoId: sub, 
             rol: "PACIENTE" //por default, los usuarios nuevos en la app son pacientes
         });
