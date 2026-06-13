@@ -57,11 +57,14 @@
 }
 
 .sidebar-footer {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  position: sticky;
+  bottom: 0;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--rojo-principal); /* asegura contraste */
 }
 
 .notifications-button.MuiIconButton-root {
@@ -90,4 +93,9 @@
 
 .user-greeting strong {
     font-weight: 600;
+}
+
+.fa-bell {
+  font-size: 1.2rem;
+  color: var(--blanco);
 }
