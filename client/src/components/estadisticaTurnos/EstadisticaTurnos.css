@@ -1,20 +1,34 @@
 @import "../../index.css";
 
-.EstadisticaTurnos_title,
-.EstadisticaTurnos_content {
-    margin: 0;
+.EstadisticaTurnos {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    gap: 15px;
 }
 
 .EstadisticaTurnos_title {
     color: var(--texto-oscuro);
-    font-size: 0.95rem;
+    font-size: 1.3rem !important;
     line-height: 1.35;
     text-align: left;
 }
 
-.EstadisticaTurnos_content {
+.EstadisticaTurnos_valor {
     color: var(--rojo-principal);
     font-size: 2rem;
     text-align: left;
     font-weight: bold;
+}
+
+.EstadisticaTurnos_title,
+.EstadisticaTurnos_valor {
+    margin: 0;
+}
+
+.EstadisticaTurnos_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }

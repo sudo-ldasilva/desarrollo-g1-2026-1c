@@ -1,6 +1,6 @@
 // import CardActions from '@mui/material/CardActions';
 import {useEffect, useState} from 'react'
-import { CardHeader, CardContent, Box, Card, Skeleton } from '@mui/material';
+import { CardHeader, CardContent, Box, Card, Skeleton, Typography } from '@mui/material';
 import { useLogto } from "@logto/react"
 import { getCantidadTurnosEnRangoFecha, getCantidadTurnosEnEstado } from "../../services/TurnosService.jsx";
 import './EstadisticaTurnos.css';
@@ -90,23 +90,20 @@ const EstadisticaTurnos = ({className, turnos}) => {
     ]
 
     return (
-        <Box
-            sx={{
-                width: "100%",
-                display: "flex",
-                gap: 5,
-            }}
-            className={className}
-        >
+        <Box className={"EstadisticaTurnos " + className}>
             {
                 cards.map(({titulo, valor}) => (
                     valor !== -1 ? (
-                        <Card key={titulo} sx={{width: "100%"}}>
-                            <CardHeader className="EstadisticaTurnos_title" title={titulo}></CardHeader>
-                            <CardContent className="EstadisticaTurnos_content">{valor}</CardContent>
+                        <Card style={{width: "100%"}} key={titulo}>
+                            <CardContent className="EstadisticaTurnos_content">
+                                <Typography className="EstadisticaTurnos_title" gutterBottom variant="h5" component="div">
+                                    {titulo}
+                                </Typography>
+                                <div className="EstadisticaTurnos_valor">{valor}</div>
+                            </CardContent>
                         </Card>
                     ) : (
-                        <Skeleton variant="rounded" height="150px" width="100%" />
+                        <Skeleton variant="rounded" width="100%" height="100%" />
                     )
                 ))
             }
