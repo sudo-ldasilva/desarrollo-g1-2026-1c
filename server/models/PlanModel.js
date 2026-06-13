@@ -3,7 +3,7 @@ import { Plan } from "../domain/Plan.js";
 
 const PlanSchema = new mongoose.Schema({
     nombre: { type: String, required: true },
-    obraSocial: { type: mongoose.Schema.Types.ObjectId, ref: "ObraSocial", required: true },
+    obraSocial: { type: mongoose.Schema.Types.ObjectId, ref: "ObraSocial"},
     coberturasEspecialidad: [{
         especialidad: {
             type: mongoose.Schema.Types.ObjectId,

@@ -7,13 +7,15 @@ export class PacientesController {
 
     crear = async (req, res, next) => {
         try {
-            const {nombre, dni} = req.validated.body;
+            const {nombre, dni, obraSocial, plan} = req.validated.body;
 
             const paciente = await this.pacientesRepository.crear(
                 {
                     usuario: req.user._id,
                     nombre,
-                    dni
+                    dni,
+                    obraSocial,
+                    plan 
                 }
             );
 

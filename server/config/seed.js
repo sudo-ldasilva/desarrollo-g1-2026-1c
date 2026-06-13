@@ -122,49 +122,49 @@ export const runSeed = async () => {
         const todasPracticas = [practicaRx, practicaECG];
 
         // 1. OSDE - Cobertura parcial
-        const osde = await ObraSocialModel.create({ nombre: "OSDE" });
         const planOsde = await PlanModel.create({
             nombre: "OSDE 210",
-            obraSocial: osde._id,
+            //obraSocial: osde._id,
             coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.PARCIAL })),
             coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.PARCIAL }))
         });
+        const osde = await ObraSocialModel.create({ nombre: "OSDE" , planes: [planOsde]});
 
         // 2. Galeno - Cobertura total
-        const galeno = await ObraSocialModel.create({ nombre: "Galeno" });
         const planGaleno = await PlanModel.create({
             nombre: "Galeno Oro",
-            obraSocial: galeno._id,
+            //obraSocial: galeno._id,
             coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.TOTAL })),
             coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.TOTAL }))
         });
+        const galeno = await ObraSocialModel.create({ nombre: "Galeno", planes: [planGaleno] });
 
         // 3. Swiss Medical - Cobertura parcial
-        const swiss = await ObraSocialModel.create({ nombre: "Swiss Medical" });
         const planSwiss = await PlanModel.create({
             nombre: "SMG 30",
-            obraSocial: swiss._id,
+            //obraSocial: swiss._id,
             coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.PARCIAL })),
             coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.PARCIAL }))
         });
+        const swiss = await ObraSocialModel.create({ nombre: "Swiss Medical", planes: [planSwiss] });
 
         // 4. OSL - Sin cobertura
-        const osl = await ObraSocialModel.create({ nombre: "OSL" });
+        const osl = await ObraSocialModel.create({ nombre: "OSL", planes: [] });
         const planOsl = await PlanModel.create({
             nombre: "Plan Basico",
-            obraSocial: osl._id,
+            //obraSocial: osl._id,
             coberturasEspecialidad: [],
             coberturasPractica: []
         });
 
         // 5. IOMA - Cobertura total
-        const ioma = await ObraSocialModel.create({ nombre: "IOMA" });
         const planIoma = await PlanModel.create({
             nombre: "Afiliado",
-            obraSocial: ioma._id,
+            //obraSocial: ioma._id,
             coberturasEspecialidad: todasEspecialidades.map(e => ({ especialidad: e._id, nivel: NivelCobertura.TOTAL })),
             coberturasPractica: todasPracticas.map(p => ({ practica: p._id, nivel: NivelCobertura.TOTAL }))
         });
+        const ioma = await ObraSocialModel.create({ nombre: "IOMA", planes: [planIoma] });
 
         console.log("✅ Obra Social y Plan creados.");
 

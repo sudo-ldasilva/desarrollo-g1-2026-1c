@@ -93,7 +93,8 @@
     color: var(--texto-oscuro);
 }
 
-.completar-perfil-field input {
+.completar-perfil-field input,
+.completar-perfil-field select {
     width: 100%;
     border: 1px solid #d8dde6;
     border-radius: 14px;

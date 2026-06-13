@@ -3,7 +3,7 @@ import { Usuario } from "../domain/Usuario.js";
 
 const UsuarioSchema = new mongoose.Schema({
     nombreUsuario: {type:String, unique: true},
-    logtoId: {type:String, unique: true, required:true},
+    logtoId: {type:String},
     rol: {type:String, enum:["PACIENTE", "MEDICO"]}
 });
 

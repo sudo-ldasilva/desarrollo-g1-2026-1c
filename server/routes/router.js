@@ -4,6 +4,7 @@ import medicoRouter from "./medicos.js";
 import turnosRouter from "./turnosRoutes.js";
 import notificacionesRouter from "./notificacionesRoutes.js";
 import pacientesRouter from "./pacientesRouter.js";
+import obrasSocialesRouter from "./obrasSocialesRouter.js";
 
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { PacienteModel } from "../models/PacienteModel.js";
@@ -15,6 +16,7 @@ router.use("/medicos", medicoRouter);
 router.use("/turnos", turnosRouter);
 router.use("/notificaciones", notificacionesRouter);
 router.use("/pacientes", pacientesRouter);
+router.use("/obras-sociales", obrasSocialesRouter);
 
 router.get("/me", authMiddleware, async (req, res) => {
     console.log("DEBUG: PREGUNTAN /ME");

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogto } from "@logto/react";
+import { getObrasSociales, getPlanesObraSocial } from "../../services/ObraSocialService.jsx";
 import "./CompletarPerfil.css";
 
 import { crearPerfil, getMe } from "../../services/PerfilService.jsx";
@@ -11,14 +12,16 @@ const CompletarPerfil = () => {
     const { getAccessToken } = useLogto();
     const [guardando, setGuardando] = useState(false);
     const [error, setError] = useState("");
+    const [obrasSociales, setObrasSociales] = useState([]);
+    const [planes, setPlanes] = useState([]);
 
     console.log("COMPLETAR PERFIL");
 
     const [form, setForm] = useState({
         nombre: "",
         dni: "",
-        // obraSocial: "",
-        // plan: ""
+        obraSocial: "",
+        plan: ""
     });
 
     const handleChange = (e) => {
@@ -28,21 +31,64 @@ const CompletarPerfil = () => {
         });
     };
 
+    const handleObraSocialChange = async (e) => {
+        const obraSocialId = e.target.value;
+
+        setForm({
+            ...form,
+            obraSocial: obraSocialId,
+            plan: ""
+        });
+
+        try {
+            const planesData = await getPlanesObraSocial(obraSocialId);
+
+            setPlanes(planesData);
+        } catch (error) {
+            console.error(error);
+            setPlanes([]);
+        }
+    };
+
+    useEffect(() => {
+        const cargarObrasSociales = async () => {
+            try {
+                const data = await getObrasSociales();
+                setObrasSociales(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        cargarObrasSociales();
+    }, []);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (
+            !form.nombre.trim() ||
+            !form.dni.trim() ||
+            !form.obraSocial ||
+            !form.plan
+        ) {
+            setError("Debe completar todos los campos.");
+            return;
+        }
+
         setGuardando(true);
         setError("");
 
         try {
-        const token = await getAccessToken("https://api-sweet-medical.com");
+            const token = await getAccessToken("https://api-sweet-medical.com");
 
-        await crearPerfil(token, form);
+            await crearPerfil(token, form);
 
-        navigate("/callback", { replace: true });
+            navigate("/callback", { replace: true });
         } catch (submitError) {
-        setError("No se pudo completar el perfil. Revisá los datos e intentá otra vez.");
+          setError("No se pudo completar el perfil. Revisá los datos e intentá otra vez.");
         } finally {
-        setGuardando(false);
+            setGuardando(false);
         }
     };
 
@@ -69,6 +115,7 @@ const CompletarPerfil = () => {
                         <span>Nombre y apellido</span>
                         <input
                             name="nombre"
+                            required
                             placeholder="Ej: Juan Pérez"
                             autoComplete="name"
                             onChange={handleChange}
@@ -79,11 +126,61 @@ const CompletarPerfil = () => {
                         <span>DNI</span>
                         <input
                             name="dni"
+                            required
                             placeholder="Ej: 12345678"
                             inputMode="numeric"
                             autoComplete="off"
                             onChange={handleChange}
                         />
+                    </label>
+
+                    <label className="completar-perfil-field">
+                        <span>Obra social</span>
+
+                        <select
+                            name="obraSocial"
+                            required
+                            value={form.obraSocial}
+                            onChange={handleObraSocialChange}
+                        >
+                            <option value="">
+                                Seleccione una obra social
+                            </option>
+
+                            {obrasSociales.map((obra) => (
+                                <option
+                                    key={obra._id}
+                                    value={obra._id}
+                                >
+                                    {obra.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </label>
+
+                    <label className="completar-perfil-field">
+                        <span>Plan</span>
+
+                        <select
+                            name="plan"
+                            required
+                            value={form.plan}
+                            onChange={handleChange}
+                            disabled={!form.obraSocial}
+                        >
+                            <option value="">
+                                Seleccione un plan
+                            </option>
+
+                            {planes.map((plan) => (
+                                <option
+                                    key={plan._id}
+                                    value={plan._id}
+                                >
+                                    {plan.nombre}
+                                </option>
+                            ))}
+                        </select>
                     </label>
 
                     <div className="completar-perfil-note">
