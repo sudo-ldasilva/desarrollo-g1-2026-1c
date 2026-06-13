@@ -3,7 +3,7 @@ import { useHandleSignInCallback } from '@logto/react';
 import { useLogto } from '@logto/react';
 import { useNavigate } from 'react-router-dom';
 import { getMe } from '../services/PerfilService';
-import LoadingSplash from './LoadingSplash.jsx';
+import LoadingSplash from './LoadingSplash/LoadingSplash.jsx';
 
 const Callback = () => {
   const navigate = useNavigate();

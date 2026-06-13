@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
-import EstadisticaTurnos from "../../components/estadisticaTurnos/EstadisticaTurnos.jsx";
-import ProximosTurnos from "../../components/proximosTurnos/ProximosTurnos.jsx";
+import EstadisticaTurnos from "../../components/EstadisticaTurnos/EstadisticaTurnos.jsx";
+import ProximosTurnos from "../../components/ProximosTurnos/ProximosTurnos.jsx";
 import "./Dashboard.css";
 
 const Dashboard = () => {

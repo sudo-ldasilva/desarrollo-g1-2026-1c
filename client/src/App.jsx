@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { LogtoProvider } from '@logto/react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx";
-import Dashboard from "./features/dashboard/Dashboard.jsx";
+import EntornoUsuario from "./features/EntornoUsuario/EntornoUsuario.jsx";
+import Dashboard from "./features/Dashboard/Dashboard.jsx";
 import MisTurnos from "./features/MisTurnos/MisTurnos.jsx";
 import Notificaciones from "./features/Notificaciones/Notificaciones.jsx";
 import { BrowserRouter, Routes, Route, Navigate, useOutletContext } from 'react-router-dom';

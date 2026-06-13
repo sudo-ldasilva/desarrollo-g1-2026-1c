@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
 import UserMenu from "../../components/UserMenu/UserMenu.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import Dashboard from "../../features/dashboard/Dashboard.jsx";
+import Dashboard from "../Dashboard/Dashboard.jsx";
 import { useLogto } from "@logto/react";
 import { useNavigate } from "react-router-dom";
 import "./EntornoUsuario.css";

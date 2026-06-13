@@ -1,6 +1,6 @@
 import { useLogto } from '@logto/react';
 import { useEffect, useRef } from 'react';
-import LoadingSplash from '../components/LoadingSplash.jsx';
+import LoadingSplash from '../components/LoadingSplash/LoadingSplash.jsx';
 
 const Home = () => {
   const { signIn, isLoading } = useLogto();

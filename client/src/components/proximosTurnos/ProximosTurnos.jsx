@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import CalendarioMensualTurnos from "../calendarioMensualTurnos/CalendarioMensualTurnos.jsx"
-import TurnoInfo from "../turnoInfo/TurnoInfo.jsx"
+import TurnoInfo from "../TurnoInfo/TurnoInfo.jsx"
 import {getTurnosEnRangoFecha} from "../../services/TurnosService.jsx"
 import { useLogto } from "@logto/react";
 

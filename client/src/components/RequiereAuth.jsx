@@ -1,6 +1,6 @@
 import { useLogto } from "@logto/react";
 import { Navigate } from "react-router-dom";
-import LoadingSplash from "./LoadingSplash";
+import LoadingSplash from "./LoadingSplash/LoadingSplash.jsx";
 
 const RequiereAuth = ({ children }) => {
     const { isAuthenticated, isLoading } = useLogto();
