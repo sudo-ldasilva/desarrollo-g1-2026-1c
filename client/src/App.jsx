@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import { LogtoProvider } from '@logto/react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import EntornoUsuario from "./features/entornoUsuario/EntornoUsuario.jsx";
 import Dashboard from "./features/dashboard/Dashboard.jsx";
 import MisTurnos from "./features/MisTurnos/MisTurnos.jsx";
