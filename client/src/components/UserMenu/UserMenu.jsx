@@ -5,9 +5,10 @@ import './UserMenu.css';
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [userName, setUsername] = useState('');
   const menuRef = useRef(null);
   const navigate = useNavigate();
-  const { signOut, user } = useLogto();
+  const { signOut, getIdTokenClaims, isAuthenticated } = useLogto();
 
   // Cerrar el menú si se hace clic fuera de él
   useEffect(() => {
@@ -31,7 +32,14 @@ const UserMenu = () => {
   };
 
   // Fallback para el nombre de usuario si Logto aún no lo cargó
-  const userName = user?.name || user?.username || 'Juan Pérez';
+  useEffect(() => {
+    (async () => {
+      if (isAuthenticated) {
+        const claims = await getIdTokenClaims();
+        setUsername(claims.username);
+      }
+    })();
+  }, [isAuthenticated, getIdTokenClaims]);
 
   return (
     <div className="user-menu-container" ref={menuRef}>
