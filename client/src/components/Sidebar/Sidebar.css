@@ -1,4 +1,4 @@
-/* Aumentamos la especificidad combinando con la clase raíz de MUI */
+/* Aumentar la especificidad combinando con la clase raiz de MUI */
 .sidebar.MuiBox-root {
     width: 280px;
     min-width: 280px;
@@ -25,7 +25,7 @@
     padding: 1rem 0;
 }
 
-/* Combinamos con la clase de MUI para los items del menú */
+/* Combinar con la clase de MUI para los items del menu */
 .sidebar-menu-item.MuiButtonBase-root {
     padding: 0.75rem 1.5rem;
     margin: 0.25rem 0.75rem;
@@ -64,7 +64,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: var(--rojo-principal); /* asegura contraste */
+  background-color: var(--rojo-principal);
 }
 
 .notifications-button.MuiIconButton-root {
@@ -95,7 +95,6 @@
     font-weight: 600;
 }
 
-.fa-bell {
+.fa-bell-side {
   font-size: 1.2rem;
-  color: var(--blanco);
 }
