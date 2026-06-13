@@ -1,6 +1,5 @@
 // server/config/db.js
 import mongoose from "mongoose";
-import { MongoMemoryServer } from "mongodb-memory-server";
 import path from "path";
 import { promises as fs } from "fs"; //para el config de mongodb-memory-server
 

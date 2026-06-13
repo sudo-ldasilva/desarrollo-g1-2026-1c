@@ -2,10 +2,9 @@ import { Box } from "@mui/material";
 
 import EstadisticaTurnos from "../../components/estadisticaTurnos/EstadisticaTurnos.jsx";
 import ProximosTurnos from "../../components/proximosTurnos/ProximosTurnos.jsx";
-import ConfirmarPreseleccion from "../../components/confirmarPreseleccion/ConfirmarPreseleccion.jsx";
 import "./Dashboard.css";
 
-const Dashboard = ({turnosPreseleccionados, confirmarReserva}) => {
+const Dashboard = () => {
     return (
         <div className="dashboard-shell">
             <section className="dashboard-block">
@@ -26,16 +25,7 @@ const Dashboard = ({turnosPreseleccionados, confirmarReserva}) => {
                     flexWrap: "wrap",
                 }}
             >
-                <Box sx={{ flex: "1 1 520px", minWidth: 0 }}>
-                    <ProximosTurnos />
-                </Box>
-
-                <Box sx={{ flex: "1 1 360px", minWidth: 0 }}>
-                    <ConfirmarPreseleccion
-                        turnosPreseleccionados={turnosPreseleccionados}
-                        confirmarReserva={confirmarReserva}
-                    />
-                </Box>
+                <ProximosTurnos />
             </Box>
         </div>
     );

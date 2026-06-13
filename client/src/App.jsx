@@ -36,7 +36,6 @@ function App() {
         resources: ['https://api-sweet-medical.com']
     };
 
-
     const [carrito, setCarrito] = useState([]);
 
     const agregarAlCarrito = (turno) => {
@@ -49,55 +48,6 @@ function App() {
 
     const limpiarCarrito = () => {
         setCarrito([]);
-    };
-
-    // TODO Eliminar
-    const persistirReservasEnBackend = async (turnosElegidos) => {
-        const ids = turnosElegidos.map(t => t._id || t.id);
-        //REVISAR
-        //ACÁ falta resolver como reservamos todos los turnos preseleccionados
-        await axios.post('http://localhost:3000/turnos/{t.id}/cambios-estado', { turnos: ids });
-    };
-
-    // Turnos preseleccionados (estado compartido para el carrito)
-    const [turnosPreseleccionados, setTurnosPreseleccionados] = useState([]);
-
-    // TODO Datos de ejemplo. Eliminar luego.
-    useEffect(() => {
-        setTurnosPreseleccionados([
-            {
-                id: 1,
-                servicio: {nombre: "Dermatologia"},
-                medico: "Dr. Gomez",
-                sede: "Palermo",
-                cobertura: "Cubierto Totalmente",
-                fechaHora: "15/6/2026 - 11:30 a. m. hs",
-                costo: 1000
-            },
-            {
-                id: 2,
-                servicio: {nombre: "Cardiologia"},
-                medico: "Dr. Gomez",
-                sede: "Palermo",
-                cobertura: "Cubierto Totalmente",
-                fechaHora: "15/6/2026 - 11:30 a. m. hs",
-                costo: 1000000
-            },
-            {
-                id: 3,
-                servicio: {nombre: "Oftalmologia"},
-                medico: "Dr. Gomez",
-                sede: "Palermo",
-                cobertura: "Cubierto Totalmente",
-                fechaHora: "5/6/2026 - 11:30 a. m. hs",
-                costo: 6000
-            },
-        ]);
-    }, []);
-
-    const confirmarReserva = () => {
-        setTurnosPreseleccionados([]);
-        alert("¡Seleccionados!");
     };
 
     // TODO Des-hardcodear
@@ -162,9 +112,6 @@ function App() {
                     <RequiereAuth>
                       <CarritoPreseleccion
                         carrito={carrito}
-                        eliminarDelCarrito={eliminarDelCarrito}
-                        limpiarCarrito={limpiarCarrito}
-                        persistirReservasEnBackend={persistirReservasEnBackend}
                       />
                     </RequiereAuth>
                   }
@@ -177,19 +124,13 @@ function App() {
                 />
                 <Route index element={
                   <RequiereAuth>
-                    <Dashboard
-                        turnosPreseleccionados={turnosPreseleccionados}
-                        confirmarReserva={confirmarReserva}
-                    />
+                    <Dashboard />
                   </RequiereAuth>
                 }
                 />
                 <Route path='dashboard' element={
                   <RequiereAuth>
-                    <Dashboard
-                        turnosPreseleccionados={turnosPreseleccionados}
-                        confirmarReserva={confirmarReserva}
-                    />
+                    <Dashboard />
                   </RequiereAuth>
                 }
                 />
