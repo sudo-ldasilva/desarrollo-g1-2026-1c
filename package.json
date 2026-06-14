@@ -4,5 +4,8 @@
   "workspaces": [
     "server",
     "client"
-  ]
+  ],
+  "scripts": {
+    "doctor": "npx react-doctor@latest"
+  }
 }

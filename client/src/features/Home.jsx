@@ -1,9 +1,9 @@
-import { useLogto } from '@logto/react';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { useEffect, useRef } from 'react';
 import LoadingSplash from '../components/LoadingSplash/LoadingSplash.jsx';
 
 const Home = () => {
-  const { signIn, isLoading } = useLogto();
+  const { signIn, isLoading } = useAuth();
 
   const called = useRef(false);
 

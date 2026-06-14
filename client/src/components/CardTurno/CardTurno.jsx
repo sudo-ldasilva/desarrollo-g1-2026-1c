@@ -39,6 +39,7 @@ const CardTurno = ({ turno }) => {
                 </div>
 
                 <button
+                    type="button"
                     onClick={manejarCancelacion}
                     disabled={!puedeCancelar}
                     className='btn-cancelar btn-derecha'

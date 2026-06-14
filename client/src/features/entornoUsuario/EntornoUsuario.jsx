@@ -3,13 +3,13 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import UserMenu from "../../components/UserMenu/UserMenu.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Dashboard from "../Dashboard/Dashboard.jsx";
-import { useLogto } from "@logto/react";
+import { useAuth } from "../../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
     const [estadoPerfil, setEstadoPerfil] = useState("LOADING");
-    const { signOut, isAuthenticated, isLoading, getAccessToken} = useLogto();
+    const { signOut, isAuthenticated, isLoading, getAccessToken} = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 

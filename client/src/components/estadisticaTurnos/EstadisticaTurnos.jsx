@@ -1,12 +1,12 @@
 // import CardActions from '@mui/material/CardActions';
 import {useEffect, useState} from 'react'
 import { CardHeader, CardContent, Box, Card, Skeleton, Typography } from '@mui/material';
-import { useLogto } from "@logto/react"
+import { useAuth } from "../../hooks/useAuth.jsx"
 import { getCantidadTurnosEnRangoFecha, getCantidadTurnosEnEstado } from "../../services/TurnosService.jsx";
 import './EstadisticaTurnos.css';
 
 const EstadisticaTurnos = ({className, turnos}) => {
-    const { isAuthenticated, getAccessToken } = useLogto();
+    const { isAuthenticated, getAccessToken } = useAuth();
 
     const [estadisticas, setEstadisticas] = useState({
         proximos7Dias: -1,
@@ -16,58 +16,72 @@ const EstadisticaTurnos = ({className, turnos}) => {
     });
 
     useEffect( () => {
+        const abortController = new AbortController();
+        let ignore = false;
+
         const obtenerDatos = async () => {
+            try {
+                if (!isAuthenticated) return;
 
-            if (!isAuthenticated) return;
+                const accessToken = await getAccessToken(
+                    "https://api-sweet-medical.com"
+                );
 
-            const accessToken = await getAccessToken(
-                "https://api-sweet-medical.com"
-            );
+                if (!accessToken) return;
 
-            const hoy = new Date()
+                const hoy = new Date()
 
-            const siguienteSemana = new Date();
-            siguienteSemana.setDate(hoy.getDate() + 7);
+                const siguienteSemana = new Date();
+                siguienteSemana.setDate(hoy.getDate() + 7);
 
-            const siguienteMes = new Date(
-                hoy.getFullYear(),
-                hoy.getMonth() + 1,
-                0,
-                23,
-                59,
-                59
-            );
+                const siguienteMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() + 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
 
-            const anteriorMes = new Date(
-                hoy.getFullYear(),
-                hoy.getMonth() - 1,
-                0,
-                23,
-                59,
-                59
-            );
+                const anteriorMes = new Date(
+                    hoy.getFullYear(),
+                    hoy.getMonth() - 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
 
-            const [
-                proximos7Dias,
-                proximoMes,
-                previoMes,
-                reservados,
-            ] = await Promise.all([
-                getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteSemana),
-                getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteMes),
-                getCantidadTurnosEnRangoFecha(accessToken, anteriorMes, hoy),
-                getCantidadTurnosEnEstado(accessToken, "RESERVADO"),
-            ])
+                const [
+                    proximos7Dias,
+                    proximoMes,
+                    previoMes,
+                    reservados,
+                ] = await Promise.all([
+                    getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteSemana, abortController.signal),
+                    getCantidadTurnosEnRangoFecha(accessToken, hoy, siguienteMes, abortController.signal),
+                    getCantidadTurnosEnRangoFecha(accessToken, anteriorMes, hoy, abortController.signal),
+                    getCantidadTurnosEnEstado(accessToken, "RESERVADO", abortController.signal),
+                ])
 
-            setEstadisticas({
-                proximos7Dias,
-                proximoMes,
-                previoMes,
-                reservados
-            })
+                if (!ignore) {
+                    setEstadisticas({
+                        proximos7Dias,
+                        proximoMes,
+                        previoMes,
+                        reservados
+                    })
+                }
+            } catch {
+                // Component may be unmounting during sign-out
+            }
         };
 
         obtenerDatos();
+        return () => {
+            ignore = true;
+            abortController.abort();
+        };
     }, [isAuthenticated, getAccessToken]);
 
     const cards = [

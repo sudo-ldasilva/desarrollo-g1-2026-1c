@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { useHandleSignInCallback } from '@logto/react';
-import { useLogto } from '@logto/react';
+import { useAuth } from '../hooks/useAuth.jsx';
 import { useNavigate } from 'react-router-dom';
 import { getMe } from '../services/PerfilService';
 import LoadingSplash from './LoadingSplash/LoadingSplash.jsx';
 
 const Callback = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, getAccessToken } = useLogto();
+  const { isAuthenticated, isLoading, getAccessToken } = useAuth();
   const { isLoading: callbackLoading } = useHandleSignInCallback(() => {});
 
   const ran = useRef(false);
@@ -24,6 +24,7 @@ const Callback = () => {
     const resolve = async () => {
       try {
         const token = await getAccessToken("https://api-sweet-medical.com");
+        if (!token) return;
         const me = await getMe(token);
 
         navigate(me.tienePerfil ? "/app" : "/completar-perfil", {
@@ -36,7 +37,7 @@ const Callback = () => {
     };
 
     resolve();
-  }, [callbackLoading, isLoading, isAuthenticated, getAccessToken]);
+  }, [callbackLoading, isLoading, isAuthenticated, getAccessToken, navigate]);
 
   return <LoadingSplash message="Procesando sesión..." />;
 };

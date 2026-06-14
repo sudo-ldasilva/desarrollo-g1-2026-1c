@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getMe = async (token) => {
-    console.log("DEBUG ENVIO GETME" + token);
+    if (!token) return null;
 
     const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/me`,

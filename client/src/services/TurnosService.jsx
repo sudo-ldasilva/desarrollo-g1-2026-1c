@@ -18,76 +18,78 @@ export const getTurnos = async (accessToken) => {
     }
 }
 
-export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
-     console.log("pregunto turnos en rango fecha");
-    try{
-        let turnos = []
-        let pagina = 1, totalPaginas = -1
+const isAbortError = (error) => error.name === "CanceledError";
+
+const handleError = (error) => {
+    if (!isAbortError(error)) {
+        console.error("Error obteniendo los turnos", error);
+    }
+    throw error;
+};
+
+export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, signal) => {
+    try {
+        let turnos = [];
+        let pagina = 1, totalPaginas = -1;
 
         do {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
+                signal,
                 params: {
                     page: pagina,
                     fechaInicio,
                     fechaFin
                 },
                 headers: {
-                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
-                    // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
-                                                               // Paciente 1, Lucia Fernandez, Plan Oro
+                    Authorization: `Bearer ${accessToken}`,
                 },
-            })
+            });
 
-            turnos.push(...response.data.turnos)
+            turnos.push(...response.data.turnos);
 
             totalPaginas = response.data.totalPage;
             pagina = response.data.page + 1;
-        } while (pagina <= totalPaginas)
+        } while (pagina <= totalPaginas);
 
         return turnos;
     } catch (error) {
-        console.error("Error obteniendo los turnos", error);
-        throw error;
+        handleError(error);
     }
-}
+};
 
-export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin) => {
-     console.log("pregunto cantidad turnos");
-    try{
+export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, signal) => {
+    try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
+            signal,
             params: {
                 fechaInicio,
                 fechaFin
             },
             headers: {
-                Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
-                // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+                Authorization: `Bearer ${accessToken}`,
             },
-        })
+        });
 
         return response.data.total;
     } catch (error) {
-        console.error("Error obteniendo los turnos", error);
-        throw error;
+        handleError(error);
     }
-}
+};
 
-export const getCantidadTurnosEnEstado = async (accessToken, estado) => {
-     console.log("pregunto cantidad turnos en estado");
-    try{
+export const getCantidadTurnosEnEstado = async (accessToken, estado, signal) => {
+    try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {
+            signal,
             params: {
                 estado
             },
-           headers: {
-                Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
-                // 'x-usuario-id': '6a29b970392b258eadf4466b' // TODO NO Hardcodear
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
             },
-        })
+        });
 
         return response.data.total;
     } catch (error) {
-        console.error("Error obteniendo los turnos", error);
-        throw error;
+        handleError(error);
     }
-}
+};

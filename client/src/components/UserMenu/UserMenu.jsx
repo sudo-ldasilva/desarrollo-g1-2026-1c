@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogto } from '@logto/react';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import './UserMenu.css';
 
 const UserMenu = () => {
@@ -8,7 +8,7 @@ const UserMenu = () => {
   const [userName, setUsername] = useState('');
   const menuRef = useRef(null);
   const navigate = useNavigate();
-  const { signOut, getIdTokenClaims, isAuthenticated } = useLogto();
+  const { signOut, getIdTokenClaims, isAuthenticated } = useAuth();
 
   // Cerrar el menú si se hace clic fuera de él
   useEffect(() => {
@@ -34,16 +34,23 @@ const UserMenu = () => {
   // Fallback para el nombre de usuario si Logto aún no lo cargó
   useEffect(() => {
     (async () => {
-      if (isAuthenticated) {
-        const claims = await getIdTokenClaims();
-        setUsername(claims.username);
+      try {
+        if (isAuthenticated) {
+          const claims = await getIdTokenClaims();
+          if (claims) {
+            setUsername(claims.username);
+          }
+        }
+      } catch {
+        // Component may be unmounting during sign-out
       }
     })();
   }, [isAuthenticated, getIdTokenClaims]);
 
   return (
     <div className="user-menu-container" ref={menuRef}>
-      <button 
+      <button
+        type="button"
         className="user-menu-trigger" 
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
@@ -62,20 +69,20 @@ const UserMenu = () => {
           
           <ul className="dropdown-items">
             <li>
-              <button onClick={() => handleNavigate('/app/mis-datos')}>
+              <button type="button" onClick={() => handleNavigate('/app/mis-datos')}>
                 <i className="fa-solid fa-user"></i>
                 <span>Mi Perfil</span>
               </button>
             </li>
             <li>
-              <button onClick={() => handleNavigate('/app/notificaciones')}>
+              <button type="button" onClick={() => handleNavigate('/app/notificaciones')}>
                 <i className="fa-solid fa-bell"></i>
                 <span>Notificaciones</span>
               </button>
             </li>
             <li className="divider"></li>
             <li>
-              <button onClick={handleLogout} className="logout-btn">
+              <button type="button" onClick={handleLogout} className="logout-btn">
                 <i className="fa-solid fa-right-from-bracket"></i>
                 <span>Cerrar Sesión</span>
               </button>

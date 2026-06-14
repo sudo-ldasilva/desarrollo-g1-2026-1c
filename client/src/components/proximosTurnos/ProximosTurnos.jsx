@@ -1,21 +1,21 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import CalendarioMensualTurnos from "../calendarioMensualTurnos/CalendarioMensualTurnos.jsx"
 import TurnoInfo from "../TurnoInfo/TurnoInfo.jsx"
 import {getTurnosEnRangoFecha} from "../../services/TurnosService.jsx"
-import { useLogto } from "@logto/react";
+import { useAuth } from "../../hooks/useAuth.jsx";
 
 import { Card, CardHeader, CardContent, Skeleton, Alert } from '@mui/material';
 
 import './ProximosTurnos.css';
 
 const ProximosTurnos = (props) => {
-    const { isAuthenticated, getAccessToken } = useLogto();
+    const { isAuthenticated, getAccessToken } = useAuth();
 
     const hoy = new Date()
 
     let [turnos, setTurnos] = useState([]);
     let [calendarioActualizado, setCalendarioActualizado] = useState(false);
-    let [mesCalendario, setMesCalendario] = useState(hoy)
+    let mesCalendario = useRef(hoy)
     let [fechaSeleccionada, setFechaSeleccionada] = useState(new Date(hoy.setHours(0,0,0,0)))
     const turnosFiltrados = turnos.filter( (fecha) => new Date(fecha.fechaHora).toDateString() === fechaSeleccionada.toDateString() )
 
@@ -24,47 +24,65 @@ const ProximosTurnos = (props) => {
     }
 
     useEffect(() => {
+        if (calendarioActualizado) return;
+
+        const abortController = new AbortController();
+        let ignore = false;
+
         const obtenerTurnosParaCalendario = async () => {
-            if (!isAuthenticated) return;
+            try {
+                if (!isAuthenticated) return;
 
-            const accessToken = await getAccessToken(
-                "https://api-sweet-medical.com"
-            );
+                const accessToken = await getAccessToken(
+                    "https://api-sweet-medical.com"
+                );
 
-            const siguienteMes = new Date(
-                mesCalendario.getFullYear(),
-                mesCalendario.getMonth() + 1,
-                0,
-                23,
-                59,
-                59
-            );
+                if (!accessToken) return;
 
-            const anteriorMes = new Date(
-                mesCalendario.getFullYear(),
-                mesCalendario.getMonth() - 1,
-                0,
-                23,
-                59,
-                59
-            );
+                const siguienteMes = new Date(
+                    mesCalendario.current.getFullYear(),
+                    mesCalendario.current.getMonth() + 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
 
-            const turnosRecibidos = await getTurnosEnRangoFecha(
-                accessToken,
-                anteriorMes,
-                siguienteMes
-            );
+                const anteriorMes = new Date(
+                    mesCalendario.current.getFullYear(),
+                    mesCalendario.current.getMonth() - 1,
+                    0,
+                    23,
+                    59,
+                    59
+                );
 
-            setTurnos(turnosRecibidos);
-            setCalendarioActualizado(true);
+                const turnosRecibidos = await getTurnosEnRangoFecha(
+                    accessToken,
+                    anteriorMes,
+                    siguienteMes,
+                    abortController.signal
+                );
+
+                if (!ignore) {
+                    setTurnos(turnosRecibidos);
+                    setCalendarioActualizado(true);
+                }
+            } catch {
+                // Component may be unmounting during sign-out
+            }
         };
 
         obtenerTurnosParaCalendario();
-    }, [mesCalendario, isAuthenticated, getAccessToken])
+        return () => {
+            ignore = true;
+            abortController.abort();
+        };
+    }, [calendarioActualizado, isAuthenticated, getAccessToken])
 
     const cambiarMesCalendario = (mes) => {
+        mesCalendario.current = mes;
         setCalendarioActualizado(false);
-        setMesCalendario(mes)
     }
 
     return (

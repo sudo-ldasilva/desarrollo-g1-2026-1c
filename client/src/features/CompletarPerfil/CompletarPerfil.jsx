@@ -1,13 +1,24 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogto } from "@logto/react";
+import { useAuth } from "../../hooks/useAuth.jsx";
 import { getObrasSociales, getPlanesObraSocial } from "../../services/ObraSocialService.jsx";
 import "./CompletarPerfil.css";
 import { crearPerfil, getMe } from "../../services/PerfilService.jsx";
 
+const formReducer = (state, action) => {
+    switch (action.type) {
+        case "CHANGE":
+            return { ...state, [action.name]: action.value };
+        case "UPDATE":
+            return { ...state, ...action.payload };
+        default:
+            return state;
+    }
+};
+
 const CompletarPerfil = () => {
     const navigate = useNavigate();
-    const { getAccessToken } = useLogto();
+    const { getAccessToken } = useAuth();
     const [guardando, setGuardando] = useState(false);
     const [error, setError] = useState("");
     const [obrasSociales, setObrasSociales] = useState([]);
@@ -15,7 +26,7 @@ const CompletarPerfil = () => {
 
     console.log("COMPLETAR PERFIL");
 
-    const [form, setForm] = useState({
+    const [form, dispatch] = useReducer(formReducer, {
         nombre: "",
         dni: "",
         obraSocial: "",
@@ -23,20 +34,13 @@ const CompletarPerfil = () => {
     });
 
     const handleChange = (e) => {
-        setForm({
-        ...form,
-        [e.target.name]: e.target.value,
-        });
+        dispatch({ type: "CHANGE", name: e.target.name, value: e.target.value });
     };
 
     const handleObraSocialChange = async (e) => {
         const obraSocialId = e.target.value;
 
-        setForm({
-            ...form,
-            obraSocial: obraSocialId,
-            plan: ""
-        });
+        dispatch({ type: "UPDATE", payload: { obraSocial: obraSocialId, plan: "" } });
 
         try {
             const planesData = await getPlanesObraSocial(obraSocialId);
@@ -79,6 +83,11 @@ const CompletarPerfil = () => {
 
         try {
             const token = await getAccessToken("https://api-sweet-medical.com");
+
+            if (!token) {
+                setError("Sesión expirada. Por favor, iniciá sesión nuevamente.");
+                return;
+            }
 
             await crearPerfil(token, form);
 

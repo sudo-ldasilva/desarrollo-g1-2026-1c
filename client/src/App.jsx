@@ -12,6 +12,7 @@ import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
 import CarritoPreseleccion from './features/CarritoPreseleccion/CarritoPreseleccion.jsx';
 import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
+import { AuthProvider } from './hooks/useAuth.jsx';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import MisServicios from './features/MisServicios/MisServicios.jsx';
@@ -28,15 +29,15 @@ const theme = createTheme({
     }
 });
 
-function App() {
-    const config = {
-        endpoint: 'https://mm32is.logto.app/',
-        appId: 'o5yyg82jt0gb2b8nbiuje',
-        redirectUri: `${window.location.origin}/callback`,
-        postLogoutRedirectUri: window.location.origin,
-        resources: ['https://api-sweet-medical.com']
-    };
+const logtoConfig = {
+    endpoint: 'https://mm32is.logto.app/',
+    appId: 'o5yyg82jt0gb2b8nbiuje',
+    redirectUri: `${window.location.origin}/callback`,
+    postLogoutRedirectUri: window.location.origin,
+    resources: ['https://api-sweet-medical.com']
+};
 
+function App() {
     const [carrito, setCarrito] = useState([]);
 
     const agregarAlCarrito = (turno) => {
@@ -74,7 +75,8 @@ function App() {
     ]);
 
   return (
-      <LogtoProvider config={config}>
+      <LogtoProvider config={logtoConfig}>
+        <AuthProvider>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <Routes>
@@ -82,7 +84,7 @@ function App() {
               <Route path="/callback" element={<Callback />} />
               <Route path="/completar-perfil" element={<CompletarPerfil />} />
 
-              <Route path="/app" element={<EntornoUsuario />} >
+              <Route path="/app" element={<RequiereAuth><EntornoUsuario /></RequiereAuth>} >
 
                 <Route
                   path="solicitar-turnos"
@@ -151,6 +153,7 @@ function App() {
             </Routes>
           </ThemeProvider>
          </BrowserRouter>
+        </AuthProvider>
       </LogtoProvider>
   );
 
