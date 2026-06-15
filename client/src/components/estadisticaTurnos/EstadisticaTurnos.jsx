@@ -24,7 +24,7 @@ const EstadisticaTurnos = ({className, turnos}) => {
                 if (!isAuthenticated) return;
 
                 const accessToken = await getAccessToken(
-                    "https://api-sweet-medical.com"
+                   process.env.REACT_APP_LOGTO_RESOURCES
                 );
 
                 if (!accessToken) return;

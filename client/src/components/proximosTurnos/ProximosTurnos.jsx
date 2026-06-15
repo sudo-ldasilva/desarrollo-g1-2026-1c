@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from 'react'
-import CalendarioMensualTurnos from "../calendarioMensualTurnos/CalendarioMensualTurnos.jsx"
+import CalendarioMensualTurnos from "../CalendarioMensualTurnos/CalendarioMensualTurnos.jsx"
 import TurnoInfo from "../TurnoInfo/TurnoInfo.jsx"
 import {getTurnosEnRangoFecha} from "../../services/TurnosService.jsx"
 import { useAuth } from "../../hooks/useAuth.jsx";
@@ -34,7 +34,7 @@ const ProximosTurnos = (props) => {
                 if (!isAuthenticated) return;
 
                 const accessToken = await getAccessToken(
-                    "https://api-sweet-medical.com"
+                  process.env.REACT_APP_LOGTO_RESOURCES
                 );
 
                 if (!accessToken) return;

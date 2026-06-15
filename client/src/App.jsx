@@ -30,11 +30,13 @@ const theme = createTheme({
 });
 
 const logtoConfig = {
-    endpoint: 'https://mm32is.logto.app/',
-    appId: 'o5yyg82jt0gb2b8nbiuje',
+    endpoint: process.env.REACT_APP_LOGTO_ENDPOINT,
+    appId: process.env.REACT_APP_LOGTO_APP_ID,
     redirectUri: `${window.location.origin}/callback`,
     postLogoutRedirectUri: window.location.origin,
-    resources: ['https://api-sweet-medical.com']
+    resources: process.env.REACT_APP_LOGTO_RESOURCES
+        ? [process.env.REACT_APP_LOGTO_RESOURCES]
+        : [],
 };
 
 function App() {

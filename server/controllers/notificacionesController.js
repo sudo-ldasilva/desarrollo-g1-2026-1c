@@ -7,14 +7,7 @@ export default class NotificacionesController{
 
     desplegarNotificaciones = async (req, res, next) => {
         try{
-            const usuarioId = req.headers["x-usuario-id"];
-
-            if (!usuarioId) {
-                return res.status(401).json({
-                    status: "fail",
-                    message: "No se proporcionó una sesión válida"
-                });
-            }
+            const usuario = req.user;
 
             const { page, limit } = req.validated.query;
             const estado = req.validated.query?.estado;
@@ -25,11 +18,15 @@ export default class NotificacionesController{
 
             const paginacion = { page, limit };
             
-            const busqueda = await this.notificacionesService.desplegarNotificaciones(usuarioId,paginacion, filtros);
+            const busqueda = 
+                await this.notificacionesService
+                    .desplegarNotificaciones(usuario._id,paginacion, filtros);
+            
             res.status(200).json({
                 status: "success",
                 ...busqueda
             });
+
         } catch(error){
             next(error);
         }
@@ -62,16 +59,10 @@ export default class NotificacionesController{
         try {
             const { id } = req.validated.params; 
 
-            const usuarioId = req.headers["x-usuario-id"];
-
-            if (!usuarioId) {
-                return res.status(401).json({
-                    status: "fail",
-                    message: "No se proporcionó una sesión válida"
-                });
-            }
+            const usuario = req.user;
            
-            const notificacionActualizada = await this.notificacionesService.modificarEstadoLectura(id, usuarioId);
+            const notificacionActualizada = 
+                await this.notificacionesService.modificarEstadoLectura(id, usuario._id);
 
             res.status(200).json({
                 status: "success",

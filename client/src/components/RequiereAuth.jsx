@@ -7,7 +7,7 @@ const RequiereAuth = ({ children }) => {
 
     console.log("requiere auth")
 
-    if (isLoading) {
+    if (isLoading && !isAuthenticated) {
         return <LoadingSplash message="Conectando..." />;
     }
 

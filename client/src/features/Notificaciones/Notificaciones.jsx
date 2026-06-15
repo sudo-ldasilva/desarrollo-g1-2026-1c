@@ -5,18 +5,23 @@ import {
 } from "@mui/material";
 import { obtenerNotificaciones, marcarNotificacionComoLeida } from "../../services/NotificacionesService";
 import "./Notificaciones.css";
+import { useAuth } from "../../hooks/useAuth";
 
 const Notificaciones = () => {
   const [notificaciones, setNotificaciones] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const {getAccessToken} = useAuth();
 
   useEffect(() => {
     const cargarNotificaciones = async () => {
       try {
         setCargando(true);
+
+        const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+        if(!accessToken) return;
         // Solicitamos las notificaciones pendientes
-        const data = await obtenerNotificaciones("pendientes");
+        const data = await obtenerNotificaciones(accessToken, "pendientes");
         setNotificaciones(data.notificaciones || []);
       } catch (err) {
         setError("No se pudieron cargar las notificaciones. Intente nuevamente más tarde.");
@@ -30,7 +35,9 @@ const Notificaciones = () => {
 
   const handleMarcarComoLeida = async (id) => {
     try {
-      await marcarNotificacionComoLeida(id);
+      const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+      if(!accessToken) return;
+      await marcarNotificacionComoLeida(accessToken, id);
       // Actualizamos el estado local eliminando la notificación de la lista de pendientes
       setNotificaciones((prev) => prev.filter((n) => n._id !== id));
     } catch (err) {

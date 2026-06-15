@@ -4,11 +4,13 @@ import {UsuarioModel} from "../models/UsuarioModel.js";
 
 //Middleware validacion de JWT emitido por logto y que llega como header en la req
 
-// Generate a JWKS using jwks_uri obtained from the Logto server
-const jwks = createRemoteJWKSet(new URL("https://mm32is.logto.app/oidc/jwks"));
+let jwks;
 
 export const authMiddleware = async (req, res, next) => {
-    //console.log("HEADERS RECIBIDOS:", req.headers.authorization);
+    if (!jwks) {
+        jwks = createRemoteJWKSet(new URL(process.env.LOGTO_JWKS_URL));
+    }
+    
     // Extract the token 
     const token = extractBearerTokenFromHeaders(req.headers);
 
@@ -23,10 +25,8 @@ export const authMiddleware = async (req, res, next) => {
         token,
         jwks,
         {
-            // Expected issuer of the token, issued by the Logto server
-            issuer: "https://mm32is.logto.app/oidc",
-            // Expected audience token, the resource indicator of the current API
-            audience: "https://api-sweet-medical.com",
+            issuer: process.env.LOGTO_ISSUER,
+            audience: process.env.LOGTO_AUDIENCE,
         }
     );
 

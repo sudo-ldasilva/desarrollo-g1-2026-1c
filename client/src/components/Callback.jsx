@@ -23,7 +23,7 @@ const Callback = () => {
 
     const resolve = async () => {
       try {
-        const token = await getAccessToken("https://api-sweet-medical.com");
+        const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
         if (!token) return;
         const me = await getMe(token);
 
