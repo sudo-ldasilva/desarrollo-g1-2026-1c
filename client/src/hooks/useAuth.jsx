@@ -4,7 +4,14 @@ import { useLogto } from "@logto/react";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const { signOut: logtoSignOut, getAccessToken: logtoGetAccessToken, getIdTokenClaims: logtoGetIdTokenClaims, isAuthenticated, isLoading, signIn } = useLogto();
+    const { 
+        signOut: logtoSignOut, 
+        getAccessToken: logtoGetAccessToken, 
+        getIdTokenClaims: logtoGetIdTokenClaims, 
+        isAuthenticated, 
+        isLoading, 
+        signIn 
+    } = useLogto();
     const loggingOutRef = useRef(false);
 
     const signOut = useCallback(async (redirectUri) => {

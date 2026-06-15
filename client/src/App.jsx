@@ -89,66 +89,35 @@ function App() {
                 <Route
                   path="solicitar-turnos"
                   element={
-                    <RequiereAuth>
                       <SolicitarTurnos
                         carrito={carrito}
                         agregarAlCarrito={agregarAlCarrito}
                       />
-                    </RequiereAuth>
                   }
                 />
 
                 <Route
                   path="mis-turnos"
                   element={
-                    <RequiereAuth>
                       <MisTurnos
                         turnos={turnos}
                       />
-                    </RequiereAuth>
                   }
                 />
 
                 <Route
                   path="solicitar-turnos/carrito"
                   element={
-                    <RequiereAuth>
                       <CarritoPreseleccion
                         carrito={carrito}
                       />
-                    </RequiereAuth>
                   }
                 />
-                <Route path='mis-servicios' element={
-                  <RequiereAuth>
-                    <MisServicios/>
-                  </RequiereAuth>
-                }
-                />
-                <Route index element={
-                  <RequiereAuth>
-                    <Dashboard />
-                  </RequiereAuth>
-                }
-                />
-                <Route path='dashboard' element={
-                  <RequiereAuth>
-                    <Dashboard />
-                  </RequiereAuth>
-                }
-                />
-                <Route path='mis-sedes' element={
-                  <RequiereAuth>
-                    <MisSedes/>
-                  </RequiereAuth>
-                }
-                />
-                <Route path='notificaciones' element={
-                  <RequiereAuth>
-                    <Notificaciones/>
-                  </RequiereAuth>
-                }
-                />
+                <Route path='mis-servicios' element={<MisServicios/>} />
+                <Route index element={<Dashboard />} />
+                <Route path='dashboard' element={<Dashboard />} />
+                <Route path='mis-sedes' element={<MisSedes/>} />
+                <Route path='notificaciones' element={<Notificaciones/>} />
               </Route>
             </Routes>
           </ThemeProvider>
