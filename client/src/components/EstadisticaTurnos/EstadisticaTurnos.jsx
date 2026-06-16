@@ -108,7 +108,7 @@ const EstadisticaTurnos = ({className, turnos}) => {
             {
                 cards.map(({titulo, valor}) => (
                     valor !== -1 ? (
-                        <Card style={{width: "100%"}} key={titulo}>
+                        <Card className="EstadisticaTurnos_card" key={titulo}>
                             <CardContent className="EstadisticaTurnos_content">
                                 <Typography className="EstadisticaTurnos_title" gutterBottom variant="h5" component="div">
                                     {titulo}
@@ -117,7 +117,7 @@ const EstadisticaTurnos = ({className, turnos}) => {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Skeleton variant="rounded" width="100%" height="100%" />
+                        <Skeleton className="EstadisticaTurnos_card" variant="rounded" width="100%" height="100%" />
                     )
                 ))
             }
