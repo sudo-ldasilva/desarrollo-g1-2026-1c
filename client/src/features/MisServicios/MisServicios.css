@@ -1,26 +1,21 @@
 
 .servicios-root {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 85vh;
-    padding: 2rem 1rem;
-    background-color: #f9f9f9; 
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: flex-start; */
+    /* min-height: 85vh; */
+    /* padding: 2rem 1rem; */
+    /* background-color: #f9f9f9; */
 }
 
 
 .servicios-container {
-    width: 100%;
-    max-width: 950px;
-    padding: 2.5rem;
-    border-radius: 12px;
-    background-color: #ffffff; 
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); 
+    margin-top: 1rem;
 }
 
 
 .titulo-seccion {
-    color: #c90e31; 
+    color: #c90e31;
     font-weight: 700 ;
     font-family: 'Poppins', sans-serif;
     margin-bottom: 0.5rem ;
@@ -28,33 +23,31 @@
 
 
 .descripcion {
-    color: #666666; 
+    color: #666666;
     font-size: 0.95rem;
     margin-bottom: 2rem;
 }
 
 
 .form-agregar {
-    background-color: #fafafa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #eeeeee; 
-    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
 }
 
 
 .btn-agregar-srv {
-    background-color: #128607 ; 
+    text-wrap: nowrap;
+    background-color: #128607 ;
     color: #ffffff ;
     font-weight: bold ;
     padding: 0.8rem 2rem ;
     min-width: 140px;
-    text-transform: none ; 
+    text-transform: none ;
     transition: background-color 0.2s ease-in-out ;
 }
 
 .btn-agregar-srv:hover {
-    background-color: #095713 ; 
+    background-color: #095713 ;
 }
 
 
@@ -73,8 +66,8 @@
     background-color: #fafafa;
     border-radius: 6px;
     border: 1px dashed #cccccc;
+    margin: 1rem 0px 0px 0px;
 }
-
 
 .card-servicio-item {
     background-color: #ffffff ;
@@ -86,7 +79,7 @@
 
 .card-servicio-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(201, 14, 49, 0.08) ; 
+    box-shadow: 0 4px 12px rgba(201, 14, 49, 0.08) ;
     border-color: #c90e31 ;
 }
 
