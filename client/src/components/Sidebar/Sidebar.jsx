@@ -9,7 +9,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   const menuItems = [
-    { text: 'Dashboard', path: '/app/dashboard', role: 'all' },
+    { text: 'Inicio', path: '/app/dashboard', role: 'all' },
     { text: 'Mis Turnos', subtext: '(paciente)', path: '/app/mis-turnos', role: 'patient' },
     { text: 'Mi Agenda', subtext: '(médico)', path: '/app/mi-agenda', role: 'doctor' },
     { text: 'Solicitar turnos', subtext: '(paciente)', path: '/app/solicitar-turnos', role: 'patient' },
