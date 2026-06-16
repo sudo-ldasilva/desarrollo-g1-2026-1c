@@ -5,6 +5,7 @@
     margin-bottom: 1rem;
     background: #fff;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .turno-card.cancelado {
@@ -44,6 +45,9 @@
     cursor: pointer;
     font-weight: bold;
     margin-top: 1rem;
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
 }
 
 .btn-cancelar:disabled {

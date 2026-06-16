@@ -1,19 +1,19 @@
-import { Card, CardContent, Container } from '@mui/material';
+import { Card, CardContent, Box } from '@mui/material';
 import HistorialTurnos from '../../components/HistorialTurnos/HistorialTurnos';
 import './MisTurnos.css';
 
 const MisTurnos = ({turnos}) => {
     return (
-        <Container className='contenedor-misTurnos'>
-            <Card className='card-turno'>
-                <CardContent>
-                    <h2 className='titulo-misTurnos'>
-                        Mis Turnos
-                    </h2>
-                    <HistorialTurnos turnos={turnos} />
-                </CardContent>
-            </Card>
-        </Container>
+        <div>
+            <section className="dashboard-block">
+                <div className="dashboard-block-header">
+                    <h2 className="dashboard-block-title">Mis turnos</h2>
+                    <p className="dashboard-block-subtitle">Consultar los turnos del usuario.</p>
+                </div>
+            </section>
+
+            <HistorialTurnos turnos={turnos} />
+        </div>
     );
 };
 
