@@ -17,7 +17,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 1.5rem 2rem 0.5rem 2rem;
+  /* padding: 1.5rem 2rem 0.5rem 2rem; */
   background: transparent;
 }
 
@@ -53,4 +53,10 @@
   .entorno-main-content {
     padding: 1rem 1rem 2rem 1rem;
   }
+}
+
+.EntornoUsuario_usuario  {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
 }

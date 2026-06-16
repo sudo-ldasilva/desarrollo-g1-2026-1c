@@ -10,7 +10,7 @@ import "./EntornoUsuario.css";
 const EntornoUsuario = () => {
     const [estadoPerfil, setEstadoPerfil] = useState("LOADING");
     const { signOut, isAuthenticated, isLoading, getAccessToken} = useAuth();
-    const [notificationCount] = useState(3); // TODO
+    const [notificationCount, setNotificationCount] = useState(3); // TODO Pedir al back (axios)
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -26,13 +26,7 @@ const EntornoUsuario = () => {
             <div className="contenido-principal">
                 <header className="entorno-header">
                     <div className="entorno-header-spacer"></div>
-                    <IconButton
-                      onClick={handleNotificationsClick}
-                      className="notifications-button"
-                      aria-label="notificaciones"
-                    >
-                    </IconButton>
-                    <UserMenu notificationCount={notificationCount} />
+                    <UserMenu className="EntornoUsuario_usuario" notificationCount={notificationCount} />
                 </header>
 
                 <main className="entorno-main-content">

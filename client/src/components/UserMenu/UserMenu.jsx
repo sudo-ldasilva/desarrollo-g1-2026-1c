@@ -4,7 +4,7 @@ import { useAuth } from '../../hooks/useAuth.jsx';
 import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import './UserMenu.css';
 
-const UserMenu = ({notificationCount}) => {
+const UserMenu = ({notificationCount, className}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [userName, setUsername] = useState('');
   const menuRef = useRef(null);
@@ -21,6 +21,9 @@ const UserMenu = ({notificationCount}) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+  }, [notificationCount]);
 
   const handleLogout = async () => {
     setIsOpen(false);
@@ -49,7 +52,7 @@ const UserMenu = ({notificationCount}) => {
   }, [isAuthenticated, getIdTokenClaims]);
 
   return (
-    <div className="user-menu-container" ref={menuRef}>
+    <div className={"user-menu-container " + className} ref={menuRef}>
       <button
         type="button"
         className="user-menu-trigger"
