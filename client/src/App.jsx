@@ -120,6 +120,9 @@ function App() {
                 <Route path='dashboard' element={<Dashboard />} />
                 <Route path='mis-sedes' element={<MisSedes/>} />
                 <Route path='notificaciones' element={<Notificaciones/>} />
+                <Route path='mi-agenda' element={<div>Falta hacer :)</div>} />
+                <Route path='mis-disponibilidades' element={<div>Falta hacer :)</div>} />
+                <Route path='mis-datos' element={<div>Falta hacer :)</div>} />
               </Route>
             </Routes>
           </ThemeProvider>
