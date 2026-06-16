@@ -25,11 +25,12 @@ const Sidebar = () => {
 
   return (
     <Box className="sidebar">
-      <Box className="sidebar-header">
-        <Typography variant="h6" className="sidebar-logo">
-          Sweet Medical
-        </Typography>
-      </Box>
+      <img
+        className="sidebar-header"
+        src="/logoSinFondo.png"
+        onClick={() => handleNavigation("dashboard")}
+        alt="Sweet Medical"
+      ></img>
 
       <List className="sidebar-menu">
         {menuItems.map((item, index) => (
