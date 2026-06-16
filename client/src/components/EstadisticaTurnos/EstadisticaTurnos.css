@@ -40,7 +40,7 @@
     margin: 0;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1300px) {
     .EstadisticaTurnos {
         flex-wrap: wrap;
     }
