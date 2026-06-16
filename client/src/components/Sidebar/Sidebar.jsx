@@ -7,8 +7,6 @@ import './Sidebar.css';
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [notificationCount] = useState(3);
-  const [userName] = useState('Juan Pérez');
 
   const menuItems = [
     { text: 'Dashboard', path: '/app/dashboard', role: 'all' },
@@ -23,10 +21,6 @@ const Sidebar = () => {
   const handleNavigation = (path) => {
     // Preparado para navegación futura
     navigate(path);
-  };
-
-  const handleNotificationsClick = () => {
-    navigate('/app/notificaciones');
   };
 
   return (
@@ -60,29 +54,6 @@ const Sidebar = () => {
         ))}
       </List>
 
-      <Box className="sidebar-footer">
-        <Box className="notifications-container">
-          <IconButton
-            onClick={handleNotificationsClick}
-            className="notifications-button"
-            aria-label="notificaciones"
-          >
-            <Badge
-              badgeContent={notificationCount}
-              color="error"
-              className="notifications-badge"
-            >
-              <i className="fa-solid fa-bell fa-bell-side"></i>
-            </Badge>
-          </IconButton>
-        </Box>
-
-        <Box className="user-greeting">
-          <Typography variant="body2">
-            ¡Hola, <strong>{userName}</strong>!
-          </Typography>
-        </Box>
-      </Box>
     </Box>
   );
 };

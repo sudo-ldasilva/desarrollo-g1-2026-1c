@@ -67,25 +67,6 @@
   background-color: var(--rojo-principal);
 }
 
-.notifications-button.MuiIconButton-root {
-    color: var(--blanco);
-    padding: 8px;
-}
-
-.notifications-button.MuiIconButton-root:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.notifications-badge .MuiBadge-badge {
-    background-color: #ff4444;
-    color: white;
-    font-weight: 600;
-    min-width: 20px;
-    height: 20px;
-    padding: 0 6px;
-    font-size: 0.75rem;
-}
-
 .user-greeting {
     flex: 1;
     color: var(--blanco);

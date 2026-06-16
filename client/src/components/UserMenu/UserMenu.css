@@ -119,3 +119,22 @@
 .logout-btn:hover {
   background: rgba(211, 47, 47, 0.08) !important;
 }
+
+@keyframes fadeInNotif {
+  from { opacity: 0}
+  to { opacity: 1 }
+}
+
+.notifications-badge .MuiBadge-badge {
+    background-color: #ff4444;
+    color: white;
+    font-weight: 600;
+    height: 15px;
+    width: 15px;
+    padding: 6px;
+    font-size: 10px;
+    min-width: 0px;
+    animation: fadeInNotif 0.15s ease-out;
+    top: 0;
+    right: 0;
+}

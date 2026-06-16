@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.jsx';
+import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import './UserMenu.css';
 
-const UserMenu = () => {
+const UserMenu = ({notificationCount}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [userName, setUsername] = useState('');
   const menuRef = useRef(null);
@@ -51,22 +52,30 @@ const UserMenu = () => {
     <div className="user-menu-container" ref={menuRef}>
       <button
         type="button"
-        className="user-menu-trigger" 
+        className="user-menu-trigger"
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <i className="fa-solid fa-circle-user"></i>
+      {
+          isOpen ? (
+                <i className="fa-solid fa-circle-user"></i>
+          ) : (
+              <Badge
+              badgeContent={notificationCount}
+              className="notifications-badge"
+              color="info"
+              >
+              <i className="fa-solid fa-circle-user"></i>
+              </Badge>
+          )
+      }
         <span className="user-name">{userName}</span>
         <i className={`fa-solid fa-chevron-down ${isOpen ? 'rotate' : ''}`}></i>
       </button>
 
       {isOpen && (
         <div className="user-menu-dropdown">
-          <div className="dropdown-header">
-            <span className="dropdown-user-name">{userName}</span>
-          </div>
-          
           <ul className="dropdown-items">
             <li>
               <button type="button" onClick={() => handleNavigate('/app/mis-datos')}>
@@ -76,8 +85,14 @@ const UserMenu = () => {
             </li>
             <li>
               <button type="button" onClick={() => handleNavigate('/app/notificaciones')}>
-                <i className="fa-solid fa-bell"></i>
-                <span>Notificaciones</span>
+                  <Badge
+                      badgeContent={notificationCount}
+                      color="info"
+                      className="notifications-badge notifications-badge-inside"
+                  >
+                        <i className="fa-solid fa-bell"></i>
+          </Badge>
+          <span>Notificaciones</span>
               </button>
             </li>
             <li className="divider"></li>
