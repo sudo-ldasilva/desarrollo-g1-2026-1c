@@ -1,5 +1,3 @@
-.caja-carrito{
-    display: flex;
-    justify-content : flex-end;
-    margin-bottom : 2rem
+.buscador-card {
+    margin-top: 1rem;
 }
