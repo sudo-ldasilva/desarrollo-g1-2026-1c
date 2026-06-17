@@ -5,7 +5,7 @@ import EntornoUsuario from "./features/EntornoUsuario/EntornoUsuario.jsx";
 import Dashboard from "./features/Dashboard/Dashboard.jsx";
 import MisTurnos from "./features/MisTurnos/MisTurnos.jsx";
 import Notificaciones from "./features/Notificaciones/Notificaciones.jsx";
-import { BrowserRouter, Routes, Route, Navigate, useOutletContext } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useOutletContext, useLocation } from 'react-router-dom';
 import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
@@ -39,6 +39,36 @@ const logtoConfig = {
         ? [process.env.REACT_APP_LOGTO_RESOURCES]
         : [],
 };
+
+const TITLES = {
+    "/": "Inicio",
+    "/callback": "Iniciando sesión",
+    "/completar-perfil": "Completar perfil",
+    "/app": "Inicio",
+    "/app/": "Inicio",
+    "/app/dashboard": "Inicio",
+    "/app/solicitar-turnos": "Solicitar turnos",
+    "/app/solicitar-turnos/resultado": "Resultado de búsqueda",
+    "/app/solicitar-turnos/carrito": "Carrito",
+    "/app/mis-turnos": "Mis turnos",
+    "/app/mis-servicios": "Mis servicios",
+    "/app/mis-sedes": "Mis sedes",
+    "/app/notificaciones": "Notificaciones",
+    "/app/mi-agenda": "Mi agenda",
+    "/app/mis-disponibilidades": "Mis disponibilidades",
+    "/app/mis-datos": "Mis datos",
+};
+
+function TitleUpdater() {
+    const location = useLocation();
+
+    useEffect(() => {
+        const title = TITLES[location.pathname] || "Sweet Medical";
+        document.title = `${title} - Sweet Medical`;
+    }, [location]);
+
+    return null;
+}
 
 function App() {
     const [carrito, setCarrito] = useState([]);
@@ -82,6 +112,7 @@ function App() {
         <AuthProvider>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
+            <TitleUpdater />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<Callback />} />
