@@ -39,6 +39,11 @@
     color: var(--blanco);
 }
 
+.sidebar-menu-item.MuiButtonBase-root {
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .sidebar-menu-item.MuiButtonBase-root:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
