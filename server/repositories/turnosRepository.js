@@ -58,7 +58,7 @@ export default class TurnosRepository {
             .skip(skip)
             .limit(limit)
             .populate("medico", "nombre")
-            .populate("sede", "nombre")
+            .populate("sede", "nombre direccion")
             .populate("fechaHora", "hora")
             .populate("servicio", "nombre costoConsulta");
 
@@ -85,12 +85,8 @@ function armarQuery(filtros) {
         query.estado = filtros.estado;
     }
 
-    if (filtros.especialidad) {
-        query.servicio = filtros.especialidad;
-    }
-
-    if (filtros.practica) {
-        query.servicio = filtros.practica;
+    if (filtros.servicio) {
+        query.servicio = filtros.servicio;
     }
 
     if (filtros.tipoServicio) {

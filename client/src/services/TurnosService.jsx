@@ -76,12 +76,19 @@ export const getCantidadTurnosEnRangoFecha = async (accessToken, fechaInicio, fe
     }
 };
 
-export const buscarTurnosDisponibles = async (params, signal) => {
-    const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos`, {
-        signal,
-        params: { estado: "DISPONIBLE", ...params }
-    });
-    return response.data;
+export const buscarTurnosDisponibles = async (accessToken, params, signal) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos`, {
+            signal,
+            params: { estado: "DISPONIBLE", ...params },
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 export const getCantidadTurnosEnEstado = async (accessToken, estado, signal) => {

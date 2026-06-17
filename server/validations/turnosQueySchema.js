@@ -44,8 +44,7 @@ export const turnosQuerySchema = z.object({
     
     medico: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de medico no es válido").optional(),
     sede: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de sede no es válido").optional(),
-    practica: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de practica no es válido").optional(),
-    especialidad: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de especialidad no es válido").optional(),
+    servicio: z.string().regex(/^[0-9a-fA-F]{24}$/, "El formato del ID de servicio no es válido").optional(),
     fechaInicio: z.coerce.date().optional(),
     fechaFin: z.coerce.date().optional(),
     pacienteId: z.string().optional(),
