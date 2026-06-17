@@ -90,7 +90,11 @@ function armarQuery(filtros) {
     }
 
     if (filtros.practica) {
-        query.practica = filtros.practica;
+        query.servicio = filtros.practica;
+    }
+
+    if (filtros.tipoServicio) {
+        query.tipoServicio = filtros.tipoServicio;
     }
 
     if (filtros.sede) {

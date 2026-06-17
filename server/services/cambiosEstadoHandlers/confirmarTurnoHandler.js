@@ -22,7 +22,7 @@ export default class ConfirmarTurnoHandler {
             throw new ForbiddenError("El turno no corresponde al usuario"); 
         }
 
-       if (turno.estado != EstadoTurno.RESERVADO && turno.estado !=
+        if (turno.estado != EstadoTurno.RESERVADO && turno.estado !=
             EstadoTurno.PENDIENTE_REPROGRAMACION) {
             throw new BadRequestError("No puede confirmarse un turno si no esta reservado o pendiente de reprogramacion");
         }
