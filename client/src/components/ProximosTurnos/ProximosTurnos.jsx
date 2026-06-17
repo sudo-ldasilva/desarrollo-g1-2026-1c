@@ -107,7 +107,12 @@ const ProximosTurnos = (props) => {
                             turnosFiltrados.length !== 0 ?
                             (
                                 turnosFiltrados.map( (turno) => (
-                                    <TurnoInfo key={turno.id} turno={turno} />
+                                    <TurnoInfo
+                                        key={turno.id}
+                                        turno={turno}
+                                        onCancelar={() => {}}
+                                        onReprogramar={() => {}}
+                                    />
                                 ))
                             ) :
                             (

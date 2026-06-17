@@ -50,12 +50,15 @@
     color: var(--texto-oscuro);
 }
 
-.TurnoInfo_agendar {
+.TurnoInfo_acciones {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.TurnoInfo_btn {
     border: none;
     border-radius: 20px;
-    padding: 0.45rem 1.5rem;
-    background: var(--rojo-principal, #D40032);
-    color: #fff;
+    padding: 0.45rem 1.25rem;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 0.85rem;
@@ -63,6 +66,22 @@
     transition: filter 0.2s ease;
 }
 
-.TurnoInfo_agendar:hover {
+.TurnoInfo_btn:hover {
     filter: brightness(1.08);
+}
+
+.TurnoInfo_btn-agendar {
+    background: var(--rojo-principal, #D40032);
+    color: #fff;
+}
+
+.TurnoInfo_btn-cancelar {
+    background: transparent;
+    color: var(--rojo-principal, #D40032);
+    border: 1.5px solid var(--rojo-principal, #D40032);
+}
+
+.TurnoInfo_btn-reprogramar {
+    background: var(--rojo-principal, #D40032);
+    color: #fff;
 }

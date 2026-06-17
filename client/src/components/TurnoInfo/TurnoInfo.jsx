@@ -2,7 +2,7 @@ import { Card, CardContent } from '@mui/material';
 
 import './TurnoInfo.css';
 
-const TurnoInfo = ({ turno, onAgregar }) => {
+const TurnoInfo = ({ turno, onAgregar, onCancelar, onReprogramar }) => {
     const fecha = new Date(turno.fechaHora);
     const dia = fecha.toLocaleDateString("es-AR", { weekday: "long" });
     const numero = fecha.toLocaleDateString("es-AR", { day: "numeric" });
@@ -39,11 +39,23 @@ const TurnoInfo = ({ turno, onAgregar }) => {
                         }
                     </span>
 
-                    {onAgregar && (
-                        <button className="TurnoInfo_agendar" onClick={onAgregar}>
-                            Agendar
-                        </button>
-                    )}
+                    <div className="TurnoInfo_acciones">
+                        {onCancelar && (
+                            <button className="TurnoInfo_btn TurnoInfo_btn-cancelar" onClick={onCancelar}>
+                                Cancelar
+                            </button>
+                        )}
+                        {onReprogramar && (
+                            <button className="TurnoInfo_btn TurnoInfo_btn-reprogramar" onClick={onReprogramar}>
+                                Reprogramar
+                            </button>
+                        )}
+                        {onAgregar && (
+                            <button className="TurnoInfo_btn TurnoInfo_btn-agendar" onClick={onAgregar}>
+                                Agendar
+                            </button>
+                        )}
+                    </div>
                 </div>
             </CardContent>
         </Card>

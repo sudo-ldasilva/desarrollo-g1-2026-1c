@@ -90,11 +90,11 @@ const EstadisticaTurnos = ({className, turnos}) => {
             valor: estadisticas.proximos7Dias
         },
         {
-            titulo: "Proximos turnos este mes",
+            titulo: "Próximos turnos este mes",
             valor: estadisticas.proximoMes
         },
         {
-            titulo: "Turnos del ultimo mes",
+            titulo: "Turnos del último mes",
             valor: estadisticas.previoMes
         },
         {
