@@ -1,24 +1,27 @@
 import { useState, useEffect } from "react";
-import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { Outlet, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import UserMenu from "../../components/UserMenu/UserMenu.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import Dashboard from "../Dashboard/Dashboard.jsx";
 import { useAuth } from "../../hooks/useAuth.jsx";
+import { obtenerNotificaciones } from "../../services/NotificacionesService.jsx";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
-    const [estadoPerfil, setEstadoPerfil] = useState("LOADING");
-    const { signOut, isAuthenticated, isLoading, getAccessToken} = useAuth();
-    const [notificationCount, setNotificationCount] = useState(3); // TODO Pedir al back (axios)
-    const navigate = useNavigate();
-    const location = useLocation();
+    const { getAccessToken } = useAuth();
+    const [notificationCount, setNotificationCount] = useState(0);
 
-    console.log("ENTORNO USUARIO (/app)")
-
-    const handleNotificationsClick = () => {
-        navigate('/app/notificaciones');
-    };
+    useEffect(() => {
+        (async () => {
+            try {
+                const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+                if (!token) return;
+                const data = await obtenerNotificaciones(token, "pendientes", 1, 1);
+                setNotificationCount(data.total ?? 0);
+            } catch {
+                // count queda en 0
+            }
+        })();
+    }, [getAccessToken]);
 
 	return (
         <div className="layout-entorno">

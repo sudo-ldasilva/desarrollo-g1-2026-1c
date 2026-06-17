@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth.jsx';
-import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Badge } from '@mui/material';
 import './UserMenu.css';
 
 const UserMenu = ({notificationCount, className}) => {
@@ -21,9 +21,6 @@ const UserMenu = ({notificationCount, className}) => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  useEffect(() => {
-  }, [notificationCount]);
 
   const handleLogout = async () => {
     setIsOpen(false);
@@ -45,8 +42,8 @@ const UserMenu = ({notificationCount, className}) => {
             setUsername(claims.username);
           }
         }
-      } catch {
-        // Component may be unmounting during sign-out
+      } catch (error) {
+        console.error("Error al obtener claims del usuario:", error);
       }
     })();
   }, [isAuthenticated, getIdTokenClaims]);
