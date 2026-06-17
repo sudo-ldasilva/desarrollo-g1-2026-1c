@@ -4,3 +4,28 @@
   --gris-fondo: #F8F9FA;          /* Fondos de secciones */
   --blanco: #FFFFFF;              /* Tarjetas y fondo general */
 }
+
+html, body {
+  cursor: default;
+}
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input,
+textarea,
+[contenteditable],
+select,
+button,
+.MuiSelect-select,
+.MuiMenuItem-root {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor: auto;
+}

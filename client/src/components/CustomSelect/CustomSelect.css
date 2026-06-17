@@ -1,0 +1,117 @@
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border: 1px solid #d8dde6;
+    border-radius: 14px;
+    padding: 0.95rem 1rem;
+    padding-right: 2.5rem;
+    font: inherit;
+    font-size: 0.95rem;
+    background: #fbfcfe;
+    color: var(--texto-oscuro);
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.custom-select-trigger:hover {
+    border-color: #c0c8d6;
+    background: #f0f2f5;
+}
+
+.custom-select.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.custom-select.open .custom-select-trigger {
+    border-color: var(--rojo-principal);
+    box-shadow: 0 0 0 4px rgba(212, 0, 50, 0.12);
+    transform: translateY(-1px);
+}
+
+.custom-select-placeholder {
+    color: #9aa4b2;
+}
+
+.custom-select-value {
+    color: var(--texto-oscuro);
+}
+
+.custom-select-chevron {
+    flex-shrink: 0;
+    color: #6b7280;
+    transition: transform 0.25s ease;
+}
+
+.custom-select-chevron.open {
+    transform: rotate(180deg);
+}
+
+.custom-select-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #d8dde6;
+    border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.10);
+    z-index: 200;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+.custom-select-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--texto-oscuro);
+    outline: none;
+    padding: 0;
+}
+
+.custom-select-input::placeholder {
+    color: #9aa4b2;
+}
+
+.custom-select-options {
+    max-height: 210px;
+    overflow-y: auto;
+}
+
+.custom-select-item {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--texto-oscuro);
+    transition: background 0.12s ease;
+}
+
+.custom-select-item:hover {
+    background: #eef0f4;
+}
+
+.custom-select-item.selected {
+    background: rgba(212, 0, 50, 0.07);
+    color: var(--rojo-principal);
+    font-weight: 600;
+}
+
+.custom-select-no-results {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    color: #9aa4b2;
+    font-size: 0.9rem;
+}

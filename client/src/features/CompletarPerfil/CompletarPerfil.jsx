@@ -2,6 +2,7 @@ import { useState, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.jsx";
 import { getObrasSociales, getPlanesObraSocial } from "../../services/ObraSocialService.jsx";
+import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import "./CompletarPerfil.css";
 import { crearPerfil, getMe } from "../../services/PerfilService.jsx";
 
@@ -160,51 +161,25 @@ const CompletarPerfil = () => {
 
                     <label className="completar-perfil-field">
                         <span>Obra social</span>
-
-                        <select
+                        <CustomSelect
                             name="obraSocial"
-                            required
                             value={form.obraSocial}
-                            onChange={handleObraSocialChange}
-                        >
-                            <option value="">
-                                Seleccione una obra social
-                            </option>
-
-                            {obrasSociales.map((obra) => (
-                                <option
-                                    key={obra._id}
-                                    value={obra._id}
-                                >
-                                    {obra.nombre}
-                                </option>
-                            ))}
-                        </select>
+                            onChange={(e) => handleObraSocialChange(e)}
+                            placeholder="Seleccione una obra social"
+                            options={obrasSociales.map(o => ({ value: o._id, label: o.nombre }))}
+                        />
                     </label>
 
                     <label className="completar-perfil-field">
                         <span>Plan</span>
-
-                        <select
+                        <CustomSelect
                             name="plan"
-                            required
                             value={form.plan}
                             onChange={handleChange}
+                            placeholder="Seleccione un plan"
+                            options={planes.map(p => ({ value: p._id, label: p.nombre }))}
                             disabled={!form.obraSocial}
-                        >
-                            <option value="">
-                                Seleccione un plan
-                            </option>
-
-                            {planes.map((plan) => (
-                                <option
-                                    key={plan._id}
-                                    value={plan._id}
-                                >
-                                    {plan.nombre}
-                                </option>
-                            ))}
-                        </select>
+                        />
                     </label>
 
                     <div className="completar-perfil-note">

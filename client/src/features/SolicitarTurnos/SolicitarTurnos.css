@@ -1,3 +1,240 @@
-.buscador-card {
-    margin-top: 1rem;
+/* Layout */
+.filtros-grid {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    align-items: flex-start;
+}
+
+.filtros-panel {
+    flex: 0 0 55%;
+    min-width: 280px;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
+    border: 1px solid rgba(212, 0, 50, 0.08) !important;
+    overflow: visible !important;
+}
+
+.filtros-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem !important;
+}
+
+/* Filter sections */
+.filtro-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.filtro-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--texto-oscuro);
+}
+
+.filtro-section .MuiFormGroup-root {
+    flex-direction: row;
+    gap: 0.75rem;
+}
+
+.filtro-section .MuiFormControlLabel-root {
+    margin: 0;
+}
+
+/* Stepper panel */
+.stepper-panel {
+    flex: 1;
+    min-width: 280px;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
+    border: 1px solid rgba(212, 0, 50, 0.08) !important;
+}
+
+.stepper-card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 2rem !important;
+}
+
+.stepper-title {
+    margin: 0 0 1.25rem 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--texto-oscuro);
+    font-family: 'Poppins', sans-serif;
+}
+
+.stepper-paciente {
+    color: var(--rojo-principal);
+    font-weight: 550;
+}
+
+/* Custom Stepper — Timeline Layout */
+.custom-stepper {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.6rem 0;
+}
+
+.step-indicator-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 52px;
+}
+
+.step-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #fff;
+    background: #bfd0db;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step-circle.completed {
+    background: var(--rojo-principal, #D40032);
+    box-shadow: 0 0 0 4px rgba(212, 0, 50, 0.15);
+}
+
+.step-circle.active {
+    background: #9CA3AF;
+}
+
+.step-number {
+    line-height: 1;
+}
+
+.step-body {
+    flex: 1;
+    padding-top: 10px;
+}
+
+.step-meta {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.05rem;
+}
+
+.step-meta.completed {
+    color: var(--rojo-principal, #D40032);
+}
+
+.step-meta.active {
+    color: #9CA3AF;
+}
+
+.step-meta.pending {
+    color: #bfd0db;
+}
+
+.step-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.step-title.completed {
+    color: var(--rojo-principal, #D40032);
+}
+
+.step-title.active {
+    color: #9CA3AF;
+}
+
+.step-title.pending {
+    color: #bfd0db;
+}
+
+/* Connector + value row — full line between steps with centered text */
+.step-value-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem 0;
+}
+
+.value-line-wrapper {
+    min-width: 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: stretch;
+}
+
+.value-line {
+    width: 3px;
+    flex: 1;
+    min-height: 28px;
+    background: #bfd0db;
+    border-radius: 2px;
+    transition: background 0.25s ease;
+}
+
+.value-line.completed {
+    background: var(--rojo-principal, #D40032);
+}
+
+.step-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--texto-oscuro);
+}
+
+.buscar-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding-top: 1.25rem;
+}
+
+.solicitar-button {
+    min-width: 220px;
+    border: none;
+    border-radius: 25px;
+    padding: 0.85rem 2.5rem;
+    background: #D40032;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(212, 0, 50, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.solicitar-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow: 0 14px 28px rgba(212, 0, 50, 0.24);
+}
+
+.solicitar-button:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 8px 18px rgba(212, 0, 50, 0.18);
+}
+
+.solicitar-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.78;
+    transform: none;
+    box-shadow: none;
 }

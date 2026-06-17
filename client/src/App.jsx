@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate, useOutletContext } from 'react-
 import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
+import ResultadoBusqueda from './features/SolicitarTurnos/ResultadoBusqueda.jsx';
 import CarritoPreseleccion from './features/CarritoPreseleccion/CarritoPreseleccion.jsx';
 import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
@@ -103,6 +104,16 @@ function App() {
                   element={
                       <MisTurnos
                         turnos={turnos}
+                      />
+                  }
+                />
+
+                <Route
+                  path="solicitar-turnos/resultado"
+                  element={
+                      <ResultadoBusqueda
+                        carrito={carrito}
+                        agregarAlCarrito={agregarAlCarrito}
                       />
                   }
                 />
