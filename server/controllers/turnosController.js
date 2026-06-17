@@ -50,9 +50,10 @@ export default class TurnosController {
     buscarPaginado = async (req, res, next) => {
         try{
             const { page, limit, sort, pacienteId, ...filtros } = req.validated.query;
+            const usuario = req.user;
             const paginacion = {page, limit};
 
-            const busqueda = await this.turnosService.buscarPaginado(filtros, paginacion, sort, pacienteId);
+            const busqueda = await this.turnosService.buscarPaginado(usuario, filtros, paginacion, sort, pacienteId);
             res.json(busqueda);
         } catch(error){
             next(error);

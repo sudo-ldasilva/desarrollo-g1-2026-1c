@@ -11,7 +11,10 @@ const turnosRouter = express.Router();
 
 turnosRouter
     .route("/")
-    .get(validate(turnosQuerySchema, "query"), turnosController.buscarPaginado);
+    .get(
+        validate(turnosQuerySchema, "query"),
+        authMiddleware,
+        turnosController.buscarPaginado);
 
 turnosRouter
     .route("/mis-turnos")

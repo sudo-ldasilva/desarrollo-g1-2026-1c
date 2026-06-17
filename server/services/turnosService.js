@@ -1,4 +1,4 @@
-import { BadRequestError, NotFoundError } from "../errors/AppError.js";
+import { BadRequestError, ForbiddenError, NotFoundError } from "../errors/AppError.js";
 import PacientesRepository from "../repositories/pacientesRepository.js";
 import TurnosRepository from "../repositories/turnosRepository.js";
 import { PacienteModel } from "../models/PacienteModel.js";
@@ -10,7 +10,13 @@ export default class TurnosService{
         this.pacientesRepository = new PacientesRepository();
     }
 
-    async buscarPaginado(filtros, paginacion, ordenamiento, pacienteId) {
+    async buscarPaginado(usuario, filtros, paginacion, ordenamiento, pacienteId) {
+        const {estado} = filtros;
+
+        if(estado != "DISPONIBLE" && usuario.rol == "PACIENTE") {
+            throw new ForbiddenError("Busqueda invalida");
+        }
+
         if(filtros.fechaInicio && filtros.fechaFin && filtros.fechaFin < filtros.fechaInicio) {
             throw new BadRequestError("Rango invalido de fechas");
         }
