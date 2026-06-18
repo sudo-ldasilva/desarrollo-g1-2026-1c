@@ -13,11 +13,19 @@
   overflow-x: hidden;
 }
 
+@media (min-width: 1101px) {
+  .contenido-principal {
+    margin-left: 280px;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
 .entorno-header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  /* padding: 1.5rem 2rem 0.5rem 2rem; */
+  padding: 1.5rem 2rem 0.5rem 2rem;
   background: transparent;
 }
 
@@ -56,7 +64,8 @@
 }
 
 .EntornoUsuario_usuario  {
-    position: absolute;
-    top: 1rem;
+    position: fixed;
+    top: 1.5rem;
     right: 2rem;
+    z-index: 1000;
 }

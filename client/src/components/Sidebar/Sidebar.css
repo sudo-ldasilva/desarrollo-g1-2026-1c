@@ -8,6 +8,16 @@
     flex-direction: column;
 }
 
+@media (min-width: 1101px) {
+    .sidebar.MuiBox-root {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 500;
+    }
+}
+
 .sidebar-header {
     padding: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
