@@ -12,6 +12,8 @@
     flex: 1 1 0;
     min-width: 220px;
     height: 150px;
+    box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
+    border-radius: 20px !important;
 }
 
 .EstadisticaTurnos_content {

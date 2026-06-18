@@ -12,8 +12,10 @@
 
 .dashboard-block-header {
     display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2rem;
 }
 
 .dashboard-block-title {
@@ -25,6 +27,49 @@
 .dashboard-block-subtitle {
     margin: 0;
     color: #667085;
+}
+
+.dashboard-solicitar-card {
+    border: 1.5px solid var(--rojo-principal) !important;
+    border-radius: 20px !important;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-solicitar-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-solicitar-card-content {
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.dashboard-solicitar-card-content:last-child {
+    padding-bottom: 0.75rem !important;
+}
+
+.dashboard-solicitar-btn-primary {
+    color:  var(--texto-oscuro);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.dashboard-solicitar-icon {
+    color: var(--rojo-principal);
+    font-size: 1.8rem;
+}
+
+.dashboard-solicitar-btn-secondary {
+    color:#667085;;
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.85;
+    line-height: 1.3;
 }
 
 .dashboard-stats {
