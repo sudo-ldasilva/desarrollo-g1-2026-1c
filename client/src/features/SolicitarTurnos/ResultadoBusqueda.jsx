@@ -7,7 +7,7 @@ import { buscarTurnosDisponibles } from '../../services/TurnosService.jsx';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import './ResultadoBusqueda.css';
 
-const ResultadoBusqueda = ({ carrito, agregarAlCarrito }) => {
+const ResultadoBusqueda = () => {
     const { isAuthenticated, getAccessToken } = useAuth();
     const [searchParams] = useSearchParams();
 

@@ -10,7 +10,6 @@ import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
 import ResultadoBusqueda from './features/SolicitarTurnos/ResultadoBusqueda.jsx';
-import CarritoPreseleccion from './features/CarritoPreseleccion/CarritoPreseleccion.jsx';
 import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
 import RequireRole from './components/RequireRole.jsx';
@@ -50,7 +49,6 @@ const TITLES = {
     "/app/dashboard": "Inicio",
     "/app/solicitar-turnos": "Solicitar turnos",
     "/app/solicitar-turnos/resultado": "Resultado de búsqueda",
-    "/app/solicitar-turnos/carrito": "Carrito",
     "/app/mis-turnos": "Mis turnos",
     "/app/mis-servicios": "Mis servicios",
     "/app/mis-sedes": "Mis sedes",
@@ -72,42 +70,6 @@ function TitleUpdater() {
 }
 
 function App() {
-    const [carrito, setCarrito] = useState([]);
-
-    const agregarAlCarrito = (turno) => {
-        setCarrito((prev) => [...prev, turno]);
-    };
-
-    const eliminarDelCarrito = (id) => {
-        setCarrito((prev) => prev.filter(t => t._id !== id && t.id !== id));
-    };
-
-    const limpiarCarrito = () => {
-        setCarrito([]);
-    };
-
-    // TODO Des-hardcodear
-    const [turnos, setTurnos] = useState([
-        {
-            _id: "t1",
-            fechaHora: "2026-06-15T14:30:00Z", // Fecha futura (configurable para cancelación)
-            medico: { nombre: "Gómez", matricula: "12345" },
-            sede: { nombre: "Palermo" },
-            servicio: {nombre: "Electrocardiograma de reposo"},
-            estado: "RESERVADO",
-            costo: 0
-        },
-        {
-            _id: "t2",
-            fechaHora: "2026-05-10T10:00:00Z", // Fecha pasada (No se puede cancelar por tiempo)
-            medico: { nombre: "Fernández", matricula: "67890" },
-            sede: { nombre: "Flores" },
-            servicio: {nombre: "Consulta Médica General"},
-            estado: "REALIZADO",
-            costo: 2500
-        }
-    ]);
-
   return (
       <LogtoProvider config={logtoConfig}>
         <AuthProvider>
@@ -125,10 +87,7 @@ function App() {
                   path="solicitar-turnos"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <SolicitarTurnos
-                        carrito={carrito}
-                        agregarAlCarrito={agregarAlCarrito}
-                      />
+                      <SolicitarTurnos />
                     </RequireRole>
                   }
                 />
@@ -137,9 +96,7 @@ function App() {
                   path="mis-turnos"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <MisTurnos
-                        turnos={turnos}
-                      />
+                      <MisTurnos/>
                     </RequireRole>
                   }
                 />
@@ -148,24 +105,11 @@ function App() {
                   path="solicitar-turnos/resultado"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <ResultadoBusqueda
-                        carrito={carrito}
-                        agregarAlCarrito={agregarAlCarrito}
-                      />
+                      <ResultadoBusqueda/>
                     </RequireRole>
                   }
                 />
 
-                <Route
-                  path="solicitar-turnos/carrito"
-                  element={
-                    <RequireRole roles={["PACIENTE"]}>
-                      <CarritoPreseleccion
-                        carrito={carrito}
-                      />
-                    </RequireRole>
-                  }
-                />
                 <Route path='mis-servicios' element={<RequireRole roles={["MEDICO"]}><MisServicios/></RequireRole>} />
                 <Route index element={<Dashboard />} />
                 <Route path='dashboard' element={<Dashboard />} />

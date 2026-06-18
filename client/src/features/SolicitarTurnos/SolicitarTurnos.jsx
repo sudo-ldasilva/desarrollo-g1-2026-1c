@@ -39,7 +39,7 @@ const formReducer = (state, action) => {
     }
 };
 
-const SolicitarTurnos = ({ agregarAlCarrito, carrito }) => {
+const SolicitarTurnos = () => {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(formReducer, initialFormState);
     const { getIdTokenClaims, isAuthenticated } = useAuth();
