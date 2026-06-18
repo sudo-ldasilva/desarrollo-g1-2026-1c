@@ -64,6 +64,11 @@
     font-weight: 600;
 }
 
+.sidebar-menu-icon {
+    min-width: 36px !important;
+    color: var(--blanco) !important;
+}
+
 .menu-item-text {
     display: flex;
     flex-direction: column;
