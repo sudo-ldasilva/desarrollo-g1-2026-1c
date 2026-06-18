@@ -23,11 +23,23 @@
 
 .notificacion-item {
   border-bottom: 1px solid #f0f0f0;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 .notificacion-item:last-child {
   border-bottom: none;
+}
+
+.notificacion-item-leida {
+  background-color: #f5f7fb;
+}
+
+.notificacion-item-leida .MuiListItemText-secondary {
+  opacity: 0.7;
+}
+
+.notificacion-item-no-leida {
+  background-color: #ffffff;
 }
 
 .btn-marcar-leida {
@@ -39,4 +51,16 @@
 .btn-marcar-leida:hover {
   background-color: var(--rojo-principal) !important;
   color: white !important;
+}
+
+.btn-marcar-leida-icon {
+  color: var(--rojo-principal) !important;
+}
+
+.notificaciones-paginacion {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }

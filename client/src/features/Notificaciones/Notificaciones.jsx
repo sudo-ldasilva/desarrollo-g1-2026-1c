@@ -1,48 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
   Container, Card, CardContent, Typography, List, ListItem, 
-  ListItemText, Button, CircularProgress, Alert, Box 
+  ListItemText, CircularProgress, Alert, Box, Pagination, 
+  PaginationItem, IconButton, Tooltip, Badge
 } from "@mui/material";
+import DraftsIcon from "@mui/icons-material/Drafts";
 import { obtenerNotificaciones, marcarNotificacionComoLeida } from "../../services/NotificacionesService";
 import "./Notificaciones.css";
 import { useAuth } from "../../hooks/useAuth";
+
+const LIMITE = 5;
+
+const formatearFecha = (fechaISO) => {
+  const fecha = new Date(fechaISO);
+  const dia = fecha.toLocaleDateString("es-AR");
+  const hora = fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
+  return `${dia} ${hora}`;
+};
 
 const Notificaciones = () => {
   const [notificaciones, setNotificaciones] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const [pagina, setPagina] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [paginasConNoLeidos, setPaginasConNoLeidos] = useState([]);
   const {getAccessToken} = useAuth();
 
+  const cargarNotificaciones = useCallback(async (pag) => {
+    try {
+      setCargando(true);
+
+      const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+      if(!accessToken) return;
+      const data = await obtenerNotificaciones(accessToken, undefined, pag, LIMITE);
+      setNotificaciones(data.notificaciones || []);
+      setTotalPages(data.totalPages || 1);
+      setPaginasConNoLeidos(data.paginasConNoLeidos || []);
+    } catch (err) {
+      setError("No se pudieron cargar las notificaciones. Intente nuevamente más tarde.");
+    } finally {
+      setCargando(false);
+    }
+  }, [getAccessToken]);
+
   useEffect(() => {
-    const cargarNotificaciones = async () => {
-      try {
-        setCargando(true);
-
-        const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
-        if(!accessToken) return;
-        // Solicitamos las notificaciones pendientes
-        const data = await obtenerNotificaciones(accessToken, "pendientes");
-        setNotificaciones(data.notificaciones || []);
-      } catch (err) {
-        setError("No se pudieron cargar las notificaciones. Intente nuevamente más tarde.");
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    cargarNotificaciones();
-  }, []);
+    cargarNotificaciones(pagina);
+  }, [pagina, cargarNotificaciones]);
 
   const handleMarcarComoLeida = async (id) => {
     try {
       const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
       if(!accessToken) return;
       await marcarNotificacionComoLeida(accessToken, id);
-      // Actualizamos el estado local eliminando la notificación de la lista de pendientes
-      setNotificaciones((prev) => prev.filter((n) => n._id !== id));
+      setNotificaciones((prev) =>
+        prev.map((n) =>
+          n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
+        )
+      );
     } catch (err) {
       alert("Error al marcar la notificación como leída.");
     }
+  };
+
+  const handleCambiarPagina = (event, value) => {
+    setPagina(value);
   };
 
   if (cargando) {
@@ -67,7 +89,7 @@ const Notificaciones = () => {
         <Card className="notificaciones-card">
           <CardContent className="notificaciones-vacio">
             <Typography variant="h6" color="textSecondary">
-              No hay notificaciones pendientes.
+              No hay notificaciones.
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
               Estás al día con todas las novedades de tus turnos.
@@ -89,25 +111,71 @@ const Notificaciones = () => {
             {notificaciones.map((notificacion) => (
               <ListItem 
                 key={notificacion._id} 
-                className="notificacion-item"
+                className={
+                  notificacion.leida
+                    ? "notificacion-item notificacion-item-leida"
+                    : "notificacion-item notificacion-item-no-leida"
+                }
                 secondaryAction={
-                  <Button 
-                    variant="outlined" 
-                    size="small" 
-                    onClick={() => handleMarcarComoLeida(notificacion._id)}
-                  >
-                    Marcar como leída
-                  </Button>
+                  !notificacion.leida && (
+                    <Tooltip title="Marcar como leída">
+                      <IconButton
+                        className="btn-marcar-leida-icon"
+                        onClick={() => handleMarcarComoLeida(notificacion._id)}
+                        size="small"
+                      >
+                        <DraftsIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )
                 }
               >
                 <ListItemText
                   primary={notificacion.mensaje}
-                  secondary={`De: ${notificacion.remitente} | ${new Date(notificacion.fechaHoraCreacion).toLocaleString("es-AR")}`}
-                  primaryTypographyProps={{ fontWeight: "medium" }}
+                  secondary={`De: ${notificacion.remitente} | ${formatearFecha(notificacion.fechaHoraCreacion)}`}
+                  primaryTypographyProps={{
+                    fontWeight: notificacion.leida ? "normal" : "bold"
+                  }}
                 />
               </ListItem>
             ))}
           </List>
+          {totalPages > 1 && (
+            <Box className="notificaciones-paginacion">
+              <Pagination
+                count={totalPages}
+                page={pagina}
+                onChange={handleCambiarPagina}
+                renderItem={(item) => {
+                  if (item.type === "page") {
+                    const tieneNoLeidos = paginasConNoLeidos.includes(item.page);
+                    if (item.selected) {
+                      return (
+                        <PaginationItem
+                          {...item}
+                          sx={{ color: "red", fontWeight: "bold", backgroundColor: "transparent !important" }}
+                        />
+                      );
+                    }
+                    if (tieneNoLeidos) {
+                      return (
+                        <Badge
+                          variant="dot"
+                          color="error"
+                          overlap="rectangular"
+                          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                          slotProps={{ badge: { sx: { right: 9, top: 6 } } }}
+                        >
+                          <PaginationItem {...item} />
+                        </Badge>
+                      );
+                    }
+                  }
+                  return <PaginationItem {...item} />;
+                }}
+              />
+            </Box>
+          )}
         </CardContent>
       </Card>
     </Container>

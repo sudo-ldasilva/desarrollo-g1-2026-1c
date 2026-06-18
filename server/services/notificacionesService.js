@@ -19,12 +19,17 @@ export default class NotificacionesService{
 
         const {notificaciones, total, page, totalPages} = 
             await this.NotificacionesRepository.desplegarNotificaciones(usuarioDestinatario._id,paginacion, filtros);
+
+        const paginasConNoLeidos = await this.NotificacionesRepository.obtenerPaginasConNoLeidos(
+            usuarioDestinatario._id, paginacion.limit
+        );
         
         return {
             notificaciones: notificaciones.map(n => notificacionToDto(n)),
             total,
             page,
-            totalPages
+            totalPages,
+            paginasConNoLeidos
         };
     
     }

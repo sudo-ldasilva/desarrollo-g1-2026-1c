@@ -17,7 +17,8 @@ export default class NotificacionesRepository{
                 .populate("destinatario", "nombreUsuario")
                 .populate("remitente", "nombreUsuario")
                 .skip(skip)
-                .limit(limit);
+                .limit(limit)
+                .sort({ fechaHoraCreacion: -1 });
 
         const total = await this.model.countDocuments({destinatario: usuarioId, ...filtros});
 
@@ -27,6 +28,22 @@ export default class NotificacionesRepository{
             page,
             totalPages: Math.ceil(total / limit)
         };
+    }
+
+    async obtenerPaginasConNoLeidos(usuarioId, limit) {
+        const todas = await this.model
+            .find({ destinatario: usuarioId })
+            .sort({ fechaHoraCreacion: -1 })
+            .select("leida")
+            .lean();
+
+        const paginas = new Set();
+        todas.forEach((notif, index) => {
+            if (!notif.leida) {
+                paginas.add(Math.floor(index / limit) + 1);
+            }
+        });
+        return [...paginas];
     }
 
     async obtenerPorId(id) {

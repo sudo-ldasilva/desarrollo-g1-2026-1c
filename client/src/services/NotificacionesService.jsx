@@ -8,7 +8,7 @@ const getConfig = (token) => ({
   },
 });
 
-export const obtenerNotificaciones = async (token, estado = "pendientes", page = 1, limit = 10) => {
+export const obtenerNotificaciones = async (token, estado = undefined, page = 1, limit = 5) => {
   try {
     const params = { page, limit };
     if (estado) params.estado = estado;
