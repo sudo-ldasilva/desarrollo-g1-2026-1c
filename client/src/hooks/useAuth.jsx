@@ -14,17 +14,20 @@ export const AuthProvider = ({ children }) => {
         signIn 
     } = useLogto();
     const loggingOutRef = useRef(false);
+    const [isSigningOut, setIsSigningOut] = useState(false);
     const [userRole, setUserRole] = useState(null);
     const [rolesLoaded, setRolesLoaded] = useState(false);
     const roleInitializedRef = useRef(false);
 
     const signOut = useCallback(async (redirectUri) => {
+        setIsSigningOut(true);
         loggingOutRef.current = true;
         setUserRole(null);
         setRolesLoaded(false);
         roleInitializedRef.current = false;
         await logtoSignOut(redirectUri);
         loggingOutRef.current = false;
+        setIsSigningOut(false);
     }, [logtoSignOut]);
 
     const getAccessToken = useCallback(async (resource) => {
@@ -87,9 +90,10 @@ export const AuthProvider = ({ children }) => {
         userRole,
         userRoles,
         rolesLoaded,
+        isSigningOut,
         hasRole,
         updateUserRole,
-    }), [isAuthenticated, isLoading, signIn, getIdTokenClaims, signOut, getAccessToken, userRole, userRoles, rolesLoaded, hasRole, updateUserRole]);
+    }), [isAuthenticated, isLoading, signIn, getIdTokenClaims, signOut, getAccessToken, userRole, userRoles, rolesLoaded, isSigningOut, hasRole, updateUserRole]);
 
     return (
         <AuthContext.Provider value={contextValue}>

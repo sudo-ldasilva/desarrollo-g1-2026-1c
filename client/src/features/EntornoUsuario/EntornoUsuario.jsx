@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import UserMenu from "../../components/UserMenu/UserMenu.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
+import LoadingSplash from "../../components/LoadingSplash/LoadingSplash.jsx";
 import { useAuth } from "../../hooks/useAuth.jsx";
 import { obtenerNotificaciones } from "../../services/NotificacionesService.jsx";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = () => {
-    const { getAccessToken } = useAuth();
+    const { getAccessToken, isSigningOut } = useAuth();
     const [notificationCount, setNotificationCount] = useState(0);
 
     useEffect(() => {
@@ -24,7 +25,9 @@ const EntornoUsuario = () => {
     }, [getAccessToken]);
 
 	return (
-        <div className="layout-entorno">
+        <>
+            {isSigningOut && <LoadingSplash message="Cerrando sesión..." />}
+            <div className="layout-entorno">
             <Sidebar />
             <div className="contenido-principal">
                 <header className="entorno-header">
@@ -35,9 +38,10 @@ const EntornoUsuario = () => {
                 <main className="entorno-main-content">
                     <Outlet />
                 </main>
-           </div>
-        </div>
-  );
+            </div>
+         </div>
+        </>
+   );
 };
 
 export default EntornoUsuario;
