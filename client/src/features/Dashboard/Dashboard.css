@@ -30,15 +30,17 @@
 }
 
 .dashboard-solicitar-card {
-    border: 1.5px solid var(--rojo-principal) !important;
+    border: 1px solid rgba(212, 0, 50, 0.15);
+    box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
     border-radius: 20px !important;
     cursor: pointer;
     flex-shrink: 0;
-    transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
 }
 
 .dashboard-solicitar-card:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: var(--rojo-principal);
+  box-shadow: 0 4px 20px rgba(212, 0, 50, 0.2);
 }
 
 .dashboard-solicitar-card-content {

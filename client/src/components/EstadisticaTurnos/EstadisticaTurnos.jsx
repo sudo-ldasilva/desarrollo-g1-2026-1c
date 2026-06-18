@@ -117,7 +117,14 @@ const EstadisticaTurnos = ({className, turnos}) => {
                             </CardContent>
                         </Card>
                     ) : (
-                        <Skeleton className="EstadisticaTurnos_card" variant="rounded" width="100%" height="100%" />
+                        <Card className="EstadisticaTurnos_card" key={titulo}>
+                            <Skeleton
+                                variant="rounded"
+                                width="100%"
+                                height="100%"
+                                sx={{ minHeight: 120 }}
+                            />
+                        </Card>
                     )
                 ))
             }
