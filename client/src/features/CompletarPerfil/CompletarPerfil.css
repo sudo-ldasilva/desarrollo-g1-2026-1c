@@ -93,8 +93,7 @@
     color: var(--texto-oscuro);
 }
 
-.completar-perfil-field input,
-.completar-perfil-field select {
+.completar-perfil-field input:not([class*="custom-select"]) {
     width: 100%;
     border: 1px solid #d8dde6;
     border-radius: 14px;
@@ -105,11 +104,11 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.completar-perfil-field input::placeholder {
+.completar-perfil-field input:not([class*="custom-select"])::placeholder {
     color: #9aa4b2;
 }
 
-.completar-perfil-field input:focus {
+.completar-perfil-field input:not([class*="custom-select"]):focus {
     outline: none;
     border-color: var(--rojo-principal);
     box-shadow: 0 0 0 4px rgba(212, 0, 50, 0.12);

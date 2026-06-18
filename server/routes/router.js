@@ -11,6 +11,7 @@ import sedesRouter from "./sedesRoutes.js";
 
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { PacienteModel } from "../models/PacienteModel.js";
+import { MedicoModel } from "../models/MedicoModel.js";
 
 const router = express.Router();
 
@@ -26,11 +27,23 @@ router.use("/sedes", sedesRouter);
 
 router.get("/me", authMiddleware, async (req, res) => {
     console.log("DEBUG: PREGUNTAN /ME");
-    const paciente = await PacienteModel.findOne({
-        usuario: req.user._id
-    });
 
-    const tienePerfil = !!(paciente && paciente.nombre && paciente.dni);
+    let tienePerfil = false;
+    
+    if(req.user.rol === "PACIENTE") {
+        const paciente = await PacienteModel.findOne({
+            usuario: req.user._id
+        });
+
+        tienePerfil = !!(paciente && paciente.nombre && paciente.dni);
+    
+    } else if(req.user.rol === "MEDICO") {
+        const medico = await MedicoModel.findOne({
+            usuario: req.user._id
+        });
+
+        tienePerfil = !!(medico && medico.nombre && medico.matricula);
+    }
 
     res.json({
         usuarioId: req.user._id,

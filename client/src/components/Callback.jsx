@@ -7,7 +7,7 @@ import LoadingSplash from './LoadingSplash/LoadingSplash.jsx';
 
 const Callback = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, getAccessToken } = useAuth();
+  const { isAuthenticated, isLoading, getAccessToken, updateUserRole } = useAuth();
   const { isLoading: callbackLoading } = useHandleSignInCallback(() => {});
 
   const ran = useRef(false);
@@ -26,6 +26,7 @@ const Callback = () => {
         const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
         if (!token) return;
         const me = await getMe(token);
+        updateUserRole(me.rol);
 
         navigate(me.tienePerfil ? "/app" : "/completar-perfil", {
           replace: true,

@@ -1,22 +1,37 @@
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth } from '../../hooks/useAuth.jsx';
 import './Sidebar.css';
+
+const ROLE_MAP = {
+  patient: "PACIENTE",
+  doctor: "MEDICO",
+  all: "all",
+};
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { userRole } = useAuth();
 
-  const menuItems = [
-    { text: 'Inicio', path: '/app/dashboard', role: 'all' },
-    { text: 'Mis Turnos', subtext: '(paciente)', path: '/app/mis-turnos', role: 'patient' },
-    { text: 'Mi Agenda', subtext: '(médico)', path: '/app/mi-agenda', role: 'doctor' },
-    { text: 'Solicitar turnos', subtext: '(paciente)', path: '/app/solicitar-turnos', role: 'patient' },
-    { text: 'Mis disponibilidades', subtext: '(médico)', path: '/app/mis-disponibilidades', role: 'doctor' },
-    { text: 'Mis servicios', subtext: '(médico)', path: '/app/mis-servicios', role: 'doctor' },
-    { text: 'Mis sedes', subtext: '(médico)', path: '/app/mis-sedes', role: 'doctor' },
+  const allMenuItems = [
+    { text: 'Inicio', path: '/app/dashboard', role: 'patient' },
+    { text: 'Mis Turnos', path: '/app/mis-turnos', role: 'patient' },
+    { text: 'Mi Agenda', path: '/app/mi-agenda', role: 'doctor' },
+    { text: 'Solicitar turnos', path: '/app/solicitar-turnos', role: 'patient' },
+    { text: 'Mis disponibilidades', path: '/app/mis-disponibilidades', role: 'doctor' },
+    { text: 'Mis servicios', path: '/app/mis-servicios', role: 'doctor' },
+    { text: 'Mis sedes', path: '/app/mis-sedes', role: 'doctor' },
   ];
+
+  const menuItems = useMemo(() => {
+    return allMenuItems.filter((item) => {
+      const requiredRole = ROLE_MAP[item.role];
+      return requiredRole === "all" || requiredRole === userRole;
+    });
+  }, [userRole]);
 
   const handleNavigation = (path) => {
     // Preparado para navegación futura

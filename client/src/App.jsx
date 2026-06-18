@@ -13,6 +13,7 @@ import ResultadoBusqueda from './features/SolicitarTurnos/ResultadoBusqueda.jsx'
 import CarritoPreseleccion from './features/CarritoPreseleccion/CarritoPreseleccion.jsx';
 import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
+import RequireRole from './components/RequireRole.jsx';
 import { AuthProvider } from './hooks/useAuth.jsx';
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
@@ -123,47 +124,55 @@ function App() {
                 <Route
                   path="solicitar-turnos"
                   element={
+                    <RequireRole roles={["PACIENTE"]}>
                       <SolicitarTurnos
                         carrito={carrito}
                         agregarAlCarrito={agregarAlCarrito}
                       />
+                    </RequireRole>
                   }
                 />
 
                 <Route
                   path="mis-turnos"
                   element={
+                    <RequireRole roles={["PACIENTE"]}>
                       <MisTurnos
                         turnos={turnos}
                       />
+                    </RequireRole>
                   }
                 />
 
                 <Route
                   path="solicitar-turnos/resultado"
                   element={
+                    <RequireRole roles={["PACIENTE"]}>
                       <ResultadoBusqueda
                         carrito={carrito}
                         agregarAlCarrito={agregarAlCarrito}
                       />
+                    </RequireRole>
                   }
                 />
 
                 <Route
                   path="solicitar-turnos/carrito"
                   element={
+                    <RequireRole roles={["PACIENTE"]}>
                       <CarritoPreseleccion
                         carrito={carrito}
                       />
+                    </RequireRole>
                   }
                 />
-                <Route path='mis-servicios' element={<MisServicios/>} />
+                <Route path='mis-servicios' element={<RequireRole roles={["MEDICO"]}><MisServicios/></RequireRole>} />
                 <Route index element={<Dashboard />} />
                 <Route path='dashboard' element={<Dashboard />} />
-                <Route path='mis-sedes' element={<MisSedes/>} />
+                <Route path='mis-sedes' element={<RequireRole roles={["MEDICO"]}><MisSedes/></RequireRole>} />
                 <Route path='notificaciones' element={<Notificaciones/>} />
-                <Route path='mi-agenda' element={<div>Falta hacer :)</div>} />
-                <Route path='mis-disponibilidades' element={<div>Falta hacer :)</div>} />
+                <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
+                <Route path='mis-disponibilidades' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
                 <Route path='mis-datos' element={<div>Falta hacer :)</div>} />
               </Route>
             </Routes>
