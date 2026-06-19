@@ -1,43 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, Typography, Box, CircularProgress } from '@mui/material';
 import CredencialPerfil from '../../components/CredencialPerfil/CredencialPerfil';
 import axios from 'axios';
-import '../MisServicios/MisServicios.css'; 
+import '../MisServicios/MisServicios.css';
 import { useLogto } from '@logto/react';
 
 const MisDatos = () => {
-  const { getAccessToken, getIdTokenClaims, isAuthenticated, isLoading } = useLogto();
+  const { getAccessToken, isAuthenticated, isLoading } = useLogto();
+  const getTokenRef = useRef(getAccessToken);
+  getTokenRef.current = getAccessToken;
+  const effectRan = useRef(false);
   const [perfil, setPerfil] = useState(null);
   const [cargandoDatos, setCargandoDatos] = useState(true);
 
   useEffect(() => {
-    const obtenerDatosDeSesion = async () => {
-      if (isLoading || !isAuthenticated) return;
+    if (isLoading || !isAuthenticated) return;
+    if (effectRan.current) return;
+    effectRan.current = true;
 
+    const obtenerDatosDeSesion = async () => {
       try {
-        const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+        const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
         const headers = { Authorization: `Bearer ${token}` };
 
-        // 1. Buscamos el ID del paciente asociado a la sesión de Logto
-        const resMe = await axios.get(`${process.env.REACT_APP_API_URL}/me-paciente`, { headers });
+        const resMe = await axios.get(`${process.env.REACT_APP_API_URL}/me`, { headers });
         const idPaciente = resMe.data.idPaciente;
 
         if (idPaciente) {
-          // 2. Con el ID real de Mongo, pegamos a tu controlador de pacientes
-          const resPaciente = await axios.get(`${process.env.REACT_APP_API_URL}/pacientes/${idPaciente}`, { headers });
-          
-          // 3. Mapeamos de forma segura usando la estructura JSend { status: "success", data: paciente }
+          const resPaciente = await axios.get(
+            `${process.env.REACT_APP_API_URL}/pacientes/${idPaciente}`, { headers }
+          );
+
           if (resPaciente.data && resPaciente.data.data) {
             const pacienteReal = resPaciente.data.data;
-            
+
             const datosCombinados = {
               nombre: pacienteReal.nombre || 'Nombre',
-              apellido: pacienteReal.apellido || 'Apellido', // Por si lo tienen separado en el schema
               dni: pacienteReal.dni || "XX.XXX.XXX",
               obraSocial: pacienteReal.obraSocial || "Particular",
               plan: pacienteReal.plan || "Sin Plan",
             };
-            
+
             setPerfil(datosCombinados);
           }
         } else {
@@ -52,7 +55,7 @@ const MisDatos = () => {
     };
 
     obtenerDatosDeSesion();
-  }, [isAuthenticated, isLoading, getAccessToken, getIdTokenClaims]);
+  }, [isAuthenticated, isLoading]);
 
   if (isLoading || cargandoDatos) {
     return (
@@ -78,9 +81,9 @@ const MisDatos = () => {
         <Typography variant="h5" className="titulo-seccion" style={{ marginBottom: '1.5rem' }}>
           Mis Datos Personales
         </Typography>
-        
+
         <Box display="flex" justifyContent="center" marginY="2rem">
-          {perfil && <CredencialPerfil usuario={perfil} />}
+          {perfil && <CredencialPerfil paciente={perfil} />}
         </Box>
 
         <Typography variant="body2" color="textSecondary" style={{ fontStyle: 'italic', textAlign: 'center' }}>

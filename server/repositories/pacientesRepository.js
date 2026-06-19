@@ -11,7 +11,7 @@ export default class PacientesRepository {
     }
 
     async findById(pacienteId) {
-        return await this.model.findById(pacienteId);
+        return await this.model.findById(pacienteId).populate("obraSocial plan");
     }
 
     async crear(data) {
