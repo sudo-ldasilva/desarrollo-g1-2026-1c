@@ -52,19 +52,35 @@ const Notificaciones = () => {
 
   const handleMarcarComoLeida = async (id) => {
     try {
-      const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
-      if(!accessToken) return;
-      await marcarNotificacionComoLeida(accessToken, id);
-                  setNotificaciones((prev) =>
-                prev.map((n) =>
-                    n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
-                )
-	  );
-      decrementarContador()
+        const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+        if(!accessToken) return;
+        
+        await marcarNotificacionComoLeida(accessToken, id);
+        
+        // 1. Verificar si esta es la ultima notificacion sin leer de la pagina actual
+        const noLeidasEnPaginaActual = notificaciones.filter(n => !n.leida);
+        const notifACambiar = notificaciones.find(n => n._id === id);
+        
+        // Si solo quedaba 1 sin leer en esta pagina, y es la que estamos marcando...
+        if (noLeidasEnPaginaActual.length === 1 && notifACambiar && !notifACambiar.leida) {
+            // ...removemos la pagina actual del array que controla los badges del paginador
+            setPaginasConNoLeidos(prevPaginas => prevPaginas.filter(p => p !== pagina));
+        }
+
+        // 2. Actualizar el estado local de la lista de notificaciones
+        setNotificaciones((prev) =>
+            prev.map((n) =>
+                n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
+            )
+        );
+        
+        // 3. Decrementar el contador global del UserMenu (el badge del header)
+        decrementarContador();
+        
     } catch (err) {
-      alert("Error al marcar la notificación como leída.");
+        alert("Error al marcar la notificación como leída.");
     }
-  };
+};
 
   const handleCambiarPagina = (event, value) => {
     setPagina(value);
@@ -150,32 +166,56 @@ const Notificaciones = () => {
                 page={pagina}
                 onChange={handleCambiarPagina}
                 renderItem={(item) => {
-                  if (item.type === "page") {
-                    const tieneNoLeidos = paginasConNoLeidos.includes(item.page);
-                    if (item.selected) {
-                      return (
-                        <PaginationItem
-                          {...item}
-                          sx={{ color: "red", fontWeight: "bold", backgroundColor: "transparent !important" }}
-                        />
-                      );
-                    }
-                    if (tieneNoLeidos) {
-                      return (
-                        <Badge
-                          variant="dot"
-                          color="error"
-                          overlap="rectangular"
-                          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                          slotProps={{ badge: { sx: { right: 9, top: 6 } } }}
-                        >
-                          <PaginationItem {...item} />
-                        </Badge>
-                      );
-                    }
-                  }
-                  return <PaginationItem {...item} />;
-                }}
+    if (item.type === "page") {
+        const tieneNoLeidos = paginasConNoLeidos.includes(item.page);
+        const isSelected = item.selected;
+
+        // Caso 1: Pagina seleccionada Y con no leídos ---> Badge + estilos personalizados
+        if (isSelected && tieneNoLeidos) {
+            return (
+                <Badge
+                    variant="dot"
+                    color="error"
+                    overlap="rectangular"
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    slotProps={{ badge: { sx: { right: 9, top: 6 } } }}
+                >
+                    <PaginationItem 
+                        {...item} 
+                        sx={{ color: "red", fontWeight: "bold", backgroundColor: "transparent !important" }}
+                    />
+                </Badge>
+            );
+        }
+
+        // Caso 2: Pagina seleccionada SIN no leidos ---> Solo estilos personalizados
+        if (isSelected) {
+            return (
+                <PaginationItem
+                    {...item}
+                    sx={{ color: "red", fontWeight: "bold", backgroundColor: "transparent !important" }}
+                />
+            );
+        }
+
+        // Caso 3: Pagina NO seleccionada PERO con no leidos ---> Solo Badge
+        if (tieneNoLeidos) {
+            return (
+                <Badge
+                    variant="dot"
+                    color="error"
+                    overlap="rectangular"
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    slotProps={{ badge: { sx: { right: 9, top: 6 } } }}
+                >
+                    <PaginationItem {...item} />
+                </Badge>
+            );
+        }
+    }
+    // Caso 4: Pagina normal sin particularidades
+    return <PaginationItem {...item} />;
+}}
               />
             </Box>
           )}
