@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useOutletContext } from "react-router-dom";
 import { 
   Container, Card, CardContent, Typography, List, ListItem, 
   ListItemText, CircularProgress, Alert, Box, Pagination, 
@@ -26,6 +27,7 @@ const Notificaciones = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [paginasConNoLeidos, setPaginasConNoLeidos] = useState([]);
   const {getAccessToken} = useAuth();
+  const {decrementarContador} = useOutletContext();
 
   const cargarNotificaciones = useCallback(async (pag) => {
     try {
@@ -53,11 +55,12 @@ const Notificaciones = () => {
       const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
       if(!accessToken) return;
       await marcarNotificacionComoLeida(accessToken, id);
-      setNotificaciones((prev) =>
-        prev.map((n) =>
-          n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
-        )
-      );
+                  setNotificaciones((prev) =>
+                prev.map((n) =>
+                    n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
+                )
+	  );
+      decrementarContador()
     } catch (err) {
       alert("Error al marcar la notificación como leída.");
     }
