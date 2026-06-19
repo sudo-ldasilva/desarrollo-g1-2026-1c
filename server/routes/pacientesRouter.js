@@ -17,4 +17,11 @@ pacientesRouter
     );
 
 
+pacientesRouter
+    .route("/:id")
+    .get(
+        authMiddleware,
+        pacientesController.obtenerPorId
+    );
+
 export default pacientesRouter;
