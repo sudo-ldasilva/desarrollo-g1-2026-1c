@@ -52,4 +52,37 @@ router.get("/me", authMiddleware, async (req, res) => {
     });
 });
 
+router.get("/me-paciente", authMiddleware, async (req, res) => {
+    console.log("DEBUG: PREGUNTAN /ME-PACIENTE");
+
+    let tienePerfil = false;
+    let idPaciente = null; 
+    
+    if(req.user.rol === "PACIENTE") {
+        const paciente = await PacienteModel.findOne({
+            usuario: req.user._id
+        });
+
+        tienePerfil = !!(paciente && paciente.nombre && paciente.dni);
+        
+        if (paciente) {
+            idPaciente = paciente._id; 
+        }
+    
+    } else if(req.user.rol === "MEDICO") {
+        const medico = await MedicoModel.findOne({
+            usuario: req.user._id
+        });
+
+        tienePerfil = !!(medico && medico.nombre && medico.matricula);
+    }
+
+    res.json({
+        usuarioId: req.user._id,
+        idPaciente, 
+        rol: req.user.rol,
+        tienePerfil
+    });
+});
+
 export default router;
