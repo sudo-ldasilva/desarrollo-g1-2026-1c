@@ -18,6 +18,7 @@ import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import MisServicios from './features/MisServicios/MisServicios.jsx';
 import MisSedes from './features/MisSedes/MisSedes.jsx';
+import MisDatos from './features/MisDatos/MisDatos.jsx';
 
 const theme = createTheme({
     palette: {
@@ -117,7 +118,7 @@ function App() {
                 <Route path='notificaciones' element={<Notificaciones/>} />
                 <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
                 <Route path='mis-disponibilidades' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
-                <Route path='mis-datos' element={<div>Falta hacer :)</div>} />
+                <Route path='mis-datos' element={<MisDatos/>} />
               </Route>
             </Routes>
           </ThemeProvider>

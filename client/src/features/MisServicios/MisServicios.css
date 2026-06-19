@@ -10,11 +10,13 @@
 
 
 .servicios-container {
+
     margin-top: 1rem;
 }
 
 
 .titulo-seccion {
+    text-align: center;
     color: #c90e31;
     font-weight: 700 ;
     font-family: 'Poppins', sans-serif;

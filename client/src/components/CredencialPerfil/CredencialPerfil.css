@@ -1,0 +1,146 @@
+
+
+.credencial-card {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    min-height: 280px; 
+    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+    border: 2px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.credencial-header {
+    align-self: center;
+    max-height: 55px; 
+    margin-bottom: 0.25rem;
+}
+
+.credencial-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; 
+    margin-top: 0.5rem;
+    flex-grow: 1;
+}
+
+.credencial-card:hover {
+    transform: translateY(-5px) rotateX(2deg);
+    box-shadow: 0 12px 40px rgba(201, 14, 49, 0.15);
+}
+
+.credencial-overlay {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 55%);
+    pointer-events: none;
+    transform: rotate(-45deg);
+    transition: transform 0.5s ease;
+}
+
+.credencial-card:hover .credencial-overlay {
+    transform: translate(20%, 20%) rotate(-45deg);
+}
+
+
+
+
+.credencial-logo {
+    color: #c90e31;
+    font-weight: 800;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.credencial-tag {
+    color: #888888;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+
+.credencial-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.credencial-row.full-width {
+    width: 100%;
+}
+
+.credencial-row.align-right {
+    align-items: flex-end;
+}
+
+
+.credencial-body .label {
+    font-size: 0.65rem;
+    color: #888888;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+.credencial-body .value {
+    font-size: 1rem;
+    color: #333333;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.credencial-body .value.name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111111;
+}
+
+
+.os-text {
+    color: #c90e31 ;
+    font-weight: 600;
+}
+
+
+.plan-badge {
+    background-color: #333333;
+    color: #ffffff ;
+    padding: 0.1rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 700 ;
+    font-size: 0.85rem ;
+}
+
+
+
+
+.system-code {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    color: #999999;
+}
+
+
+
+
+@media (max-width: 480px) {
+    .credencial-card {
+        height: auto;
+        min-height: 250px;
+        padding: 1rem;
+    }
+    .credencial-body .value.name {
+        font-size: 1rem;
+    }
+}
