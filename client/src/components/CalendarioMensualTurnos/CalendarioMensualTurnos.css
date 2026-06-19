@@ -5,8 +5,8 @@
 
 .calendar {
     width: 100%;
-    --cui-calendar-cell-selected-bg: var(--rojo-principal);
-    /* --cui-calendar-cell-selected-color: gray; */
+    --cui-calendar-nav-date-hover-color: var(--rojo-principal);
+    --cui-calendar-table-cell-size: 4.2rem;
 }
 
 .calendar table {
@@ -15,13 +15,34 @@
     margin-left: 1%;
 }
 
+.calendar .calendar-cell-inner {
+    align-items: stretch;
+    height: var(--cui-calendar-table-cell-size);
+}
+
 .calendar-row {
     border-bottom: 1px solid lightgray;
 }
 
-.calendar .today .calendar-cell-inner{
-    border: 1px solid var(--rojo-principal);
+.calendar .calendar-cell.next:not(.disabled) .calendar-cell-inner,
+.calendar .calendar-cell.previous:not(.disabled) .calendar-cell-inner {
+    cursor: pointer;
+}
+
+
+
+
+.calendar .selected .calendar-cell-inner {
+    background-color: transparent !important;
+    color: var(--rojo-principal) !important;
+    outline: 1px solid var(--rojo-principal);
+    outline-offset: -1px;
     border-radius: var(--cui-calendar-nav-btn-border-radius);
+}
+
+.calendar .selected.today .calendar-cell-inner {
+    background-color: transparent !important;
+    color: var(--rojo-principal) !important;
 }
 
 .day {

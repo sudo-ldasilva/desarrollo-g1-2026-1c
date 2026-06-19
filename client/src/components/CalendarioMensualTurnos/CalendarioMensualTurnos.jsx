@@ -19,21 +19,34 @@ const CalendarioMensualTurnos = ({turnos, soloNuevos, eventoSeleccionarFecha, cl
                 locale="es-AR"
                 startDate={startDate}
                 minDate={soloNuevos ? startDate : undefined}
+                selectAdjacementDays={true}
                 onStartDateChange={eventoSeleccionarFecha}
                 onCalendarDateChange={eventoCambiarMes}
-                renderDayCell={(date: Date, meta: any) => {
+                renderDayCell={(date, meta) => {
                     // Fuente: https://coreui.io/react/docs/components/calendar/#custom-cell-rendering
 
                     // const isSelected = !!meta?.isSelected
                     // const isInCurrentMonth = !!meta?.isInCurrentMonth
                     const isDisabled = !!meta?.isDisabled
+                    const isToday = !!meta?.isToday
                     const dateParsed=date.toLocaleDateString('en-US', { day: '2-digit' })
 
                     const turnosDelDia = turnos.filter( (turno) => new Date(turno.fechaHora).setHours(0,0,0,0) === date.getTime())
                     const hayTurnos = turnosDelDia.length > 0 && !isDisabled
                     return (
-                        <div className="py-1">
-                            <div style={{fontSize:"1.2rem"}}>{dateParsed}</div>
+                        <div style={{ padding: "0.25rem 0.25rem 0.25rem", display: "flex", flexDirection: "column", flex: 1, gap: "0.5rem" }}>
+                            <div style={{
+                                fontSize: "1.1rem",
+                                lineHeight: "1.2",
+                                alignSelf: "center",
+                                ...(isToday && {
+                                    backgroundColor: "var(--rojo-principal)",
+                                    color: "white",
+                                    borderRadius: "0.25rem",
+                                    padding: "0.05rem 0.2rem",
+                                    display: "inline-block",
+                                })
+                            }}>{dateParsed}</div>
 
                             {
                                 eventosCargados ? (
