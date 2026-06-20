@@ -27,7 +27,7 @@ const Sidebar = () => {
     { text: 'Inicio', icon: <HomeIcon />, path: '/app/dashboard', role: 'patient' },
     { text: 'Mis Turnos', icon: <FavoriteIcon />, path: '/app/mis-turnos', role: 'patient' },
     { text: 'Mi Agenda', icon: <CalendarMonthIcon />, path: '/app/mi-agenda', role: 'doctor' },
-    { text: 'Solicitar turnos', icon: <MedicalServicesIcon />, path: '/app/solicitar-turnos', role: 'patient' },
+    { text: 'Solicitar turno', icon: <MedicalServicesIcon />, path: '/app/solicitar-turnos', role: 'patient' },
     { text: 'Mis disponibilidades', icon: <ScheduleIcon />, path: '/app/mis-disponibilidades', role: 'doctor' },
     { text: 'Mis servicios', icon: <MedicalInformationIcon />, path: '/app/mis-servicios', role: 'doctor' },
     { text: 'Mis sedes', icon: <LocationOnIcon />, path: '/app/mis-sedes', role: 'doctor' },
