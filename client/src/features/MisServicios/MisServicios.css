@@ -1,102 +1,141 @@
-
 .servicios-root {
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: flex-start; */
-    /* min-height: 85vh; */
-    /* padding: 2rem 1rem; */
-    /* background-color: #f9f9f9; */
+  margin-top: 2rem;
 }
 
-
-.servicios-container {
-
-    margin-top: 1rem;
+.servicios-card {
+  border-radius: 20px !important;
+  box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
+  margin-top: 1rem;
+  overflow: visible !important;
 }
 
-
-.titulo-seccion {
-    text-align: center;
-    color: #c90e31;
-    font-weight: 700 ;
-    font-family: 'Poppins', sans-serif;
-    margin-bottom: 0.5rem ;
+.servicios-card-content {
+  padding: 1.5rem 2rem !important;
 }
 
-
-.descripcion {
-    color: #666666;
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
+.servicios-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
 }
 
-
-.form-agregar {
-    display: flex;
-    gap: 1rem;
+.servicios-form-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--texto-oscuro);
 }
 
-
-.btn-agregar-srv {
-    text-wrap: nowrap;
-    background-color: #128607 ;
-    color: #ffffff ;
-    font-weight: bold ;
-    padding: 0.8rem 2rem ;
-    min-width: 140px;
-    text-transform: none ;
-    transition: background-color 0.2s ease-in-out ;
+.servicios-form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
 }
 
-.btn-agregar-srv:hover {
-    background-color: #095713 ;
+.servicios-form-row .custom-select {
+  flex: 1;
 }
 
-
-.divisor {
-    border: 0;
-    border-top: 1px solid #e0e0e0;
-    margin: 2rem 0;
+.servicios-btn-agregar {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 25px;
+  padding: 0.95rem 1.75rem;
+  background: var(--rojo-principal, #D40032);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: filter 0.2s ease;
 }
 
-
-.no-servicios {
-    text-align: center;
-    color: #888888;
-    font-style: italic;
-    padding: 3rem 1rem;
-    background-color: #fafafa;
-    border-radius: 6px;
-    border: 1px dashed #cccccc;
-    margin: 1rem 0px 0px 0px;
+.servicios-btn-agregar:hover {
+  filter: brightness(1.08);
 }
 
-.card-servicio-item {
-    background-color: #ffffff ;
-    border: 1px solid #e0e0e0 ;
-    border-radius: 8px ;
-    transition: transform 0.2s ease, box-shadow 0.2s ease ;
+.servicios-btn-agregar:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: none;
 }
 
-
-.card-servicio-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(201, 14, 49, 0.08) ;
-    border-color: #c90e31 ;
+.servicios-item-card {
+  border-left: 5px solid var(--rojo-principal) !important;
+  border-radius: 8px !important;
 }
 
+.servicios-item-content {
+  padding: 1rem 1.25rem !important;
+}
 
-@media (max-width: 600px) {
-    .servicios-container {
-        padding: 1.5rem;
-    }
+.servicios-item-nombre {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 550;
+  color: var(--texto-oscuro);
+  font-family: 'Poppins', sans-serif;
+}
 
-    .form-agregar Box {
-        flex-direction: column;
-        gap: 1rem;
-    }
+.servicios-divisor {
+  border: none;
+  border-top: 1.5px solid #d0d0d0;
+  margin: 0.5rem 0;
+}
 
-    .btn-agregar-srv {
-        width: 100%;
-    }
+.servicios-item-body {
+  color: #666;
+  margin: 0.15rem 0;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.servicios-item-tipo {
+  font-weight: 550;
+}
+
+.servicios-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.servicios-item-costo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--texto-oscuro);
+}
+
+.servicios-btn-baja {
+  border: none;
+  background: transparent;
+  color: var(--rojo-principal, #D40032);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  transition: background 0.2s ease;
+}
+
+.servicios-btn-baja:hover {
+  background: rgba(212, 0, 50, 0.07);
+}
+
+.servicios-vacio {
+  text-align: center;
+  color: #888888;
+  font-style: italic;
+  padding: 3rem 1rem;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border: 1px dashed #cccccc;
+  margin: 1rem 0px 0px 0px;
 }

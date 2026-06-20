@@ -75,7 +75,7 @@
 .mis-sedes-sede-title {
   margin: 0;
   font-size: 1rem;
-  font-weight: 550;
+  font-weight: 550 !important;
   color: var(--texto-oscuro);
   font-family: 'Poppins', sans-serif;
 }

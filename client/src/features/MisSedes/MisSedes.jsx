@@ -153,7 +153,7 @@ const MisSedes = () => {
         <section className="dashboard-block">
             <div className="dashboard-block-header">
                 <h2 className="dashboard-block-title">Mis sedes</h2>
-                <p className="dashboard-block-subtitle">Asigná o remové los centros médicos y clínicas donde prestás servicios presenciales.</p>
+                <p className="dashboard-block-subtitle">Asigná o remové los centros médicos y clínicas donde prestás servicios presenciales</p>
             </div>
         </section>
 
@@ -180,7 +180,7 @@ const MisSedes = () => {
                     className="mis-sedes-btn-agregar"
                     disabled={!sedeSeleccionada}
                   >
-                    <AddIcon fontSize="small" /> Añadir
+                    <AddIcon fontSize="small" /> Vincular
                   </button>
                 </div>
             </form>
