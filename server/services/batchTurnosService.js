@@ -53,7 +53,7 @@ export default class BatchTurnosService {
                     tipoServicio: t.servicio?.duracionTurnoEnMins ? "Especialidad" : "Practica",
                     estado: EstadoTurno.DISPONIBLE,
                     historialEstados: [],
-                    costo: t.servicio?.costoConsulta || t.servicio?.costo || null,
+                    costo: t.servicio?.costo || null,
                     paciente: null
                 })), { ordered: false });
                 total += aInsertar.length;

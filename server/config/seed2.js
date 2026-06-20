@@ -19,7 +19,7 @@ export const runSeed = async() => {
         const clinica = await EspecialidadModel.create({
             nombre: "Clinica",
             duracionTurnoEnMins: 25,
-            costoConsulta: 10000
+            costo: 10000
         });
 
         const camilo = await SedeModel.create({

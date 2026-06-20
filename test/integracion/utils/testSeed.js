@@ -41,61 +41,61 @@ export const runSeed = async () => {
             _id: new mongoose.Types.ObjectId("000000000000000000000001"),
             nombre: "Cardiología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const dermatologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000002"),
             nombre: "Dermatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const pediatria = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000003"),
             nombre: "Pediatría",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const traumatologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000004"),
             nombre: "Traumatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const oftalmologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000005"),
             nombre: "Oftalmología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const ginecologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000006"),
             nombre: "Ginecología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const neurologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000007"),
             nombre: "Neurología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const psicologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000008"),
             nombre: "Psicología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const clinicaMedica = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("000000000000000000000009"),
             nombre: "Clínica Médica",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const odontologia = await EspecialidadModel.create({
             _id: new mongoose.Types.ObjectId("00000000000000000000000a"),
             nombre: "Odontología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
 
 
@@ -432,7 +432,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: cardiologia.costoConsulta
+            costo: cardiologia.costo
         });
 
         await TurnoModel.create({
@@ -458,7 +458,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: pediatria.costoConsulta
+            costo: pediatria.costo
         });
 
         await TurnoModel.create({
@@ -471,7 +471,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: traumatologia.costoConsulta
+            costo: traumatologia.costo
         });
 
         await TurnoModel.create({
@@ -497,7 +497,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: ginecologia.costoConsulta
+            costo: ginecologia.costo
         });
 
 

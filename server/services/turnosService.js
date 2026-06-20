@@ -41,7 +41,7 @@ export default class TurnosService{
 
     calcularCostoTurno(turno, plan) {
         const dto = turnoToDTO(turno);
-        const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
+        const costoBase = turno.servicio?.costo || 0;
         dto.costo = costoBase;
         dto.cobertura = NivelCobertura.NO_CUBIERTA;
 
@@ -119,7 +119,7 @@ export default class TurnosService{
 }
 
 export function turnoToDTO(turno) {
-    const costoBase = turno.servicio?.costoConsulta || turno.servicio?.costo || 0;
+    const costoBase = turno.servicio?.costo || 0;
 
     return {
         _id: turno._id,

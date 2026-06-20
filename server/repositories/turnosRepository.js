@@ -21,7 +21,7 @@ export default class TurnosRepository {
                 .sort(sort)
                 .populate("medico", "nombre")
                 .populate("sede", "nombre direccion")
-                .populate("servicio", "nombre duracionTurnoEnMins costoConsulta")
+                .populate("servicio", "nombre duracionTurnoEnMins costo")
                 .skip(skip)
                 .limit(limit);
 
@@ -60,7 +60,7 @@ export default class TurnosRepository {
             .populate("medico", "nombre")
             .populate("sede", "nombre direccion")
             .populate("fechaHora", "hora")
-            .populate("servicio", "nombre costoConsulta");
+            .populate("servicio", "nombre costo");
 
         const total = await this.model.countDocuments({ paciente: pacienteId });
 

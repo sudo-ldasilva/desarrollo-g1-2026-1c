@@ -641,7 +641,7 @@
             "id": { "type": "string" },
             "nombre": { "type": "string" },
             "duracion": { "type": "integer" },
-            "costoConsulta": { "type": "number" }
+            "costo": { "type": "number" }
           }
         },
         "tipoServicio": { "type": "string" },

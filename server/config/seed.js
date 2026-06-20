@@ -48,52 +48,52 @@ export const runSeed = async () => {
         const cardiologia = await EspecialidadModel.create({
             nombre: "Cardiología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const dermatologia = await EspecialidadModel.create({
             nombre: "Dermatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const pediatria = await EspecialidadModel.create({
             nombre: "Pediatría",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const traumatologia = await EspecialidadModel.create({
             nombre: "Traumatología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const oftalmologia = await EspecialidadModel.create({
             nombre: "Oftalmología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const ginecologia = await EspecialidadModel.create({
             nombre: "Ginecología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const neurologia = await EspecialidadModel.create({
             nombre: "Neurología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const psicologia = await EspecialidadModel.create({
             nombre: "Psicología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const clinicaMedica = await EspecialidadModel.create({
             nombre: "Clínica Médica",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
         const odontologia = await EspecialidadModel.create({
             nombre: "Odontología",
             duracionTurnoEnMins: 15,
-            costoConsulta: 10000
+            costo: 10000
         });
 
         console.log("✅ 10 Especialidades creadas.");
@@ -489,7 +489,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: cardiologia.costoConsulta
+            costo: cardiologia.costo
         });
 
         await TurnoModel.create({
@@ -513,7 +513,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: pediatria.costoConsulta
+            costo: pediatria.costo
         });
 
         await TurnoModel.create({
@@ -525,7 +525,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: traumatologia.costoConsulta
+            costo: traumatologia.costo
         });
 
         await TurnoModel.create({
@@ -549,7 +549,7 @@ export const runSeed = async () => {
             tipoServicio: "Especialidad",
             estado: "DISPONIBLE",
             historialEstados: [],
-            costo: ginecologia.costoConsulta
+            costo: ginecologia.costo
         });
 
         console.log("✅ 6 Turnos creados.");

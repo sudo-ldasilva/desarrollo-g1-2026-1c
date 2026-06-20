@@ -39,7 +39,7 @@ export class MedicoRepository {
             .populate("especialidades") // Traemos todos los datos
             .populate("practicas")
             .populate("sedes");
-            // .populate('especialidades', 'nombre duracionTurnoEnMins costoConsulta') // O también podríamos traer selectivamente
+            // .populate('especialidades', 'nombre duracionTurnoEnMins costo') // O también podríamos traer selectivamente
             // .populate('practicas', 'nombre codigo costo')
             // .populate('sedes', 'nombre direccion');
 
