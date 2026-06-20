@@ -1,0 +1,131 @@
+.mis-sedes-root {
+  margin-top: 2rem;
+}
+
+.mis-sedes-card {
+  border-radius: 20px !important;
+  box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
+  margin-top: 1rem;
+  overflow: visible !important;
+}
+
+.mis-sedes-card-content {
+  padding: 1.5rem 2rem !important;
+}
+
+.mis-sedes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.mis-sedes-form-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--texto-oscuro);
+}
+
+.mis-sedes-form-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.mis-sedes-form-row .custom-select {
+  flex: 1;
+}
+
+.mis-sedes-btn-agregar {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 25px;
+  padding: 0.95rem 1.75rem;
+  background: var(--rojo-principal, #D40032);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: filter 0.2s ease;
+}
+
+.mis-sedes-btn-agregar:hover {
+  filter: brightness(1.08);
+}
+
+.mis-sedes-btn-agregar:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  filter: none;
+}
+
+.mis-sedes-sede-card {
+  border-left: 5px solid var(--rojo-principal) !important;
+  border-radius: 8px !important;
+}
+
+.mis-sedes-sede-content {
+  padding: 1rem 1.25rem !important;
+}
+
+.mis-sedes-sede-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 550;
+  color: var(--texto-oscuro);
+  font-family: 'Poppins', sans-serif;
+}
+
+.mis-sedes-divisor {
+  border: none;
+  border-top: 1.5px solid #d0d0d0;
+  margin: 0.5rem 0;
+}
+
+.mis-sedes-direccion {
+  color: #666;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.mis-sedes-acciones {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mis-sedes-btn-baja {
+  border: none;
+  background: transparent;
+  color: var(--rojo-principal, #D40032);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  transition: background 0.2s ease;
+}
+
+.mis-sedes-btn-baja:hover {
+  background: rgba(212, 0, 50, 0.07);
+}
+
+.mis-sedes-vacio {
+  text-align: center;
+  color: #888888;
+  font-style: italic;
+  padding: 3rem 1rem;
+  background-color: #fafafa;
+  border-radius: 6px;
+  border: 1px dashed #cccccc;
+  margin: 1rem 0px 0px 0px;
+}

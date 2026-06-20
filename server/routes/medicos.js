@@ -1,6 +1,7 @@
 import express from "express";
 import BatchTurnosService from "../services/batchTurnosService.js";
 import { MedicoController } from "../controllers/MedicoController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 const medicoRouter = express.Router();
 const medicoController = new MedicoController();
@@ -10,8 +11,8 @@ medicoRouter.route("/")
     .post((req, res, next) => medicoController.createMedico(req, res, next));
 
 medicoRouter.route("/:id")
-    .get( (req, res, next) => medicoController.getMedicoById(req, res, next) )
-    .patch( (req, res, next) => medicoController.patchMedicoById(req, res, next) );
+    .get(authMiddleware, (req, res, next) => medicoController.getMedicoById(req, res, next) )
+    .patch(authMiddleware, (req, res, next) => medicoController.patchMedicoById(req, res, next) );
 
 medicoRouter.post("/batch-generar", async (req, res, next) => {
     try {

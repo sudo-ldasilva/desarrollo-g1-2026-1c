@@ -1,38 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Card, CardContent, Button, Select, MenuItem, InputLabel, FormControl, Box, Typography, Grid } from '@mui/material';
-import '../MisServicios/MisServicios.css'; // Reutilizo el css de servicios para no repetir código y que sea consistente
+import { Card, CardContent, Box, Typography, Grid, CircularProgress, Container } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ClearIcon from '@mui/icons-material/Clear';
+import CustomSelect from '../../components/CustomSelect/CustomSelect';
+import './MisSedes.css';
+import { useAuth } from '../../hooks/useAuth';
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const MisSedes = () => {
+  const { isAuthenticated, isLoading, getAccessToken } = useAuth();
+  const getTokenRef = useRef(getAccessToken);
+  getTokenRef.current = getAccessToken;
+  const effectRan = useRef(false);
+
   const [sedesDelMedico, setSedesDelMedico] = useState([]);
   const [todasLasSedes, setTodasLasSedes] = useState([]);
   const [sedeSeleccionada, setSedeSeleccionada] = useState('');
-
-  // TODO: Traer el id de forma dinamica
-  const medicoId = "645a1b2c3d4e5f6a7b8c9d99";
-
+  const [medicoId, setMedicoId] = useState(null);
+  const [cargandoDatos, setCargandoDatos] = useState(true);
+  const [sinPerfilMedico, setSinPerfilMedico] = useState(false);
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated) return;
+    if (effectRan.current) return;
+    effectRan.current = true;
+
     const cargarSedes = async () => {
       try {
-        // Sedes actuales donde atiende el médico --> No sé muy bien como traerlas
-        const resMedico = await axios.get(`http://localhost:3001/medicos/${medicoId}/sedes`);
-        setSedesDelMedico(resMedico.data);
+        const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
+        const headers = { Authorization: `Bearer ${token}` };
 
-        //Creo que esto está resuelto con el CRUD de sedes que teniamos pendiente
-        const resGlobal = await axios.get('http://localhost:3001/sedes');
-        setTodasLasSedes(resGlobal.data);
+        const resMe = await axios.get(`${API_URL}/me`, { headers });
+        const idMedico = resMe.data.idMedico;
+
+        if (!idMedico) {
+          setSinPerfilMedico(true);
+          setCargandoDatos(false);
+          return;
+        }
+
+        setMedicoId(idMedico);
+
+        const [resSedes, resMedico] = await Promise.all([
+          axios.get(`${API_URL}/sedes`, { headers }),
+          axios.get(`${API_URL}/medicos/${idMedico}`, { headers }),
+        ]);
+
+        setTodasLasSedes(resSedes.data);
+        setSedesDelMedico(resMedico.data.sedes || []);
       } catch (error) {
         alert("Error al cargar las sedes médicas.");
+      } finally {
+        setCargandoDatos(false);
       }
     };
+
     cargarSedes();
-  }, []);
+  }, [isAuthenticated, isLoading]);
+
+  const getAuthHeaders = async () => {
+    const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
+    return { headers: { Authorization: `Bearer ${token}` } };
+  };
 
   const handleAgregarSede = async (e) => {
     e.preventDefault();
-    if (!sedeSeleccionada) return;
-
+    if (!sedeSeleccionada || !medicoId) return;
 
     if (sedesDelMedico.some(s => s._id === sedeSeleccionada)) {
       alert("Ya te encontrás registrado en esta sede.");
@@ -40,11 +76,12 @@ const MisSedes = () => {
     }
 
     try {
-      // POST al backend para asociar la sede al médico --> pensar endpoint
-      await axios.post(`http://localhost:3001/medicos/${medicoId}/sedes`, {
-        sedeId: sedeSeleccionada
-      });
+      const currentSedeIds = sedesDelMedico.map(s => s._id);
+      const headers = await getAuthHeaders();
 
+      await axios.patch(`${API_URL}/medicos/${medicoId}`, {
+        sedes: [...currentSedeIds, sedeSeleccionada],
+      }, headers);
 
       const nuevaSede = todasLasSedes.find(s => s._id === sedeSeleccionada);
       setSedesDelMedico([...sedesDelMedico, nuevaSede]);
@@ -54,24 +91,65 @@ const MisSedes = () => {
     }
   };
 
-
   const handleQuitarSede = async (idSede) => {
-    if (window.confirm("¿Estás seguro de que querés darte de baja de esta sede? Se cancelarán tus disponibilidades allí.")) {
-      try {
-        // DELETE al endpoint que relaciona los médicos y las sedes
-        await axios.delete(`http://localhost:3001/medicos/${medicoId}/sedes/${idSede}`);
+    if (!window.confirm("¿Estás seguro de que querés darte de baja de esta sede? Se cancelarán tus disponibilidades allí.")) return;
+    if (!medicoId) return;
 
+    try {
+      const currentSedeIds = sedesDelMedico.map(s => s._id);
+      const headers = await getAuthHeaders();
 
+      await axios.patch(`${API_URL}/medicos/${medicoId}`, {
+        sedes: currentSedeIds.filter(id => id !== idSede),
+      }, headers);
 
-        setSedesDelMedico(sedesDelMedico.filter(s => s._id !== idSede));
-      } catch (error) {
-        alert("Error al remover la sede.");
-      }
+      setSedesDelMedico(sedesDelMedico.filter(s => s._id !== idSede));
+    } catch (error) {
+      alert("Error al remover la sede.");
     }
   };
 
+  if (isLoading || cargandoDatos) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="70vh">
+        <CircularProgress color="error" />
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <Container className="mis-sedes-root">
+        <Card className="mis-sedes-card" style={{ textAlign: 'center' }}>
+          <CardContent>
+            <Typography variant="body1">Por favor, iniciá sesión para gestionar tus sedes.</Typography>
+          </CardContent>
+        </Card>
+      </Container>
+    );
+  }
+
+  if (sinPerfilMedico) {
+    return (
+      <Container className="mis-sedes-root">
+        <section className="dashboard-block">
+          <div className="dashboard-block-header">
+            <h2 className="dashboard-block-title">Mis sedes</h2>
+          </div>
+        </section>
+        <Card className="mis-sedes-card">
+          <CardContent style={{ textAlign: 'center' }}>
+            <Typography variant="body1">
+              Aún no completaste tu perfil de médico. Completalo primero para gestionar tus sedes.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Container>
+    );
+  }
+
   return (
-    <div className="servicios-root">
+    <Container className="mis-sedes-root">
         <section className="dashboard-block">
             <div className="dashboard-block-header">
                 <h2 className="dashboard-block-title">Mis sedes</h2>
@@ -79,59 +157,63 @@ const MisSedes = () => {
             </div>
         </section>
 
-      <Card className="servicios-container">
-        <CardContent>
-            <form onSubmit={handleAgregarSede} className="form-agregar">
-                <FormControl fullWidth>
-                  <InputLabel>Seleccionar Nueva Sede</InputLabel>
-                  <Select
+      <Card className="mis-sedes-card">
+        <CardContent className="mis-sedes-card-content">
+            <form onSubmit={handleAgregarSede} className="mis-sedes-form">
+                <span className="mis-sedes-form-label">Agregar nueva sede</span>
+                <div className="mis-sedes-form-row">
+                  <CustomSelect
                     value={sedeSeleccionada}
-                    label="Seleccionar Nueva Sede"
                     onChange={(e) => setSedeSeleccionada(e.target.value)}
-                  >
-
-                    {todasLasSedes
+                    placeholder="Seleccioná una sede"
+                    options={todasLasSedes
                       .filter(sede => !sedesDelMedico.some(sm => sm._id === sede._id))
-                      .map(s => (
-                        <MenuItem key={s._id} value={s._id}>
-                          {s.nombre} — {s.direccion || 'Dirección no especificada'}
-                        </MenuItem>
-                      ))
+                      .map(s => ({
+                        value: s._id,
+                        label: `${s.nombre} — ${s.direccion || 'Dirección no especificada'}`
+                      }))
                     }
-                  </Select>
-                </FormControl>
-                <Button type="submit" variant="contained" className="btn-agregar-srv">
-                  + Añadir
-                </Button>
+                    disabled={todasLasSedes.length === 0}
+                  />
+                  <button
+                    type="submit"
+                    className="mis-sedes-btn-agregar"
+                    disabled={!sedeSeleccionada}
+                  >
+                    <AddIcon fontSize="small" /> Añadir
+                  </button>
+                </div>
             </form>
 
             {sedesDelMedico.length === 0 ? (
-              <p className="no-servicios">No tenés sedes de atención asignadas. Añadí la primera desde el buscador superior.</p>
+              <Box className="mis-sedes-vacio">
+                <Typography variant="body1">
+                  No tenés sedes de atención asignadas. Añadí la primera desde el buscador superior.
+                </Typography>
+              </Box>
             ) : (
               <Grid container spacing={2}>
                 {sedesDelMedico.map(s => (
                   <Grid item xs={12} sm={6} md={4} key={s._id}>
-                    <Card className="card-servicio-item" variant="outlined">
-                      <Box padding="1.5rem">
-                        <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>
+                    <Card className="mis-sedes-sede-card" variant="outlined">
+                      <CardContent className="mis-sedes-sede-content">
+                        <Typography className="mis-sedes-sede-title">
                           {s.nombre}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" style={{ marginTop: '0.25rem' }}>
-                          📍 {s.direccion}
+                        <hr className="mis-sedes-divisor" />
+                        <Typography className="mis-sedes-direccion">
+                          <LocationOnIcon fontSize="small" /> {s.direccion}
                         </Typography>
-
-
-                        <Box display="flex" justifyContent="flex-end" marginTop="1.5rem">
-                          <Button
-                            variant="text"
-                            color="error"
+                        <hr className="mis-sedes-divisor" />
+                        <Box className="mis-sedes-acciones">
+                          <button
+                            className="mis-sedes-btn-baja"
                             onClick={() => handleQuitarSede(s._id)}
-                            style={{ fontWeight: 'bold' }}
                           >
-                            ❌ Dar de Baja
-                          </Button>
+                            <ClearIcon fontSize="small" /> Dar de Baja
+                          </button>
                         </Box>
-                      </Box>
+                      </CardContent>
                     </Card>
                   </Grid>
                 ))}
@@ -139,7 +221,7 @@ const MisSedes = () => {
             )}
             </CardContent>
       </Card>
-    </div>
+    </Container>
   );
 };
 
