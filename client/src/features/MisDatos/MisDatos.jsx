@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, Typography, Box, CircularProgress } from '@mui/material';
+import { Container, Card, CardContent, Typography, Box, CircularProgress } from '@mui/material';
 import CredencialPerfil from '../../components/CredencialPerfil/CredencialPerfil';
 import axios from 'axios';
-import '../MisServicios/MisServicios.css';
+import './MisDatos.css';
 import { useLogto } from '@logto/react';
 
 const MisDatos = () => {
@@ -67,30 +67,34 @@ const MisDatos = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="servicios-root">
-        <Card className="servicios-container" style={{ textAlign: 'center' }}>
-          <Typography variant="body1">Por favor, iniciá sesión para acceder a tu credencial.</Typography>
+      <Container className="mis-datos-container">
+        <Card className="mis-datos-card" sx={{ textAlign: 'center' }}>
+          <CardContent>
+            <Typography variant="body1">Por favor, iniciá sesión para acceder a tu credencial.</Typography>
+          </CardContent>
         </Card>
-      </div>
+      </Container>
     );
   }
 
   return (
-    <div className="servicios-root">
-      <Card className="servicios-container">
-        <Typography variant="h5" className="titulo-seccion" style={{ marginBottom: '1.5rem' }}>
-          Mis Datos Personales
-        </Typography>
+    <Container className="mis-datos-container">
+      <Card className="mis-datos-card">
+        <CardContent>
+          <Typography variant="h5" className="mis-datos-titulo">
+            Mis Datos Personales
+          </Typography>
 
-        <Box display="flex" justifyContent="center" marginY="2rem">
-          {perfil && <CredencialPerfil paciente={perfil} />}
-        </Box>
+          <Box display="flex" justifyContent="center" marginY="2rem">
+            {perfil && <CredencialPerfil paciente={perfil} />}
+          </Box>
 
-        <Typography variant="body2" color="textSecondary" style={{ fontStyle: 'italic', textAlign: 'center' }}>
-          Presentá esta credencial digital en cualquiera de nuestras sedes físicas para agilizar tu atención médica.
-        </Typography>
+          <Typography variant="body2" color="textSecondary" sx={{ fontStyle: 'italic', textAlign: 'center' }}>
+            Presentá esta credencial digital en cualquiera de nuestras sedes físicas para agilizar tu atención médica.
+          </Typography>
+        </CardContent>
       </Card>
-    </div>
+    </Container>
   );
 };
 

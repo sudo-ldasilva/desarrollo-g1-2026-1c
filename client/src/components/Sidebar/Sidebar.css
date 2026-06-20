@@ -51,22 +51,32 @@
 
 .sidebar-menu-item.MuiButtonBase-root {
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .sidebar-menu-item.MuiButtonBase-root:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.sidebar-menu-item.MuiButtonBase-root:hover .sidebar-menu-icon {
+    color: #ffffff !important;
 }
 
 .sidebar-menu-item.MuiButtonBase-root.Mui-selected,
 .sidebar-menu-item.MuiButtonBase-root.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2)!important;
     font-weight: 600;
+    transform: translateX(3px);
+    color: #ffffff;
 }
 
 .sidebar-menu-icon {
     min-width: 36px !important;
-    color: var(--blanco) !important;
+    color: rgba(255, 255, 255, 0.95) !important;
+    transition: color 0.3s ease;
 }
 
 .menu-item-text {
