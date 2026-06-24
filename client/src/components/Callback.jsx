@@ -28,9 +28,15 @@ const Callback = () => {
         const me = await getMe(token);
         updateUserRole(me.rol);
 
-        navigate(me.tienePerfil ? "/app" : "/completar-perfil", {
-          replace: true,
-        });
+        if(me.rol === "PACIENTE") {
+          navigate(me.tienePerfil ? "/app/dashboard" : "/completar-perfil", {
+            replace: true,
+          });
+        }
+        else if(me.rol === "MEDICO") {
+          navigate("/app/mi-agenda", {replace: true});
+        }
+
       } catch (e) {
         console.error("callback error", e);
         ran.current = false;

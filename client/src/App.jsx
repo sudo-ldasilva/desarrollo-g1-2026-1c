@@ -112,8 +112,7 @@ function App() {
                 />
 
                 <Route path='mis-servicios' element={<RequireRole roles={["MEDICO"]}><MisServicios/></RequireRole>} />
-                <Route index element={<Dashboard />} />
-                <Route path='dashboard' element={<Dashboard />} />
+                <Route path='dashboard' element={<RequireRole roles={["PACIENTE"]}><Dashboard /></RequireRole>} />
                 <Route path='mis-sedes' element={<RequireRole roles={["MEDICO"]}><MisSedes/></RequireRole>} />
                 <Route path='notificaciones' element={<Notificaciones/>} />
                 <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
