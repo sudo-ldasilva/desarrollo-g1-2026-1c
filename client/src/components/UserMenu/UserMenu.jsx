@@ -84,8 +84,8 @@ const UserMenu = ({ notificationCount, className }) => {
             const resMedico = await axios.get(`${process.env.REACT_APP_API_URL}/medicos/${idMedico}`, { headers }); 
             
            
-            if (resMedico.data && resMedico.data.data) {
-              setMedicoData(resMedico.data.data);
+            if (resMedico.data) {
+              setMedicoData(resMedico.data);
             }
           }
         }
