@@ -91,6 +91,23 @@ export const buscarTurnosDisponibles = async (accessToken, params, signal) => {
     }
 };
 
+export const reservarTurno = async (accessToken, turnoId) => {
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/turnos/${turnoId}/cambios-estado`,
+            { estado: "RESERVADO" },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
+};
+
 export const getCantidadTurnosEnEstado = async (accessToken, estado, signal) => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`, {

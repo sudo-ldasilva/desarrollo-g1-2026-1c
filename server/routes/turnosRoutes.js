@@ -26,7 +26,7 @@ turnosRouter
 
 turnosRouter
     .route("/:idTurno/cambios-estado")
-    .post(validate(cambioEstadoTurnoSchema, "body"), turnosController.cambiarEstado);
+    .post(validate(cambioEstadoTurnoSchema, "body"), authMiddleware, turnosController.cambiarEstado);
 
 // Tambien podria ir en pacientesRoutes. Pero como el pacienteId actua
 // como filtro/contexto, y no como recurso principal, lo dejo aca.

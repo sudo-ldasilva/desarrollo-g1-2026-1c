@@ -1,0 +1,178 @@
+.ConfirmarReservaDialog_paper {
+    border-radius: 16px !important;
+    padding: 0.25rem 0;
+    position: relative;
+}
+
+.ConfirmarReservaDialog_title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.ConfirmarReservaDialog_close {
+    color: #999;
+}
+
+.ConfirmarReservaDialog_divisor {
+    border: none;
+    border-top: 1.5px solid #d0d0d0;
+    margin: 0 1.5rem;
+}
+
+.ConfirmarReservaDialog_content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 0.5rem !important;
+}
+
+.ConfirmarReservaDialog_row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.ConfirmarReservaDialog_label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.5px;
+}
+
+.ConfirmarReservaDialog_value {
+    font-size: 0.95rem;
+    color: var(--texto-oscuro);
+    font-family: 'Poppins', sans-serif;
+}
+
+.ConfirmarReservaDialog_actions {
+    padding: 1rem 1.5rem 1.5rem !important;
+    justify-content: center;
+}
+
+.ConfirmarReservaDialog_btn {
+    background: var(--rojo-principal, #D40032) !important;
+    border-radius: 20px !important;
+    padding: 0.5rem 2.5rem !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    font-size: 0.95rem !important;
+    transition: filter 0.2s ease;
+    width: 100%;
+    box-shadow: none !important;
+}
+
+.ConfirmarReservaDialog_btn:hover:not(:disabled) {
+    filter: brightness(1.08);
+    box-shadow: none !important;
+}
+
+.ConfirmarReservaDialog_btn:disabled {
+    opacity: 0.7;
+}
+
+/* Loading overlay */
+
+.ConfirmarReservaDialog_loadingOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 16px;
+}
+
+/* Result (success / error) */
+
+.ConfirmarReservaDialog_resultContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 1.5rem 0.5rem !important;
+}
+
+.ConfirmarReservaDialog_resultIconWrap {
+    margin-bottom: 0.75rem;
+}
+
+.ConfirmarReservaDialog_iconSuccess {
+    font-size: 3.5rem !important;
+    color: #2e7d32;
+}
+
+.ConfirmarReservaDialog_iconError {
+    font-size: 3.5rem !important;
+    color: #d32f2f;
+}
+
+.ConfirmarReservaDialog_resultTitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 1.25rem;
+}
+
+.ConfirmarReservaDialog_resultTitleError {
+    font-size: 1rem;
+    max-width: 220px;
+    line-height: 1.4;
+}
+
+/* Success info rows */
+
+.ConfirmarReservaDialog_successInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    text-align: left;
+}
+
+.ConfirmarReservaDialog_successInfoRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.ConfirmarReservaDialog_successInfoLabel {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.ConfirmarReservaDialog_successInfoValue {
+    font-size: 0.9rem;
+    color: var(--texto-oscuro);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navigation button */
+
+.ConfirmarReservaDialog_navBtn {
+    background: var(--rojo-principal, #D40032) !important;
+    border-radius: 20px !important;
+    padding: 0.5rem 2rem !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    font-size: 0.95rem !important;
+    width: 100%;
+    box-shadow: none !important;
+    transition: filter 0.2s ease;
+}
+
+.ConfirmarReservaDialog_navBtn:hover {
+    filter: brightness(1.08);
+    box-shadow: none !important;
+}

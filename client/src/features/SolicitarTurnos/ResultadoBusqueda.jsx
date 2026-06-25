@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, Alert, Skeleton } from '@mui/material';
 import CalendarioMensualTurnos from '../../components/CalendarioMensualTurnos/CalendarioMensualTurnos.jsx';
-import TurnoInfo from '../../components/TurnoInfo/TurnoInfo.jsx';
-import { buscarTurnosDisponibles } from '../../services/TurnosService.jsx';
+import TurnoGrupo from '../../components/TurnoGrupo/TurnoGrupo.jsx';
+import ConfirmarReservaDialog from '../../components/ConfirmarReservaDialog/ConfirmarReservaDialog.jsx';
+import { buscarTurnosDisponibles, reservarTurno } from '../../services/TurnosService.jsx';
 import { useAuth } from '../../hooks/useAuth.jsx';
 import './ResultadoBusqueda.css';
 
@@ -20,10 +21,52 @@ const ResultadoBusqueda = () => {
     const [calendarioActualizado, setCalendarioActualizado] = useState(false);
     const mesCalendario = useRef(hoy);
     const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date(hoy.setHours(0, 0, 0, 0)));
+    const [reservando, setReservando] = useState(new Set());
+    const [resultado, setResultado] = useState(null);
+    const [turnoSeleccionado, setTurnoSeleccionado] = useState(null);
+
+    const handleAgregar = (turno) => {
+        setResultado(null);
+        setTurnoSeleccionado(turno);
+    };
+
+    const handleConfirmarReserva = async () => {
+        const turno = turnoSeleccionado;
+        if (!turno || reservando.has(turno._id)) return;
+        setReservando(prev => new Set(prev).add(turno._id));
+        setResultado(null);
+        try {
+            const accessToken = await getAccessToken(
+                process.env.REACT_APP_LOGTO_RESOURCES
+            );
+            await reservarTurno(accessToken, turno._id);
+            setTurnos(prev => prev.filter(t => t._id !== turno._id));
+            setResultado("success");
+        } catch {
+            setResultado("error");
+        } finally {
+            setReservando(prev => { const next = new Set(prev); next.delete(turno._id); return next; });
+        }
+    };
+
+    const handleCancelarReserva = () => {
+        setResultado(null);
+        setTurnoSeleccionado(null);
+    };
 
     const turnosFiltrados = turnos.filter(
         t => new Date(t.fechaHora).toDateString() === fechaSeleccionada.toDateString()
     );
+
+    const agruparTurnos = (lista) => {
+        const grupos = {};
+        lista.forEach(t => {
+            const key = `${t.servicio._id}|${t.medico._id}|${t.sede._id}|${new Date(t.fechaHora).toDateString()}`;
+            if (!grupos[key]) grupos[key] = [];
+            grupos[key].push(t);
+        });
+        return Object.values(grupos);
+    };
 
     const filtrarTurnos = (fecha) => {
         setFechaSeleccionada(fecha);
@@ -136,11 +179,11 @@ const ResultadoBusqueda = () => {
                         </h3>
                         {calendarioActualizado ? (
                             turnosFiltrados.length > 0 ? (
-                                turnosFiltrados.map(turno => (
-                                    <TurnoInfo
-                                        key={turno._id || turno.id}
-                                        turno={turno}
-                                        onAgregar={() => {}}
+                                agruparTurnos(turnosFiltrados).map(grupo => (
+                                    <TurnoGrupo
+                                        key={grupo[0]._id || grupo[0].id}
+                                        turnos={grupo}
+                                        onAgregar={handleAgregar}
                                     />
                                 ))
                             ) : (
@@ -153,6 +196,15 @@ const ResultadoBusqueda = () => {
                         )}
                     </CardContent>
                 </Card>
+
+                <ConfirmarReservaDialog
+                    open={!!turnoSeleccionado}
+                    turno={turnoSeleccionado}
+                    reservando={turnoSeleccionado ? reservando.has(turnoSeleccionado._id) : false}
+                    resultado={resultado}
+                    onConfirm={handleConfirmarReserva}
+                    onCancel={handleCancelarReserva}
+                />
             </div>
         </div>
     );
