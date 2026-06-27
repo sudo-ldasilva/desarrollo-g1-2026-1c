@@ -1,4 +1,4 @@
-import { Card, CardContent, Box, Pagination } from '@mui/material';
+import { Card, CardContent, Box, Pagination, Skeleton } from '@mui/material';
 import {useState, useEffect, useRef} from 'react'
 import CardTurno from '../../components/CardTurno/CardTurno';
 import './MisTurnos.css';
@@ -9,10 +9,12 @@ const MisTurnos = () => {
     const turnosPorPagina = 5
     const { isAuthenticated, getAccessToken } = useAuth();
     const [indice, setIndice] = useState(1)
-    const [turnos, setTurnos] = useState({total: 0})
+    const [turnos, setTurnos] = useState(null)
+    const contentRef = useRef()
 
     useEffect( () => {
         const descargarBD = async () => {
+            setTurnos(null)
             const accessToken = await getAccessToken(
               process.env.REACT_APP_LOGTO_RESOURCES
             );
@@ -29,19 +31,29 @@ const MisTurnos = () => {
     }
 
     return (
-        <div className="historial-container">
+        <div className="historial-container" ref={contentRef}>
             {
-                turnos.total === 0 ? (
-                    <p className="listado-vacio">No tenés un historial de turnos activos.</p>
+                turnos === null ? (
+                    <>
+                        <Skeleton variant="rounded" height="200px" />
+                        <Skeleton variant="rounded" height="200px" />
+                        <Skeleton variant="rounded" height="200px" />
+                    </>
                 ) : (
-                    <Card>
-                        {
-                            turnos.turnos.map((turno) => (
-                                <CardTurno key={turno._id || turno.id} turno={turno} />
-                            ))
-                        }
-                        <Pagination count={turnos.totalPages} color="primary" onChange={pepe} />
-                    </Card>
+                        turnos.total === 0 ? (
+                            <p className="listado-vacio">No tenés un historial de turnos activos.</p>
+                        ) : (
+                            <>
+                                {
+                                    turnos.turnos.map((turno) => (
+                                        <CardTurno key={turno._id || turno.id} turno={turno} />
+                                    ))
+                                }
+                                <Box display="flex" justifyContent="center">
+                                    <Pagination margin="auto" width="100%" page={indice} count={turnos.totalPages} color="primary" onChange={pepe} />
+                                </Box>
+                            </>
+                        )
                 )
             }
         </div>
