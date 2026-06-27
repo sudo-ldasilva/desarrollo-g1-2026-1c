@@ -5,13 +5,6 @@ import './MisTurnos.css';
 const MisTurnos = ({turnos}) => {
     return (
         <div>
-            <section className="dashboard-block">
-                <div className="dashboard-block-header">
-                    <h2 className="dashboard-block-title">Mis turnos</h2>
-                    <p className="dashboard-block-subtitle">Consultar los turnos del usuario.</p>
-                </div>
-            </section>
-
             <HistorialTurnos turnos={turnos} />
         </div>
     );

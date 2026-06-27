@@ -148,12 +148,6 @@ const SolicitarTurnos = () => {
 
     return (
         <div className="solicitar-root">
-            <section className="dashboard-block">
-                <div className="dashboard-block-header">
-                    <h2 className="dashboard-block-title">Solicitar turno</h2>
-                    <p className="dashboard-block-subtitle">Completá los filtros y buscá disponibilidad.</p>
-                </div>
-            </section>
 
             <div className="filtros-grid">
                 <Card className="filtros-panel">

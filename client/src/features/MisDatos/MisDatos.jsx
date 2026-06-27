@@ -79,15 +79,6 @@ const MisDatos = () => {
 
   return (
     <div>
-        <section className="dashboard-block">
-            <div className="dashboard-block-header">
-                <div>
-                    <h2 className="dashboard-block-title">Mis datos personales</h2>
-                    <p className="dashboard-block-subtitle">Ver la credencial con mis datos.</p>
-                </div>
-            </div>
-        </section>
-
             <Box
               sx={{
                 minHeight: "calc(100vh - 180px)", // adjust 180px to match your header height

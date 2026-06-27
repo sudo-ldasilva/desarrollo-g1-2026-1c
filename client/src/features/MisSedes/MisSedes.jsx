@@ -150,12 +150,6 @@ const MisSedes = () => {
 
   return (
     <Container className="mis-sedes-root">
-        <section className="dashboard-block">
-            <div className="dashboard-block-header">
-                <h2 className="dashboard-block-title">Mis sedes</h2>
-                <p className="dashboard-block-subtitle">Asigná o remové los centros médicos y clínicas donde prestás servicios presenciales</p>
-            </div>
-        </section>
 
       <Card className="mis-sedes-card">
         <CardContent className="mis-sedes-card-content">

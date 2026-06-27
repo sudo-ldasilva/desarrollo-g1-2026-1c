@@ -23,7 +23,7 @@
 
 .entorno-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 0.4rem 2rem 0px 2rem;
   background: transparent;
@@ -64,8 +64,19 @@
 }
 
 .EntornoUsuario_usuario  {
-    position: fixed;
-    top: 1.5rem;
-    right: 2rem;
+    position: sticky;
+    /* top: 1.5rem; */
+    /* right: 2rem; */
     z-index: 1000;
+}
+
+.EntornoUsuario_info-title {
+    margin: 0;
+    font-size: 1.35rem;
+    color: var(--texto-oscuro);
+}
+
+.EntornoUsuario_info-subtitle {
+    margin: 0;
+    color: #667085;
 }

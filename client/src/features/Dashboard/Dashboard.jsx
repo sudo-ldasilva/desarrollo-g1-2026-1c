@@ -12,12 +12,6 @@ const Dashboard = () => {
     return (
         <div className="dashboard-shell">
             <section className="dashboard-block">
-                <div className="dashboard-block-header">
-                    <div>
-                        <h2 className="dashboard-block-title">Resumen</h2>
-                        <p className="dashboard-block-subtitle">Una vista rápida del estado general de tus turnos.</p>
-                    </div>
-                </div>
                 <div className="dashboard-stats-row">
                     <Card
                         className="dashboard-solicitar-card"

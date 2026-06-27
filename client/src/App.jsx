@@ -42,53 +42,63 @@ const logtoConfig = {
 };
 
 const TITLES = {
-    "/": "Inicio",
-    "/callback": "Iniciando sesión",
-    "/completar-perfil": "Completar perfil",
-    "/app": "Inicio",
-    "/app/": "Inicio",
-    "/app/dashboard": "Inicio",
-    "/app/solicitar-turnos": "Solicitar turnos",
-    "/app/solicitar-turnos/resultado": "Resultado de búsqueda",
-    "/app/mis-turnos": "Mis turnos",
-    "/app/mis-servicios": "Mis servicios",
-    "/app/mis-sedes": "Mis sedes",
-    "/app/notificaciones": "Notificaciones",
-    "/app/mi-agenda": "Mi agenda",
-    "/app/mis-disponibilidades": "Mis disponibilidades",
-    "/app/mis-datos": "Mis datos",
+    "/":                               { titulo: "Inicio"               , desc: "" },
+    "/callback":                       { titulo: "Iniciando sesión     ", desc: "" },
+    "/completar-perfil":               { titulo: "Completar perfil"     , desc: "" },
+    "/app":                            { titulo: "Inicio"               , desc: "" },
+    "/app/":                           { titulo: "Inicio"               , desc: "" },
+    "/app/dashboard":                  { titulo: "Inicio"               , desc: "Una vista rápida del estado general de tus turnos." },
+    "/app/solicitar-turnos":           { titulo: "Solicitar turnos"     , desc: "Completá los filtros y buscá disponibilidad." },
+    "/app/solicitar-turnos/resultado": { titulo: "Resultado de búsqueda", desc: "Ver los turnos disponibles." },
+    "/app/mis-turnos":                 { titulo: "Mis turnos"           , desc: "Consultar los turnos del usuario." },
+    "/app/mis-servicios":              { titulo: "Mis servicios"        , desc: "Configurá las especialidades y prácticas que realizás en Sweet Medical." },
+    "/app/mis-sedes":                  { titulo: "Mis sedes"            , desc: "Asigná o remové los centros médicos y clínicas donde prestás servicios presenciales." },
+    "/app/notificaciones":             { titulo: "Notificaciones"       , desc: "Ver las notificaciones." },
+    "/app/mi-agenda":                  { titulo: "Mi agenda"            , desc: "Ver mi agenda." },
+    "/app/mis-disponibilidades":       { titulo: "Mis disponibilidades" , desc: "Ver mis disponibilidades horarias." },
+    "/app/mis-datos":                  { titulo: "Mis datos"            , desc: "Ver la credencial con mis datos." },
 };
 
-function TitleUpdater() {
+function TitleUpdater({setHeader}) {
     const location = useLocation();
 
     useEffect(() => {
-        const title = TITLES[location.pathname] || "Sweet Medical";
-        document.title = `${title} - Sweet Medical`;
+        const header = TITLES[location.pathname] || { titulo: "Sweet Medical", desc: "" };
+        document.title = `${header.titulo} - Sweet Medical`;
+
+        setHeader({
+            titulo: header.titulo,
+            descripcion: header.desc
+        });
     }, [location]);
 
     return null;
 }
 
 function App() {
+    const [header, setHeader] = useState({
+        titulo: "",
+        descripcion: ""
+    })
+
   return (
       <LogtoProvider config={logtoConfig}>
         <AuthProvider>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <TitleUpdater />
+            <TitleUpdater setHeader={setHeader} />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/callback" element={<Callback />} />
               <Route path="/completar-perfil" element={<CompletarPerfil />} />
 
-              <Route path="/app" element={<RequiereAuth><EntornoUsuario /></RequiereAuth>} >
+              <Route path="/app" element={<RequiereAuth><EntornoUsuario header={header} /></RequiereAuth>} >
 
                 <Route
                   path="solicitar-turnos"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <SolicitarTurnos />
+                      <SolicitarTurnos setHeader={setHeader} />
                     </RequireRole>
                   }
                 />
@@ -97,7 +107,7 @@ function App() {
                   path="mis-turnos"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <MisTurnos/>
+                      <MisTurnos setHeader={setHeader} />
                     </RequireRole>
                   }
                 />
@@ -106,18 +116,18 @@ function App() {
                   path="solicitar-turnos/resultado"
                   element={
                     <RequireRole roles={["PACIENTE"]}>
-                      <ResultadoBusqueda/>
+                      <ResultadoBusqueda setHeader={setHeader} />
                     </RequireRole>
                   }
                 />
 
-                <Route path='mis-servicios' element={<RequireRole roles={["MEDICO"]}><MisServicios/></RequireRole>} />
-                <Route path='dashboard' element={<RequireRole roles={["PACIENTE"]}><Dashboard /></RequireRole>} />
-                <Route path='mis-sedes' element={<RequireRole roles={["MEDICO"]}><MisSedes/></RequireRole>} />
-                <Route path='notificaciones' element={<Notificaciones/>} />
+                <Route path='mis-servicios' element={<RequireRole roles={["MEDICO"]}><MisServicios setHeader={setHeader} /></RequireRole>} />
+                <Route path='dashboard' element={<RequireRole roles={["PACIENTE"]}><Dashboard  setHeader={setHeader} /></RequireRole>} />
+                <Route path='mis-sedes' element={<RequireRole roles={["MEDICO"]}><MisSedes setHeader={setHeader} /></RequireRole>} />
+                <Route path='notificaciones' element={<Notificaciones setHeader={setHeader} />} />
                 <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
                 <Route path='mis-disponibilidades' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
-                <Route path='mis-datos' element={<MisDatos/>} />
+                <Route path='mis-datos' element={<MisDatos setHeader={setHeader} />} />
               </Route>
             </Routes>
           </ThemeProvider>

@@ -10,25 +10,6 @@
     gap: 1rem;
 }
 
-.dashboard-block-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 2rem;
-}
-
-.dashboard-block-title {
-    margin: 0;
-    font-size: 1.35rem;
-    color: var(--texto-oscuro);
-}
-
-.dashboard-block-subtitle {
-    margin: 0;
-    color: #667085;
-}
-
 .dashboard-solicitar-card {
     box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
     border-radius: 20px !important;

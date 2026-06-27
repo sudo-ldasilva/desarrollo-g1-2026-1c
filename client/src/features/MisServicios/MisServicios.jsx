@@ -109,25 +109,25 @@ const MisServicios = () => {
 
       if (selectedOption.tipo === "especialidad") {
         const currentIds = especialidadesDelMedico.map(s => s._id);
-        
+
         await axios.patch(`${API_URL}/medicos/${medicoId}`, {
           especialidades: [...currentIds, servicioSeleccionado],
         }, headers);
-       
+
         const nueva = todasLasEspecialidades.find(e => e._id === servicioSeleccionado);
         setEspecialidadesDelMedico([...especialidadesDelMedico, nueva]);
-      
+
       } else {
-        
+
         const currentIds = practicasDelMedico.map(s => s._id);
-        
+
         await axios.patch(`${API_URL}/medicos/${medicoId}`, {
           practicas: [...currentIds, servicioSeleccionado],
         }, headers);
-        
+
         const nueva = todasLasPracticas.find(p => p._id === servicioSeleccionado);
         setPracticasDelMedico([...practicasDelMedico, nueva]);
-      
+
       }
 
       setServicioSeleccionado('');
@@ -145,23 +145,23 @@ const MisServicios = () => {
 
       if (servicio.tipo === "Especialidad") {
         const currentIds = especialidadesDelMedico.map(s => s._id);
-        
+
         await axios.patch(`${API_URL}/medicos/${medicoId}`, {
           especialidades: currentIds.filter(id => id !== servicio._id),
         }, headers);
-        
+
         setEspecialidadesDelMedico(especialidadesDelMedico.filter(s => s._id !== servicio._id));
-      
+
       } else {
-        
+
         const currentIds = practicasDelMedico.map(s => s._id);
-        
+
         await axios.patch(`${API_URL}/medicos/${medicoId}`, {
           practicas: currentIds.filter(id => id !== servicio._id),
         }, headers);
-        
+
         setPracticasDelMedico(practicasDelMedico.filter(s => s._id !== servicio._id));
-      
+
       }
     } catch (error) {
       alert("Error al remover el servicio.");
@@ -209,12 +209,6 @@ const MisServicios = () => {
 
   return (
     <Container className="servicios-root">
-      <section className="dashboard-block">
-        <div className="dashboard-block-header">
-          <h2 className="dashboard-block-title">Mis servicios prestados</h2>
-          <p className="dashboard-block-subtitle">Configurá las especialidades y prácticas que realizás en Sweet Medical</p>
-        </div>
-      </section>
 
       <Card className="servicios-card">
         <CardContent className="servicios-card-content">

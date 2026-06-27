@@ -7,7 +7,7 @@ import { useAuth } from "../../hooks/useAuth.jsx";
 import { obtenerNotificaciones } from "../../services/NotificacionesService.jsx";
 import "./EntornoUsuario.css";
 
-const EntornoUsuario = () => {
+const EntornoUsuario = ({header}) => {
     const { getAccessToken, isSigningOut } = useAuth();
     const [notificationCount, setNotificationCount] = useState(0);
 
@@ -27,6 +27,8 @@ const EntornoUsuario = () => {
         cargarCantidadNotificaciones();
     }, [getAccessToken]);
 
+    useEffect(() => {}, [header]);
+
     //Crear la funcion para decrementar el contador localmente (evita un request extra)
     const decrementarContador = () => {
         setNotificationCount((prev) => Math.max(0, prev - 1));
@@ -39,7 +41,11 @@ const EntornoUsuario = () => {
                 <Sidebar />
                 <div className="contenido-principal">
                     <header className="entorno-header">
-                        <div className="entorno-header-spacer"></div>
+                        <div>
+                            <h2 className="EntornoUsuario_info-title">{header.titulo}</h2>
+                            <p className="EntornoUsuario_info-subtitle">{header.descripcion}</p>
+                        </div>
+
                         <UserMenu className="EntornoUsuario_usuario" notificationCount={notificationCount} />
                     </header>
                     <main className="entorno-main-content">
