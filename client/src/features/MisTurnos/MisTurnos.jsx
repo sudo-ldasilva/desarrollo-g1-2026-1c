@@ -1,4 +1,4 @@
-import { Card, CardContent, Box, Pagination, Skeleton } from '@mui/material';
+import { Card, CardContent, Box, Pagination, Skeleton, Alert } from '@mui/material';
 import {useState, useEffect, useRef} from 'react'
 import CardTurno from '../../components/CardTurno/CardTurno';
 import './MisTurnos.css';
@@ -41,7 +41,7 @@ const MisTurnos = () => {
                     </>
                 ) : (
                         turnos.total === 0 ? (
-                            <p className="listado-vacio">No tenés un historial de turnos activos.</p>
+                            <Alert severity="info">Todavía no tenes turnos</Alert>
                         ) : (
                             <>
                                 {
