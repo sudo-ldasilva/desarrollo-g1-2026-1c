@@ -78,23 +78,34 @@ const MisDatos = () => {
   }
 
   return (
-    <Container className="mis-datos-container">
-      <Card className="mis-datos-card">
-        <CardContent>
-          <Typography variant="h5" className="mis-datos-titulo">
-            Mis Datos Personales
-          </Typography>
+    <div>
+        <section className="dashboard-block">
+            <div className="dashboard-block-header">
+                <div>
+                    <h2 className="dashboard-block-title">Mis datos personales</h2>
+                    <p className="dashboard-block-subtitle">Ver la credencial con mis datos.</p>
+                </div>
+            </div>
+        </section>
 
-          <Box display="flex" justifyContent="center" marginY="2rem">
-            {perfil && <CredencialPerfil paciente={perfil} />}
+            <Box
+              sx={{
+                minHeight: "calc(100vh - 180px)", // adjust 180px to match your header height
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 3,
+              }}
+            >
+                {perfil && <CredencialPerfil paciente={perfil} />}
+
+                <Typography variant="body2" color="textSecondary" sx={{ fontStyle: 'italic', textAlign: 'center' }}>
+                    Presentá esta credencial digital en cualquiera de nuestras sedes físicas para agilizar tu atención médica.
+                </Typography>
           </Box>
 
-          <Typography variant="body2" color="textSecondary" sx={{ fontStyle: 'italic', textAlign: 'center' }}>
-            Presentá esta credencial digital en cualquiera de nuestras sedes físicas para agilizar tu atención médica.
-          </Typography>
-        </CardContent>
-      </Card>
-    </Container>
+  </div>
   );
 };
 
