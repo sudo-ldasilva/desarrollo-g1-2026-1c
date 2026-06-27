@@ -1,5 +1,27 @@
 import axios from "axios";
 
+export const getTurnosPaginados = async (accessToken, pagina, limite) => {
+    console.log("pregunto turnos");
+    try{
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/mis-turnos`,
+            {
+                params: {
+                    page: pagina,
+                    limit: limite
+                },
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, //manda JWT como header authorization
+                },
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error("Error obteniendo los turnos", error);
+        throw error;
+    }
+}
+
 export const getTurnos = async (accessToken) => {
     console.log("pregunto turnos");
     try{
@@ -11,7 +33,7 @@ export const getTurnos = async (accessToken) => {
             }
         );
 
-        return response.data.turnos;
+        return response.data;
     } catch (error) {
         console.error("Error obteniendo los turnos", error);
         throw error;
