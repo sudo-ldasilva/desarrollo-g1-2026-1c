@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef} from 'react'
 import CalendarioMensualTurnos from "../CalendarioMensualTurnos/CalendarioMensualTurnos.jsx"
-import TurnoInfo from "../TurnoInfo/TurnoInfo.jsx"
+import CardTurno from "../CardTurno/CardTurno.jsx"
 import {getTurnosEnRangoFecha} from "../../services/TurnosService.jsx"
 import { useAuth } from "../../hooks/useAuth.jsx";
 
@@ -61,7 +61,8 @@ const ProximosTurnos = (props) => {
                     accessToken,
                     anteriorMes,
                     siguienteMes,
-                    abortController.signal
+                    abortController.signal,
+                    "RESERVADO"
                 );
 
                 if (!ignore) {
@@ -107,11 +108,9 @@ const ProximosTurnos = (props) => {
                             turnosFiltrados.length !== 0 ?
                             (
                                 turnosFiltrados.map( (turno) => (
-                                    <TurnoInfo
+                                    <CardTurno
                                         key={turno.id}
                                         turno={turno}
-                                        onCancelar={() => {}}
-                                        onReprogramar={() => {}}
                                     />
                                 ))
                             ) :

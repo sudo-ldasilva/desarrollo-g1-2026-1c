@@ -49,7 +49,8 @@ const handleError = (error) => {
     throw error;
 };
 
-export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, signal) => {
+// Si estado es null, no filtra por estado
+export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, signal, estado) => {
     try {
         let turnos = [];
         let pagina = 1, totalPaginas = -1;
@@ -60,6 +61,7 @@ export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, 
                 params: {
                     page: pagina,
                     fechaInicio,
+                    ...(estado != null && { estado }),
                     fechaFin
                 },
                 headers: {
