@@ -113,6 +113,26 @@ export const buscarTurnosDisponibles = async (accessToken, params, signal) => {
     }
 };
 
+export const cancelarTurno = async (accessToken, turnoId, motivo) => {
+    try {
+        const response = await axios.post(
+            `${process.env.REACT_APP_API_URL}/turnos/${turnoId}/cambios-estado`,
+            {
+                estado: "CANCELADO",
+                motivo: motivo,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
+};
+
 export const reservarTurno = async (accessToken, turnoId) => {
     try {
         const response = await axios.post(

@@ -14,14 +14,14 @@ export default class CancelarTurnoHandler {
 
         const turno = await this.turnosRepository.buscarPorId(turnoId);
         if (!turno) {
-            throw new NotFoundError("Turno no encontrado"); 
+            throw new NotFoundError("Turno no encontrado");
         }
 
         if (
-            turno.paciente.usuario._id != usuarioId &&
-            turno.medico.usuario._id != usuarioId
+            !turno.paciente.usuario._id.equals(usuarioId) &&
+            !turno.medico.usuario._id.equals(usuarioId)
         ) {
-            throw new ForbiddenError("El turno no corresponde al usuario"); 
+            throw new ForbiddenError("El turno no corresponde al usuario");
         }
 
         const horaActual = new Date();
@@ -35,7 +35,7 @@ export default class CancelarTurnoHandler {
 
         await this.turnosRepository.actualizar(turno);
         await this.notificacionesRepository.crear(notificacion);
-        
+
         return { turno, notificacion };
     }
 }
