@@ -1,8 +1,7 @@
 import { useAuth } from "../hooks/useAuth.jsx";
-import LoadingSplash from "./LoadingSplash/LoadingSplash.jsx";
 
 const RequireRole = ({ roles, fallback, children }) => {
-    const { userRole, rolesLoaded, isLoading } = useAuth();
+    const { userRole } = useAuth();
 
     const hasAccess = roles.includes(userRole);
 

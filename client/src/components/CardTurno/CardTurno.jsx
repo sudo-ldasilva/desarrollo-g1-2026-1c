@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './CardTurno.css';
 import { cancelarTurno } from "../../services/TurnosService.jsx"
 import { useAuth } from "../../hooks/useAuth.jsx";
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 const CardTurno = ({ turno }) => {
     const razonesCancelación = [
@@ -12,7 +12,7 @@ const CardTurno = ({ turno }) => {
         "Otro motivo"
     ]
 
-    const { isAuthenticated, getAccessToken } = useAuth();
+    const { getAccessToken } = useAuth();
     const [estado, setEstado] = useState(turno.estado || 'RESERVADO');
 
     const horaTurno = new Date(turno.fechaHora);

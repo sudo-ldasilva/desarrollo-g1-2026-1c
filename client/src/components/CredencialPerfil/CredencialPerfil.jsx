@@ -6,7 +6,7 @@ import './CredencialPerfil.css';
 const CredencialPerfil = ({ paciente = {} }) => {
   const nombre = paciente.nombre || 'Nombre completo';
   const dni = paciente.dni || 'XX.XXX.XXX';
-  
+
   const planTexto = paciente.plan && typeof paciente.plan === 'object'
     ? paciente.plan.nombre
     : paciente.plan || 'Sin Plan';
@@ -20,7 +20,7 @@ const CredencialPerfil = ({ paciente = {} }) => {
     <Box className="credencial-card">
       <Box className="credencial-overlay" />
       <img className='credencial-header' src="/logoSinFondo.png" alt="Logo de swiss medical" />
-      
+
       <Box className="credencial-body">
         <Box className="credencial-row full-width">
           <span className="label">AFILIADO</span>

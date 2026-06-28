@@ -11,19 +11,19 @@ const EntornoUsuario = ({header}) => {
     const { getAccessToken, isSigningOut } = useAuth();
     const [notificationCount, setNotificationCount] = useState(0);
 
-    //Extraer la logica a una funcion reutilizable
-    const cargarCantidadNotificaciones = async () => {
-        try {
-            const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
-            if (!token) return;
-            const data = await obtenerNotificaciones(token, "pendientes", 1, 1);
-            setNotificationCount(data.total ?? 0);
-        } catch {
-            // count queda en 0
-        }
-    };
-
     useEffect(() => {
+        //Extraer la logica a una funcion reutilizable
+        const cargarCantidadNotificaciones = async () => {
+            try {
+                const token = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
+                if (!token) return;
+                const data = await obtenerNotificaciones(token, "pendientes", 1, 1);
+                setNotificationCount(data.total ?? 0);
+            } catch {
+                // count queda en 0
+            }
+        };
+
         cargarCantidadNotificaciones();
     }, [getAccessToken]);
 

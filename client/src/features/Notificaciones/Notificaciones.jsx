@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useOutletContext } from "react-router-dom";
-import { 
-  Container, Card, CardContent, Typography, List, ListItem, 
-  ListItemText, CircularProgress, Alert, Box, Pagination, 
+import {
+  Container, Card, CardContent, Typography, List, ListItem,
+  ListItemText, CircularProgress, Alert, Box, Pagination,
   PaginationItem, IconButton, Tooltip, Badge
 } from "@mui/material";
 import DraftsIcon from "@mui/icons-material/Drafts";
@@ -54,13 +54,13 @@ const Notificaciones = () => {
     try {
         const accessToken = await getAccessToken(process.env.REACT_APP_LOGTO_RESOURCES);
         if(!accessToken) return;
-        
+
         await marcarNotificacionComoLeida(accessToken, id);
-        
+
         // 1. Verificar si esta es la ultima notificacion sin leer de la pagina actual
         const noLeidasEnPaginaActual = notificaciones.filter(n => !n.leida);
         const notifACambiar = notificaciones.find(n => n._id === id);
-        
+
         // Si solo quedaba 1 sin leer en esta pagina, y es la que estamos marcando...
         if (noLeidasEnPaginaActual.length === 1 && notifACambiar && !notifACambiar.leida) {
             // ...removemos la pagina actual del array que controla los badges del paginador
@@ -73,10 +73,10 @@ const Notificaciones = () => {
                 n._id === id ? { ...n, leida: true, fechaHoraLeida: new Date().toISOString() } : n
             )
         );
-        
+
         // 3. Decrementar el contador global del UserMenu (el badge del header)
         decrementarContador();
-        
+
     } catch (err) {
         alert("Error al marcar la notificación como leída.");
     }
@@ -128,8 +128,8 @@ const Notificaciones = () => {
           </Typography>
           <List>
             {notificaciones.map((notificacion) => (
-              <ListItem 
-                key={notificacion._id} 
+              <ListItem
+                key={notificacion._id}
                 className={
                   notificacion.leida
                     ? "notificacion-item notificacion-item-leida"
@@ -180,8 +180,8 @@ const Notificaciones = () => {
                     anchorOrigin={{ vertical: "top", horizontal: "right" }}
                     slotProps={{ badge: { sx: { right: 9, top: 6 } } }}
                 >
-                    <PaginationItem 
-                        {...item} 
+                    <PaginationItem
+                        {...item}
                         sx={{ color: "red", fontWeight: "bold", backgroundColor: "transparent !important" }}
                     />
                 </Badge>

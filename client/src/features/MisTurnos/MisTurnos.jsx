@@ -1,4 +1,4 @@
-import { Card, CardContent, Box, Pagination, Skeleton, Alert } from '@mui/material';
+import { Box, Pagination, Skeleton, Alert } from '@mui/material';
 import {useState, useEffect, useRef} from 'react'
 import CardTurno from '../../components/CardTurno/CardTurno';
 import './MisTurnos.css';
@@ -7,7 +7,7 @@ import {getTurnosPaginados} from "../../services/TurnosService.jsx"
 
 const MisTurnos = () => {
     const turnosPorPagina = 5
-    const { isAuthenticated, getAccessToken } = useAuth();
+    const { getAccessToken } = useAuth();
     const [indice, setIndice] = useState(1)
     const [turnos, setTurnos] = useState(null)
     const contentRef = useRef()

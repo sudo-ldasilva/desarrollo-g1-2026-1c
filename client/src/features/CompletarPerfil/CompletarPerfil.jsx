@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth.jsx";
 import { getObrasSociales, getPlanesObraSocial } from "../../services/ObraSocialService.jsx";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import "./CompletarPerfil.css";
-import { crearPerfil, getMe } from "../../services/PerfilService.jsx";
+import { crearPerfil } from "../../services/PerfilService.jsx";
 
 const formReducer = (state, action) => {
     switch (action.type) {
@@ -96,11 +96,11 @@ const CompletarPerfil = () => {
 
         } catch (submitError) {
             let mensajeError = "No se pudo completar el perfil. Revisá los datos e intentá otra vez.";
-      
+
             //Axios adjunta la respuesta del servidor en submitError.response.data
             if (submitError.response?.data) {
                 const data = submitError.response.data;
-                
+
                 if (data.errors && Array.isArray(data.errors)) {
                     // Caso 1: Errores de validación de Zod (ej. DNI con formato inválido)
                     mensajeError = data.errors.map(e => e.mensaje).join(" ");
@@ -109,9 +109,9 @@ const CompletarPerfil = () => {
                     mensajeError = data.message;
                 }
             }
-            
+
             setError(mensajeError);
-        
+
         } finally {
             setGuardando(false);
         }

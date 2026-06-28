@@ -1,6 +1,6 @@
 // import CardActions from '@mui/material/CardActions';
 import {useEffect, useState} from 'react'
-import { CardHeader, CardContent, Box, Card, Skeleton, Typography } from '@mui/material';
+import { CardContent, Box, Card, Skeleton, Typography } from '@mui/material';
 import { useAuth } from "../../hooks/useAuth.jsx"
 import { getCantidadTurnosEnRangoFecha, getCantidadTurnosEnEstado } from "../../services/TurnosService.jsx";
 import './EstadisticaTurnos.css';

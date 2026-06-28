@@ -44,7 +44,7 @@ const Callback = () => {
     };
 
     resolve();
-  }, [callbackLoading, isLoading, isAuthenticated, getAccessToken, navigate]);
+  }, [callbackLoading, isLoading, isAuthenticated, getAccessToken, navigate, updateUserRole]);
 
   return <LoadingSplash message="Procesando sesión..." />;
 };

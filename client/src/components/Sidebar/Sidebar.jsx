@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Badge, IconButton, Box, Typography, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -18,12 +18,7 @@ const ROLE_MAP = {
   all: "all",
 };
 
-const Sidebar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { userRole } = useAuth();
-
-  const allMenuItems = [
+const allMenuItems = [
     { text: 'Inicio', icon: <HomeIcon />, path: '/app/dashboard', role: 'patient' },
     { text: 'Mis Turnos', icon: <FavoriteIcon />, path: '/app/mis-turnos', role: 'patient' },
     { text: 'Mi Agenda', icon: <CalendarMonthIcon />, path: '/app/mi-agenda', role: 'doctor' },
@@ -31,7 +26,12 @@ const Sidebar = () => {
     { text: 'Mis disponibilidades', icon: <ScheduleIcon />, path: '/app/mis-disponibilidades', role: 'doctor' },
     { text: 'Mis servicios', icon: <MedicalInformationIcon />, path: '/app/mis-servicios', role: 'doctor' },
     { text: 'Mis sedes', icon: <LocationOnIcon />, path: '/app/mis-sedes', role: 'doctor' },
-  ];
+];
+
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { userRole } = useAuth();
 
   const menuItems = useMemo(() => {
     return allMenuItems.filter((item) => {

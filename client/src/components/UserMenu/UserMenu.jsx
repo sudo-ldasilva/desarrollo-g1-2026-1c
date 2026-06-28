@@ -8,13 +8,13 @@ import { useLogto } from '@logto/react';
 const UserMenu = ({ notificationCount, className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [userName, setUsername] = useState('');
-  
-  const [userRole, setUserRole] = useState(null); 
+
+  const [userRole, setUserRole] = useState(null);
   const [medicoData, setMedicoData] = useState(null);
 
   const menuRef = useRef(null);
   const navigate = useNavigate();
-  
+
   const { getAccessToken, signOut, getIdTokenClaims, isAuthenticated, isLoading } = useLogto();
 
   const effectRan = useRef(false);
@@ -42,10 +42,10 @@ const UserMenu = ({ notificationCount, className }) => {
     navigate(path);
   };
 
- 
+
   useEffect(() => {
     if (isLoading || !isAuthenticated) return;
-    
+
     const obtenerNombreLogto = async () => {
       try {
         const claims = await getIdTokenClaims();
@@ -70,20 +70,20 @@ const UserMenu = ({ notificationCount, className }) => {
         const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
         const headers = { Authorization: `Bearer ${token}` };
 
-        
+
         const resMe = await axios.get(`${process.env.REACT_APP_API_URL}/me`, { headers });
-        
-        const rolUsuario = resMe.data.rol; 
+
+        const rolUsuario = resMe.data.rol;
         setUserRole(rolUsuario);
 
-        
+
         if (rolUsuario === 'MEDICO') {
           const idMedico = resMe.data.idMedico;
-          
+
           if (idMedico) {
-            const resMedico = await axios.get(`${process.env.REACT_APP_API_URL}/medicos/${idMedico}`, { headers }); 
-            
-           
+            const resMedico = await axios.get(`${process.env.REACT_APP_API_URL}/medicos/${idMedico}`, { headers });
+
+
             if (resMedico.data) {
               setMedicoData(resMedico.data);
             }
@@ -117,7 +117,7 @@ const UserMenu = ({ notificationCount, className }) => {
             <i className="fa-solid fa-circle-user"></i>
           </Badge>
         )}
-        
+
         <span className="user-name">{userName}</span>
         <i className={`fa-solid fa-chevron-down ${isOpen ? 'rotate' : ''}`}></i>
       </button>
@@ -125,8 +125,8 @@ const UserMenu = ({ notificationCount, className }) => {
       {isOpen && (
         <div className="user-menu-dropdown">
           <ul className="dropdown-items">
-            
-            
+
+
             {userRole === 'PACIENTE' && (
               <li>
                 <button type="button" onClick={() => handleNavigate('/app/mis-datos')}>
@@ -136,7 +136,7 @@ const UserMenu = ({ notificationCount, className }) => {
               </li>
             )}
 
-            
+
             {userRole === 'MEDICO' && (
               <li className="dropdown-medico-info">
                 <div className="medico-profile-box">
@@ -162,9 +162,9 @@ const UserMenu = ({ notificationCount, className }) => {
                 <span>Notificaciones</span>
               </button>
             </li>
-            
+
             <li className="divider"></li>
-            
+
             <li>
               <button type="button" onClick={handleLogout} className="logout-btn">
                 <i className="fa-solid fa-right-from-bracket"></i>

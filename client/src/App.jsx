@@ -5,7 +5,7 @@ import EntornoUsuario from "./features/EntornoUsuario/EntornoUsuario.jsx";
 import Dashboard from "./features/Dashboard/Dashboard.jsx";
 import MisTurnos from "./features/MisTurnos/MisTurnos.jsx";
 import Notificaciones from "./features/Notificaciones/Notificaciones.jsx";
-import { BrowserRouter, Routes, Route, Navigate, useOutletContext, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Callback from './components/Callback.jsx';
 import Home from './features/Home.jsx';
 import SolicitarTurnos from './features/SolicitarTurnos/SolicitarTurnos.jsx';
@@ -14,7 +14,6 @@ import CompletarPerfil from './features/CompletarPerfil/CompletarPerfil.jsx';
 import RequiereAuth from './components/RequiereAuth.jsx';
 import RequireRole from './components/RequireRole.jsx';
 import { AuthProvider } from './hooks/useAuth.jsx';
-import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import MisServicios from './features/MisServicios/MisServicios.jsx';
 import MisSedes from './features/MisSedes/MisSedes.jsx';
@@ -70,7 +69,7 @@ function TitleUpdater({setHeader}) {
             titulo: header.titulo,
             descripcion: header.desc
         });
-    }, [location]);
+    }, [location, setHeader]);
 
     return null;
 }

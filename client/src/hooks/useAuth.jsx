@@ -5,13 +5,13 @@ import { getMe } from "../services/PerfilService";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const { 
-        signOut: logtoSignOut, 
-        getAccessToken: logtoGetAccessToken, 
-        getIdTokenClaims: logtoGetIdTokenClaims, 
-        isAuthenticated, 
-        isLoading, 
-        signIn 
+    const {
+        signOut: logtoSignOut,
+        getAccessToken: logtoGetAccessToken,
+        getIdTokenClaims: logtoGetIdTokenClaims,
+        isAuthenticated,
+        isLoading,
+        signIn
     } = useLogto();
     const loggingOutRef = useRef(false);
     const [isSigningOut, setIsSigningOut] = useState(false);

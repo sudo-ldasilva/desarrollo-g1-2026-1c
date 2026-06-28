@@ -1,9 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Card, CardContent,
-    Radio, RadioGroup, FormControlLabel, FormControl, FormLabel
-} from '@mui/material';
+import { Card, CardContent, Radio, RadioGroup, FormControlLabel, FormControl, } from '@mui/material';
 import { getEspecialidades, getPracticas, getSedes } from '../../services/CatalogosService';
 import CustomSelect from '../../components/CustomSelect/CustomSelect';
 import { useAuth } from '../../hooks/useAuth.jsx';
