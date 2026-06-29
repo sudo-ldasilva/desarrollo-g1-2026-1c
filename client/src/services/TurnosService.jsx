@@ -71,7 +71,7 @@ export const getTurnosEnRangoFecha = async (accessToken, fechaInicio, fechaFin, 
 
             turnos.push(...response.data.turnos);
 
-            totalPaginas = response.data.totalPage;
+            totalPaginas = response.data.totalPages;
             pagina = response.data.page + 1;
         } while (pagina <= totalPaginas);
 
