@@ -137,7 +137,7 @@ const CardTurno = ({ turno }) => {
                 <div className="listado-card">
                     <div className={`turno-card ${estado.toLowerCase()}`}>
                         <div className="turno-header">
-                            <h3 className="turno-servicio">turno.servicio.nombre</h3>
+                            <h3 className="turno-servicio">{turno.servicio.nombre}</h3>
                             <span className={`turno-estado ${estado.toLowerCase()}`}>{estado}</span>
                         </div>
                         <p className="turno-medico">Dr/a. {turno.medico.nombre} (M.N. {turno.medico.matricula})</p>
