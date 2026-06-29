@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Drawer, useMediaQuery, useTheme } from '@mui/material';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -28,60 +28,96 @@ const allMenuItems = [
     { text: 'Mis sedes', icon: <LocationOnIcon />, path: '/app/mis-sedes', role: 'doctor' },
 ];
 
-const Sidebar = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { userRole } = useAuth();
+const Sidebar = ({ mobileOpen, handleDrawerToggle }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { userRole } = useAuth();
+    const theme = useTheme();
+    
+    // Detecta si la pantalla es menor a 1100px (coincide con tu CSS)
+    const isMobile = useMediaQuery('(max-width:1100px)');
 
-  const menuItems = useMemo(() => {
-    return allMenuItems.filter((item) => {
-      const requiredRole = ROLE_MAP[item.role];
-      return requiredRole === "all" || requiredRole === userRole;
-    });
-  }, [userRole]);
+    const menuItems = useMemo(() => {
+        return allMenuItems.filter((item) => {
+            const requiredRole = ROLE_MAP[item.role];
+            return requiredRole === "all" || requiredRole === userRole;
+        });
+    }, [userRole]);
 
-  const handleNavigation = (path) => {
-    // Preparado para navegación futura
-    navigate(path);
-  };
+    const handleNavigation = (path) => {
+        navigate(path);
+        // Si estamos en mobile, cerramos el menu automaticamente al hacer clic
+        if (isMobile && handleDrawerToggle) {
+            handleDrawerToggle(); 
+        }
+    };
 
-  return (
-    <Box className="sidebar">
-      <img
-        className="sidebar-header"
-        src="/logoSinFondo.png"
-        onClick={() => handleNavigation("dashboard")}
-        alt="Sweet Medical"
-      ></img>
+    // El contenido interno es el mismo para ambos casos
+    const sidebarContent = (
+        <>
+            <img
+                className="sidebar-header"
+                src="/logoSinFondo.png"
+                onClick={() => handleNavigation("/app/dashboard")}
+                alt="Sweet Medical"
+            />
+            <List className="sidebar-menu">
+                {menuItems.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton
+                            selected={location.pathname === item.path}
+                            onClick={() => handleNavigation(item.path)}
+                            className={`sidebar-menu-item ${location.pathname === item.path ? 'active' : ''}`}
+                        >
+                            <ListItemIcon className="sidebar-menu-icon">
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={
+                                    <Box className="menu-item-text">
+                                        {item.text}
+                                        {item.subtext && (
+                                            <span className="menu-item-subtext">{item.subtext}</span>
+                                        )}
+                                    </Box>
+                                }
+                            />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </>
+    );
 
-      <List className="sidebar-menu">
-        {menuItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton
-              selected={location.pathname === item.path}
-              onClick={() => handleNavigation(item.path)}
-              className={`sidebar-menu-item ${location.pathname === item.path ? 'active' : ''}`}
+    // Si es mobile, usamos el Drawer de MUI (se desliza desde la izquierda)
+    if (isMobile) {
+        return (
+            <Drawer
+                variant="temporary"
+                anchor="left"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{ keepMounted: true }} // Mejor rendimiento en iOS
+                sx={{
+                    '& .MuiDrawer-paper': {
+                        width: 280,
+                        backgroundColor: 'var(--rojo-principal)',
+                        color: 'white',
+                        boxSizing: 'border-box'
+                    }
+                }}
             >
-              <ListItemIcon className="sidebar-menu-icon">
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={
-                  <Box className="menu-item-text">
-                    {item.text}
-                    {item.subtext && (
-                      <span className="menu-item-subtext">{item.subtext}</span>
-                    )}
-                  </Box>
-                }
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+                {sidebarContent}
+            </Drawer>
+        );
+    }
 
-    </Box>
-  );
+    // Si es desktop, usamos el Box fijo original
+    return (
+        <Box className="sidebar">
+            {sidebarContent}
+        </Box>
+    );
 };
 
 export default Sidebar;

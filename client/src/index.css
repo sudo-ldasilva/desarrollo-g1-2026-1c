@@ -9,23 +9,29 @@ html, body {
   cursor: default;
 }
 
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+/* Bloquear seleccion solo en elementos interactivos / UI */
+button,
+a,
+svg,
+i,
+.MuiButtonBase-root,
+.MuiListItemIcon-root,
+.MuiIconButton-root {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
+
+/* Asegurar que los inputs y textos editables puedan seleccionarse*/
 input,
 textarea,
 [contenteditable],
-select,
-button,
-.MuiSelect-select,
-.MuiMenuItem-root {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  cursor: auto;
+select {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+    cursor: auto;
 }

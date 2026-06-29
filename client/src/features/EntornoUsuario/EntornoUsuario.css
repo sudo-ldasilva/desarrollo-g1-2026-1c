@@ -13,6 +13,25 @@
   overflow-x: hidden;
 }
 
+/* Botón hamburguesa (oculto en desktop) */
+.hamburger-btn {
+    display: none;
+    color: var(--texto-oscuro) !important;
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 1100px) {
+    .hamburger-btn {
+        display: inline-flex; /* Mostrar solo en mobile */
+    }
+    .sidebar.MuiBox-root {
+        display: none; /* Ocultar el sidebar fijo de desktop en mobile */
+    }
+    .layout-entorno {
+        display: block;
+    }
+}
+
 @media (min-width: 1101px) {
   .contenido-principal {
     margin-left: 280px;

@@ -5,11 +5,16 @@ import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import LoadingSplash from "../../components/LoadingSplash/LoadingSplash.jsx";
 import { useAuth } from "../../hooks/useAuth.jsx";
 import { obtenerNotificaciones } from "../../services/NotificacionesService.jsx";
+import { IconButton } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import "./EntornoUsuario.css";
 
 const EntornoUsuario = ({header}) => {
     const { getAccessToken, isSigningOut } = useAuth();
     const [notificationCount, setNotificationCount] = useState(0);
+
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
     useEffect(() => {
         //Extraer la logica a una funcion reutilizable
@@ -39,8 +44,12 @@ const EntornoUsuario = ({header}) => {
             {isSigningOut && <LoadingSplash message="Cerrando sesión..." />}
             <div className="layout-entorno">
                 <Sidebar />
+                <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 <div className="contenido-principal">
                     <header className="entorno-header">
+                        <IconButton className="hamburger-btn" onClick={handleDrawerToggle} edge="start">
+                            <MenuIcon />
+                        </IconButton>
                         <div>
                             <h2 className="EntornoUsuario_info-title">{header.titulo}</h2>
                             <p className="EntornoUsuario_info-subtitle">{header.descripcion}</p>
