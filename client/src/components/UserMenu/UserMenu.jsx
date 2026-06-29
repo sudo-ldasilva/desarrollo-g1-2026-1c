@@ -13,6 +13,8 @@ const UserMenu = ({ notificationCount, className }) => {
   const [medicoData, setMedicoData] = useState(null);
 
   const menuRef = useRef(null);
+  const displayName = medicoData?.nombre || userName; 
+
   const navigate = useNavigate();
 
   const { getAccessToken, signOut, getIdTokenClaims, isAuthenticated, isLoading } = useLogto();
@@ -118,7 +120,7 @@ const UserMenu = ({ notificationCount, className }) => {
           </Badge>
         )}
 
-        <span className="user-name">{userName}</span>
+        <span className="user-name">{displayName}</span>
         <i className={`fa-solid fa-chevron-down ${isOpen ? 'rotate' : ''}`}></i>
       </button>
 
@@ -141,7 +143,7 @@ const UserMenu = ({ notificationCount, className }) => {
               <li className="dropdown-medico-info">
                 <div className="medico-profile-box">
                   <span className="medico-name">
-                    Dr. {medicoData?.nombre || userName}
+                    {medicoData?.nombre || userName}
                   </span>
                   <span className="medico-matricula">
                     M.P.: {medicoData?.matricula || 'Cargando...'}
