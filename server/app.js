@@ -16,19 +16,14 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
 app.use(cors({
     origin: [
         "https://desarrollo-g1-2026-1c-y25e.onrender.com",
         "https://desarrollo-g1-2026-1c.onrender.com",
         "http://localhost:3000",
     ],
-    credentials: true
-}));
-
-app.use(express.json());
-
-app.use(cors({
-    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
 }));
