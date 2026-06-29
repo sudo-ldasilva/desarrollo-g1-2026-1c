@@ -208,8 +208,6 @@ const MisServicios = () => {
   }
 
   return (
-    <Container className="servicios-root">
-
       <Card className="servicios-card">
         <CardContent className="servicios-card-content">
           <form onSubmit={handleAgregarServicio} className="servicios-form">
@@ -268,7 +266,6 @@ const MisServicios = () => {
           )}
         </CardContent>
       </Card>
-    </Container>
   );
 };
 

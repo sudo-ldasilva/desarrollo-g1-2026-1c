@@ -119,19 +119,17 @@ const MisSedes = () => {
 
   if (!isAuthenticated) {
     return (
-      <Container className="mis-sedes-root">
         <Card className="mis-sedes-card" style={{ textAlign: 'center' }}>
           <CardContent>
             <Typography variant="body1">Por favor, iniciá sesión para gestionar tus sedes.</Typography>
           </CardContent>
         </Card>
-      </Container>
     );
   }
 
   if (sinPerfilMedico) {
     return (
-      <Container className="mis-sedes-root">
+      <>
         <section className="dashboard-block">
           <div className="dashboard-block-header">
             <h2 className="dashboard-block-title">Mis sedes</h2>
@@ -144,13 +142,11 @@ const MisSedes = () => {
             </Typography>
           </CardContent>
         </Card>
-      </Container>
+      </>
     );
   }
 
   return (
-    <Container className="mis-sedes-root">
-
       <Card className="mis-sedes-card">
         <CardContent className="mis-sedes-card-content">
             <form onSubmit={handleAgregarSede} className="mis-sedes-form">
@@ -215,7 +211,6 @@ const MisSedes = () => {
             )}
             </CardContent>
       </Card>
-    </Container>
   );
 };
 

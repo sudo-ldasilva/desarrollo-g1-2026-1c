@@ -1,11 +1,6 @@
-.mis-sedes-root {
-  margin-top: 2rem;
-}
-
 .mis-sedes-card {
   border-radius: 20px !important;
   box-shadow: 0 12px 30px rgba(54, 54, 54, 0.08) !important;
-  margin-top: 1rem;
   overflow: visible !important;
 }
 
