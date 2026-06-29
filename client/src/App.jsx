@@ -18,6 +18,7 @@ import React, {useState, useEffect} from 'react';
 import MisServicios from './features/MisServicios/MisServicios.jsx';
 import MisSedes from './features/MisSedes/MisSedes.jsx';
 import MisDatos from './features/MisDatos/MisDatos.jsx';
+import MiAgenda from './features/MiAgenda/MiAgenda.jsx';
 
 const theme = createTheme({
     palette: {
@@ -124,7 +125,7 @@ function App() {
                 <Route path='dashboard' element={<RequireRole roles={["PACIENTE"]}><Dashboard  setHeader={setHeader} /></RequireRole>} />
                 <Route path='mis-sedes' element={<RequireRole roles={["MEDICO"]}><MisSedes setHeader={setHeader} /></RequireRole>} />
                 <Route path='notificaciones' element={<Notificaciones setHeader={setHeader} />} />
-                <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
+                <Route path='mi-agenda' element={<RequireRole roles={["MEDICO"]}><MiAgenda /></RequireRole>} />
                 <Route path='mis-disponibilidades' element={<RequireRole roles={["MEDICO"]}><div>Falta hacer :)</div></RequireRole>} />
                 <Route path='mis-datos' element={<MisDatos setHeader={setHeader} />} />
               </Route>

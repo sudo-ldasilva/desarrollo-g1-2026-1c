@@ -85,4 +85,8 @@ export class MedicoRepository {
         // Retorna el objeto plano para enviarlo como JSON
         return medico.toObject();
     }
+
+    async buscarPorUsuarioId(usuarioId) {
+        return await this.model.findOne({ usuario: usuarioId });
+    }
 }

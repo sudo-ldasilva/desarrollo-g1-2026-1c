@@ -49,6 +49,38 @@ export default class TurnosRepository {
         return await turnoDocument.save();
     }
 
+    async buscarPorMedico(medicoId, page, limit, filtros) {
+        const skip = (page - 1) * limit;
+        const query = armarQuery(filtros);
+
+        // Debería ser funcional tanto para medicos como para médicos?
+        //  Es decir, consultar los turnos que tengo hechos/programados/cancelados como médico y ver los distintos medicos o como medico ver tu historial de turnos.
+        const turnos = await this.model.find({ medico: medicoId })
+            .find(query)
+            .skip(skip)
+            .limit(limit)
+            .populate({
+                path: "paciente",
+                select: "nombre obraSocial plan",
+                populate: [
+                    { path: "obraSocial", select: "nombre" },
+                    { path: "plan", select: "nombre" }
+                ]
+            })
+            .populate("sede", "nombre direccion")
+            .populate("fechaHora", "hora")
+            .populate("servicio", "nombre costo");
+
+        const total = await this.model.countDocuments({ medico: medicoId, ...query });
+
+        return {
+            turnos: turnos,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit)
+        };
+    }
+
     async buscarPorPaciente(pacienteId, page, limit, filtros) {
         const skip = (page - 1) * limit;
         const query = armarQuery(filtros);
@@ -59,7 +91,7 @@ export default class TurnosRepository {
             .find(query)
             .skip(skip)
             .limit(limit)
-            .populate("medico", "nombre")
+            .populate("medico", "nombre matricula")
             .populate("sede", "nombre direccion")
             .populate("fechaHora", "hora")
             .populate("servicio", "nombre costo");

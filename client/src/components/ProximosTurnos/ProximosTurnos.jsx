@@ -42,7 +42,7 @@ const ProximosTurnos = (props) => {
                 const siguienteMes = new Date(
                     mesCalendario.current.getFullYear(),
                     mesCalendario.current.getMonth() + 1,
-                    0,
+                    31,
                     23,
                     59,
                     59
