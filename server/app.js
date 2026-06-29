@@ -18,8 +18,9 @@ const app = express();
 
 app.use(cors({
     origin: [
+        "https://desarrollo-g1-2026-1c-y25e.onrender.com",
+        "https://desarrollo-g1-2026-1c.onrender.com",
         "http://localhost:3000",
-        "https://desarrollo-g1-2026-1c-y25e.onrender.com"
     ],
     credentials: true
 }));
