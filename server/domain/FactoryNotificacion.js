@@ -22,7 +22,7 @@ class FactoryNotificacion {
             });
 
         case EstadoTurno.CANCELADO: {
-            const canceloPaciente = quien == turno.paciente.usuario._id;
+            const canceloPaciente = quien.toString() === turno.paciente.usuario._id.toString();
 
             return new Notificacion({
 

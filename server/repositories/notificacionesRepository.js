@@ -18,7 +18,7 @@ export default class NotificacionesRepository{
                 .populate("remitente", "nombreUsuario")
                 .skip(skip)
                 .limit(limit)
-                .sort({ fechaHoraCreacion: -1 });
+                .sort({ leida: 1, fechaHoraCreacion: -1 }); 
 
         const total = await this.model.countDocuments({destinatario: usuarioId, ...filtros});
 

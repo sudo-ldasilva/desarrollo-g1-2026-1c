@@ -1,6 +1,6 @@
 import { UsuarioModel } from "../models/UsuarioModel.js";
 
-export default class PacientesRepository {
+export default class UsuarioRepository {
     constructor() {
         this.model = UsuarioModel;
     }

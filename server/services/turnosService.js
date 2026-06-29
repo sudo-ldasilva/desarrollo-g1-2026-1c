@@ -117,7 +117,7 @@ export default class TurnosService{
             turnos: resultados.turnos.map(t => turnoToDTO(t)),
             total: resultados.total,
             page: resultados.page,
-            totalPages: resultados.page,
+            totalPages: resultados.totalPages,
         };
     }
 
