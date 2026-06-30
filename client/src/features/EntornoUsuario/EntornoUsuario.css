@@ -14,22 +14,25 @@
 }
 
 /* Botón hamburguesa (oculto en desktop) */
-.hamburger-btn {
-    display: none;
-    color: var(--texto-oscuro) !important;
-    margin-right: 0.5rem;
+.hamburger-btn.MuiIconButton-root {
+  display: none !important; /* Forzamos que esté oculto en desktop */
+  color: var(--texto-oscuro) !important;
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 1100px) {
-    .hamburger-btn {
-        display: inline-flex; /* Mostrar solo en mobile */
-    }
-    .sidebar.MuiBox-root {
-        display: none; /* Ocultar el sidebar fijo de desktop en mobile */
-    }
-    .layout-entorno {
-        display: block;
-    }
+  /* ✅ IGUALAMOS ESPECIFICIDAD: Apuntamos a ambas clases */
+  .hamburger-btn.MuiIconButton-root {
+    display: inline-flex !important; /* ¡Clave! Forzamos que se muestre en mobile */
+  }
+  
+  .sidebar.MuiBox-root {
+    display: none !important; /* Ocultar el sidebar fijo de desktop en mobile */
+  }
+  
+  .layout-entorno {
+    display: block;
+  }
 }
 
 @media (min-width: 1101px) {
@@ -37,6 +40,13 @@
     margin-left: 280px;
     height: 100vh;
     overflow-y: auto;
+  }
+}
+
+/* Anular el border-box de MUI solo en pantalla ancha */
+@media (min-width: 1101px) {
+  .sidebar-header-container::after, .sidebar-header-container::before {
+    box-sizing: content-box !important; 
   }
 }
 
@@ -99,3 +109,5 @@
     margin: 0;
     color: #667085;
 }
+
+

@@ -43,7 +43,6 @@ const EntornoUsuario = ({header}) => {
         <>
             {isSigningOut && <LoadingSplash message="Cerrando sesión..." />}
             <div className="layout-entorno">
-                <Sidebar />
                 <Sidebar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 <div className="contenido-principal">
                     <header className="entorno-header">
