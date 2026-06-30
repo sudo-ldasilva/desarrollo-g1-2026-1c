@@ -39,3 +39,16 @@
         flex-wrap: wrap;
     }
 }
+
+@media (max-width: 1100px) {
+  .resultado-grid {
+    flex-direction: column; /* Los pone uno debajo del otro */
+  }
+
+  .resultado-calendario,
+  .resultado-turnos {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0; /* Anula el min-width: 280px */
+  }
+}

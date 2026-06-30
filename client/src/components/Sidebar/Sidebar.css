@@ -145,3 +145,7 @@
   margin: 0;
   border-bottom: none;
 }
+
+.sidebar-header-container .MuiIconButton-root {
+  margin-left: 0.5rem; /* Puedes cambiar 1rem por 16px o el espacio que prefieras */
+}

@@ -43,13 +43,6 @@
   }
 }
 
-/* Anular el border-box de MUI solo en pantalla ancha */
-@media (min-width: 1101px) {
-  .sidebar-header-container::after, .sidebar-header-container::before {
-    box-sizing: content-box !important; 
-  }
-}
-
 .entorno-header {
   display: flex;
   justify-content: space-between;
