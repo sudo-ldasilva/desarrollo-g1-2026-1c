@@ -57,17 +57,23 @@ export const runSeed = async () => {
         // =========================================================================
         const TOTAL_MEDICOS = 100;
         
-        // Arrays para generar nombres realistas
-        const nombres = ["Juan", "María", "Carlos", "Ana", "Luis", "Sofía", "Pedro", "Laura", "Roberto", "Carmen", "Alejandro", "Valentina", "Mateo", "Camila", "Joaquín", "Renata", "Felipe", "Miranda", "Tomás", "Luciana"];
+        // Arrays para generar nombres realistas con género
+        const nombresMasculinos = ["Juan", "Carlos", "Luis", "Pedro", "Roberto", "Alejandro", "Mateo", "Joaquín", "Felipe", "Tomás"];
+        const nombresFemeninos = ["María", "Ana", "Sofía", "Laura", "Carmen", "Valentina", "Camila", "Renata", "Miranda", "Luciana"];
         const apellidos = ["Pérez", "González", "Rodríguez", "López", "Martínez", "Sánchez", "Gómez", "Díaz", "Ruiz", "Torres", "Silva", "Ríos", "Castro", "Vargas", "Morales", "Guzmán", "Erquicia", "Vega", "Aguilar", "Ponce"];
 
         console.log(`👨‍⚕️ Creando ${TOTAL_MEDICOS} médicos...`);
 
         for (let i = 1; i <= TOTAL_MEDICOS; i++) {
-            const nombre = nombres[i % nombres.length];
+            // Alternar entre nombres masculinos y femeninos
+            const esMasculino = i % 2 === 1;
+            const nombre = esMasculino 
+                ? nombresMasculinos[Math.floor(i / 2) % nombresMasculinos.length]
+                : nombresFemeninos[Math.floor(i / 2) % nombresFemeninos.length];
             const apellido = apellidos[i % apellidos.length];
-            const nombreCompleto = `${nombre} ${apellido} ${i}`;
-            const matricula = `MP-${1000 + i}`;
+            const prefijo = esMasculino ? "Dr." : "Dra.";
+            const nombreCompleto = `${prefijo} ${nombre} ${apellido}`;
+            const matricula = `MP-${20000 + i}`;
             
             // 🔑 CLAVE: Cada médico tiene un logtoId ÚNICO. 
             // Así el backend los trata como 100 usuarios distintos.
@@ -89,13 +95,13 @@ export const runSeed = async () => {
             await MedicoModel.create({
                 usuario: usuario._id,
                 matricula: matricula,
-                nombre: `Dr./Dra. ${nombreCompleto}`,
+                nombre: nombreCompleto,
                 especialidades: [especialidades[espIdx]._id],
                 sedes: [sedes[sedIdx1]._id, sedes[sedIdx2]._id]
             });
         }
 
-        console.log(`🎉 Seed 2 completado exitosamente. (${TOTAL_MEDICOS} médicos creados).`);
+        console.log(`🎉 Seed 3 completado exitosamente. (${TOTAL_MEDICOS} médicos creados).`);
         console.log("💡 Tip: Revisá la consola para ver cómo suplantar identidades.");
     } catch (error) {
         console.error("❌ Error durante el seed:", error);
@@ -104,7 +110,7 @@ export const runSeed = async () => {
 };
 
 // Ejecutar si se llama directamente desde consola
-if (process.argv[1] && process.argv[1].includes("seed2.js")) {
+if (process.argv[1] && process.argv[1].includes("seed3.js")) {
     import("./db.js").then(async ({ connectDB, disconnectDB }) => {
         await connectDB();
         await runSeed();
