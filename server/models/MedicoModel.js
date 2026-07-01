@@ -13,6 +13,9 @@ const DisponibilidadSchema = new mongoose.Schema(
                 required: true,
             },
         ],
+        sede: { type: mongoose.Schema.Types.ObjectId, ref: "Sede", required: true },
+        servicio: { type: mongoose.Schema.Types.ObjectId, required: true, refPath: "tipoServicioDisp" },
+        tipoServicioDisp: { type: String, enum: ["Practica", "Especialidad"] }
     },
     { _id: false }
 );
