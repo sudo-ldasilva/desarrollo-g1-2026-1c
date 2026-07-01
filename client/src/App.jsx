@@ -21,14 +21,17 @@ import MisDatos from './features/MisDatos/MisDatos.jsx';
 import MiAgenda from './features/MiAgenda/MiAgenda.jsx';
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#c90e31'
-        }
+  palette: {
+    primary: {
+      main: '#D40032'
     },
-    typography: {
-        fontFamily: "'Poppins', sans-serif"
-    }
+  },
+  typography: {
+    fontFamily: "'Poppins', sans-serif"
+  },
+  shape: {
+    borderRadius: 12,
+  }
 });
 
 const logtoConfig = {

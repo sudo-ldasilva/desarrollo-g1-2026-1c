@@ -1,11 +1,12 @@
 .turno-card {
-    border: 1px solid #e0e0e0;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    background: #fff;
-    transition: all 0.3s ease;
-    position: relative;
+  border: 1px solid rgba(54, 54, 54, 0.06);
+  padding: 1.25rem;
+  border-radius: 16px !important; /* Consistencia interna */
+  margin-bottom: 1rem;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(54, 54, 54, 0.03);
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 .turno-card.cancelado {
@@ -37,17 +38,23 @@
 .turno-estado.realizado { background: #d4edda; color: #155724; }
 
 .btn-cancelar {
-    background-color: #c90e31;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 1rem;
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
+  background-color: var(--rojo-principal); /* Unificado */
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px; /* Consistencia de botones */
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  transition: filter 0.2s ease;
+}
+.btn-cancelar:hover:not(:disabled) {
+  filter: brightness(1.08);
 }
 
 .btn-cancelar:disabled {

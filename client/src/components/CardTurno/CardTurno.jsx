@@ -23,6 +23,10 @@ const CardTurno = ({ turno }) => {
 
     const horaTurno = new Date(turno.fechaHora);
     const ahora = new Date();
+
+    const fechaStr = horaTurno.toLocaleDateString("es-AR", { day: '2-digit', month: 'short', year: 'numeric' });
+    const horaStr = horaTurno.toLocaleTimeString("es-AR", { hour: '2-digit', minute: '2-digit' });
+
     const diferenciaEnMilisegundos = horaTurno - ahora;
     const diferenciaEnHoras = diferenciaEnMilisegundos / (1000 * 60 * 60);
 
@@ -75,7 +79,7 @@ const CardTurno = ({ turno }) => {
                                 {turno.costo === 0 ? "Cubierto Totalmente" : `$${turno.costo.toLocaleString("es-AR")}`}
                             </div>
                             <div className='turno-hora'>
-                                {horaTurno.toLocaleDateString("es-AR")} - {horaTurno.toLocaleTimeString("es-AR", { hour: '2-digit', minute: '2-digit' })} hs
+                                {fechaStr} - {horaStr} hs
                             </div>
                         </div>
 
