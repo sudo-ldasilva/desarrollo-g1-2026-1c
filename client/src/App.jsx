@@ -22,14 +22,17 @@ import MiAgenda from './features/MiAgenda/MiAgenda.jsx';
 import MisDisponibilidades from './features/MisDisponibilidades/MisDisponibilidades';
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#c90e31'
-        }
+  palette: {
+    primary: {
+      main: '#D40032'
     },
-    typography: {
-        fontFamily: "'Poppins', sans-serif"
-    }
+  },
+  typography: {
+    fontFamily: "'Poppins', sans-serif"
+  },
+  shape: {
+    borderRadius: 12,
+  }
 });
 
 const logtoConfig = {

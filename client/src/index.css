@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
   --rojo-principal: #D40032;      /* Botones destacados, logos, acentos */
   --texto-oscuro: #363636;        /* Títulos y textos principales */
@@ -7,6 +9,8 @@
 
 html, body {
   cursor: default;
+  font-family: 'Poppins', sans-serif;
+  color: var(--texto-oscuro);
 }
 
 /* Bloquear seleccion solo en elementos interactivos / UI */
@@ -34,4 +38,22 @@ select {
     -ms-user-select: text;
     user-select: text;
     cursor: auto;
+}
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+  color: var(--texto-oscuro);
+  background-color: var(--gris-fondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Asegurar que los botones de MUI respeten nuestra tipografía y no usen 3D */
+.MuiButton-root {
+  text-transform: none !important;
+  font-weight: 600 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important; /* Adiós al 3D de MUI */
+}
+.MuiButton-containedPrimary {
+  background-color: var(--rojo-principal) !important;
 }

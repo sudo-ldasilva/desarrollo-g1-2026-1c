@@ -59,6 +59,7 @@ export default class TurnosRepository {
             .find(query)
             .skip(skip)
             .limit(limit)
+            .populate("medico", "nombre matricula")
             .populate({
                 path: "paciente",
                 select: "nombre obraSocial plan",
@@ -92,6 +93,14 @@ export default class TurnosRepository {
             .skip(skip)
             .limit(limit)
             .populate("medico", "nombre matricula")
+            .populate({
+                path: "paciente",
+                select: "nombre obraSocial plan",
+                populate: [
+                    { path: "obraSocial", select: "nombre" },
+                    { path: "plan", select: "nombre" }
+                ]
+            })
             .populate("sede", "nombre direccion")
             .populate("fechaHora", "hora")
             .populate("servicio", "nombre costo");

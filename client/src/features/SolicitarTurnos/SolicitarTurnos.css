@@ -228,3 +228,16 @@
     transform: none;
     box-shadow: none;
 }
+
+@media (max-width: 1100px) {
+  .filtros-grid {
+    flex-direction: column; /* Los pone uno debajo del otro */
+  }
+
+  .filtros-panel,
+  .stepper-panel {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0; /* Anula el min-width: 280px para que no rompa el layout */
+  }
+}

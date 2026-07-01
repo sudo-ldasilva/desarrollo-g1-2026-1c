@@ -143,16 +143,21 @@
 }
 
 .completar-perfil-button {
-    min-width: 180px;
-    border: none;
-    border-radius: 14px;
-    padding: 0.95rem 1.25rem;
-    background: linear-gradient(135deg, var(--rojo-principal), #a90028);
-    color: var(--blanco);
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 10px 24px rgba(212, 0, 50, 0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  min-width: 180px;
+  border: none;
+  border-radius: 12px; /* Unificado */
+  padding: 0.85rem 1.5rem;
+  background: var(--rojo-principal);
+  color: var(--blanco);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+  transition: filter 0.2s ease;
+}
+
+.completar-perfil-button:hover {
+  filter: brightness(1.08);
+  box-shadow: none;
 }
 
 .completar-perfil-button:disabled {
@@ -160,12 +165,6 @@
     opacity: 0.78;
     transform: none;
     box-shadow: none;
-}
-
-.completar-perfil-button:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.02);
-    box-shadow: 0 14px 28px rgba(212, 0, 50, 0.24);
 }
 
 .completar-perfil-button:active {

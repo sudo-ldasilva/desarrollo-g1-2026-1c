@@ -14,9 +14,10 @@ const LIMITE = 5;
 
 const formatearFecha = (fechaISO) => {
   const fecha = new Date(fechaISO);
-  const dia = fecha.toLocaleDateString("es-AR");
-  const hora = fecha.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", hour12: false });
-  return `${dia} ${hora}`;
+  return fecha.toLocaleString("es-AR", { 
+    day: '2-digit', month: 'short', year: 'numeric', 
+    hour: '2-digit', minute: '2-digit' 
+  });
 };
 
 const Notificaciones = () => {

@@ -51,7 +51,7 @@
 
 .sidebar-menu-item.MuiButtonBase-root {
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.95);
 }
 
@@ -121,4 +121,31 @@
         position: unset;
         width: 100%;
     }
+}
+
+/* ... (mantén el resto de tu CSS) ... */
+
+/* Nuevo contenedor para el header del sidebar */
+.sidebar-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ajustes al logo para que no se achique y quede bien centrado */
+.sidebar-header-container .sidebar-header {
+  max-height: 60px;
+  flex-shrink: 0; /* Evita que la X achique el logo */
+  background: var(--gris-fondo);
+  border-radius: 16px;
+  padding: 0.5rem;
+  cursor: pointer;
+  margin: 0;
+  border-bottom: none;
+}
+
+.sidebar-header-container .MuiIconButton-root {
+  margin-left: 0.5rem; /* Puedes cambiar 1rem por 16px o el espacio que prefieras */
 }
