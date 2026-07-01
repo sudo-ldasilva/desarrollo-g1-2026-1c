@@ -57,7 +57,7 @@ const Sidebar = ({ mobileOpen, handleDrawerToggle }) => {
         <img
           className="sidebar-header"
           src="/logoSinFondo.png"
-          onClick={() => handleNavigation("/app/dashboard")}
+          onClick={() => handleNavigation(userRole === 'MEDICO' ? "/app/mi-agenda" : "/app/dashboard")}
           alt="Sweet Medical"
         />
         {/* La X SOLO se renderiza en mobile */}
