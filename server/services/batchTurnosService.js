@@ -5,7 +5,7 @@ import { DiaSemana } from "../domain/DiaSemana.js";
 
 export default class BatchTurnosService {
     async ejecutar() {
-        console.log("🚀 [BATCH] Iniciando generación de turnos...");
+        console.log("[BATCH] Iniciando generación de turnos...");
         
         const ahora = new Date();
         ahora.setHours(0, 0, 0, 0);
@@ -22,7 +22,7 @@ export default class BatchTurnosService {
             .populate("disponibilidades.sede")
             .populate("disponibilidades.servicio");
         
-        console.log(`👨‍⚕️ [BATCH] Médicos encontrados: ${medicos.length}`);
+        console.log(`[BATCH] Médicos encontrados: ${medicos.length}`);
         
         let total = 0;
         let medicosProcesados = 0;
@@ -35,17 +35,17 @@ export default class BatchTurnosService {
             }
 
             medicosProcesados++;
-            console.log(`\n🔍 [BATCH] Procesando: ${medico.nombre} (${medico.disponibilidades.length} disponibilidades)`);
+            console.log(`\n[BATCH] Procesando: ${medico.nombre} (${medico.disponibilidades.length} disponibilidades)`);
 
             // Generar turnos para este médico
             const nuevosTurnos = this._generarTurnosParaMedico(medico, ahora, hasta);
             
             if (nuevosTurnos.length === 0) {
-                console.log(`   ⚠️  No se generaron turnos para ${medico.nombre}`);
+                console.log(`      No se generaron turnos para ${medico.nombre}`);
                 continue;
             }
 
-            console.log(`   ✅ Turnos generados: ${nuevosTurnos.length}`);
+            console.log(`     Turnos generados: ${nuevosTurnos.length}`);
 
             // Verificar turnos existentes para evitar duplicados
             const existentes = await TurnoModel.find({
@@ -66,11 +66,11 @@ export default class BatchTurnosService {
             if (aInsertar.length > 0) {
                 await TurnoModel.insertMany(aInsertar, { ordered: false });
                 total += aInsertar.length;
-                console.log(`   💾 Insertados: ${aInsertar.length} turnos nuevos`);
+                console.log(`     Insertados: ${aInsertar.length} turnos nuevos`);
             }
         }
 
-        console.log(`\n📊 [BATCH] Resumen:`);
+        console.log(`\n[BATCH] Resumen:`);
         console.log(`   - Médicos totales: ${medicos.length}`);
         console.log(`   - Médicos sin disponibilidad: ${medicosSinDisponibilidad}`);
         console.log(`   - Médicos procesados: ${medicosProcesados}`);
@@ -96,7 +96,7 @@ export default class BatchTurnosService {
             for (const disp of disponibilidadesDelDia) {
                 // Validar que el populate funcionó correctamente
                 if (!disp.sede || !disp.servicio) {
-                    console.warn(`   ⚠️  Disponibilidad sin sede o servicio (populate falló):`, disp);
+                    console.warn(`      Disponibilidad sin sede o servicio (populate falló):`, disp);
                     continue;
                 }
 

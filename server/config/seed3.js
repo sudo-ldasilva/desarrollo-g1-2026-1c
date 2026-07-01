@@ -52,8 +52,15 @@ export const runSeed = async () => {
         ];
         const sedes = await SedeModel.insertMany(sedesData);
 
+
         // =========================================================================
-        // 3. GENERACIÓN DE 100 MÉDICOS
+        // 3. DISPONIBILIDADES
+        // =========================================================================
+        const diasSemana = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
+
+
+        // =========================================================================
+        // 4. GENERACIÓN DE 100 MÉDICOS
         // =========================================================================
         const TOTAL_MEDICOS = 100;
         
@@ -91,13 +98,37 @@ export const runSeed = async () => {
             const sedIdx1 = i % sedes.length;
             const sedIdx2 = (i + 3) % sedes.length; // Segunda sede desplazada
 
-            // 3. Crear el perfil de Médico
+            // 3. Asignar disponibilidades (2 por médico, en días y sedes diferentes)
+            const dia1 = diasSemana[i % diasSemana.length];
+            const dia2 = diasSemana[(i + 2) % diasSemana.length];
+            
+            const disponibilidades = [
+                {
+                    horaInicio: "08:00",
+                    horaFin: "12:00",
+                    diasSemana: [dia1],
+                    sede: sedes[sedIdx1]._id,
+                    servicio: especialidades[espIdx]._id,
+                    tipoServicioDisp: "Especialidad"
+                },
+                {
+                    horaInicio: "14:00",
+                    horaFin: "18:00",
+                    diasSemana: [dia2],
+                    sede: sedes[sedIdx2]._id,
+                    servicio: especialidades[espIdx]._id,
+                    tipoServicioDisp: "Especialidad"
+                }
+            ];
+
+            // 4. Crear el perfil de Médico
             await MedicoModel.create({
                 usuario: usuario._id,
                 matricula: matricula,
                 nombre: nombreCompleto,
                 especialidades: [especialidades[espIdx]._id],
-                sedes: [sedes[sedIdx1]._id, sedes[sedIdx2]._id]
+                sedes: [sedes[sedIdx1]._id, sedes[sedIdx2]._id],
+                disponibilidades: disponibilidades
             });
         }
 
