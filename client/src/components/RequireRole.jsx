@@ -1,7 +1,12 @@
 import { useAuth } from "../hooks/useAuth.jsx";
+import LoadingSplash from "./LoadingSplash/LoadingSplash.jsx";
 
 const RequireRole = ({ roles, fallback, children }) => {
-    const { userRole } = useAuth();
+    const { userRole, rolesLoaded } = useAuth();
+
+    if (!rolesLoaded) {
+        return <LoadingSplash message="Validando permisos..." />;
+    }
 
     const hasAccess = roles.includes(userRole);
 

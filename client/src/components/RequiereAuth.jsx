@@ -5,9 +5,7 @@ import LoadingSplash from "./LoadingSplash/LoadingSplash.jsx";
 const RequiereAuth = ({ children }) => {
     const { isAuthenticated, isLoading } = useAuth();
 
-    console.log("requiere auth")
-
-    if (isLoading && !isAuthenticated) {
+    if (isLoading) {
         return <LoadingSplash message="Conectando..." />;
     }
 

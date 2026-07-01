@@ -13,8 +13,10 @@ const DisponibilidadSchema = new mongoose.Schema(
                 required: true,
             },
         ],
-    },
-    { _id: false }
+        sede: { type: mongoose.Schema.Types.ObjectId, ref: "Sede", required: true },
+        especialidad: { type: mongoose.Schema.Types.ObjectId, ref: "Especialidad" },
+        practica: { type: mongoose.Schema.Types.ObjectId, ref: "Practica" }
+    }//,{ _id: false }
 );
 
 const MedicoSchema = new mongoose.Schema({

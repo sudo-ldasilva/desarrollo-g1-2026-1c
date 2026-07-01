@@ -1,0 +1,120 @@
+.mis-disp-card {
+    margin: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mis-disp-card-content {
+    padding: 24px;
+}
+
+.mis-disp-form {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.mis-disp-section-title {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.mis-disp-btn-agregar {
+    background-color: #c90e31;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    min-height: 3.5rem;
+    padding: 0.75rem 1rem;
+}
+
+.mis-disp-btn-agregar:hover {
+    background-color: #a00b27;
+}
+
+.mis-disp-btn-agregar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.mis-disp-item-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mis-disp-btn-baja {
+    background-color: transparent;
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.mis-disp-btn-baja:hover {
+    background-color: #ffebee;
+}
+
+.mis-disp-subheader {
+    font-weight: bold !important;
+    color: #c90e31 !important;
+    line-height: 36px !important;
+}
+
+.mis-disp-subheader-practicas {
+    border-top: 1px solid #eee !important;
+}
+
+.mis-disp-menu-item {
+    padding-left: 32px !important;
+}
+
+.mis-disp-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+.mis-disp-card-centered {
+    text-align: center;
+}
+
+.mis-disp-error-box {
+    margin-bottom: 16px;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.mis-disp-disponibilidad-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.mis-disp-chip {
+    margin-right: 8px;
+    margin-bottom: 8px;
+    background-color: #f0f0f0;
+}
+
+.mis-disp-card-actions {
+    margin-top: 16px;
+}
