@@ -147,27 +147,33 @@ export function turnoToDTO(turno) {
     return {
         _id: turno._id,
         fechaHora: turno.fechaHora,
-        medico: {
-            _id: turno.medico._id,
-            nombre: turno.medico.nombre,
-            matricula: turno.medico.matricula,
-        },
-        paciente: {
-            _id: turno.paciente._id,
-            nombre: turno.paciente.nombre,
-            obraSocial: turno.paciente.obraSocial,
-            plan: turno.paciente.plan,
-        },
+        medico: turno.medico
+            ? {
+                  _id: turno.medico._id,
+                  nombre: turno.medico.nombre,
+                  matricula: turno.medico.matricula,
+              }
+            : null,
+        paciente: turno.paciente
+            ? {
+                  _id: turno.paciente._id,
+                  nombre: turno.paciente.nombre,
+                  obraSocial: turno.paciente.obraSocial,
+                  plan: turno.paciente.plan,
+              }
+            : null,
         servicio: turno.servicio,
         tipoServicio: turno.tipoServicio,
-        sede: {
-            _id: turno.sede._id,
-            nombre: turno.sede.nombre,
-            direccion: turno.sede.direccion
-        },
+        sede: turno.sede
+            ? {
+                  _id: turno.sede._id,
+                  nombre: turno.sede.nombre,
+                  direccion: turno.sede.direccion,
+              }
+            : null,
         estado: turno.estado,
-        costoBase: costoBase,
+        costoBase,
         costo: turno.costo,
-        cobertura: turno.cobertura
+        cobertura: turno.cobertura,
     };
 }
