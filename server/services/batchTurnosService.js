@@ -16,7 +16,10 @@ export default class BatchTurnosService {
         hasta.setDate(hasta.getDate() + 30);
 
         // Obtener todos los medicos con sus configuraciones completas
-        const medicos = await MedicoModel.find().populate("especialidades practicas sedes");
+        const medicos = await MedicoModel.find()
+           .populate("especialidades practicas sedes")
+           .populate("disponibilidades.sede")
+           .populate("disponibilidades.servicio");
         const agenda = new Agenda();
         let total = 0;
 
