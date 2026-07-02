@@ -84,7 +84,7 @@ const MisDisponibilidades = () => {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
       
       const response = await agregarDisponibilidadMedico(token, medicoId, payload);
-      setDisponibilidades(response.data);
+      setDisponibilidades(response.data.data);
 
       setSedeId('');
       setServicioId('');
@@ -104,7 +104,7 @@ const MisDisponibilidades = () => {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
       const response = await eliminarDisponibilidadMedico(token, medicoId, idDisp);
       
-      setDisponibilidades(response.data);
+      setDisponibilidades(response.data.data);
     } catch (error) {
       alert('Error al eliminar');
     } finally {

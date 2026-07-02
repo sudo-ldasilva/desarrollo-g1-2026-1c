@@ -41,7 +41,7 @@ export class MedicoService {
             idMedico,
             { $push: { disponibilidades: nuevaDisponibilidad } },
             { new: true }
-        ).lean(); 
+        );
 
         return medicoActualizado.toObject()
     }
@@ -51,7 +51,7 @@ export class MedicoService {
             idMedico,
             { $pull: { disponibilidades: { _id: idDisponibilidad } } },
             { new: true }
-        ).lean(); 
+        );
 
         if (!medicoActualizado) throw new BadRequestError("Médico no encontrado");
 
