@@ -21,7 +21,7 @@ const MisDisponibilidades = () => {
   const [especialidades, setEspecialidades] = useState([]);
   const [practicas, setPracticas] = useState([]);
   const [disponibilidades, setDisponibilidades] = useState([]);
-  
+
   const [cargandoDatos, setCargandoDatos] = useState(true);
   const [guardando, setGuardando] = useState(false);
 
@@ -40,14 +40,14 @@ const MisDisponibilidades = () => {
       try {
         const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
         const perfil = await getMe(token);
-        
+
         if (!perfil?.idMedico) {
           setCargandoDatos(false);
           return;
         }
 
         const medicoData = await getMedicoById(token, perfil.idMedico);
-        
+
         setMedicoId(perfil.idMedico);
         setSedes(medicoData.sedes || []);
         setEspecialidades(medicoData.especialidades || []);
@@ -71,7 +71,7 @@ const MisDisponibilidades = () => {
     }
 
     const esEspecialidad = especialidades.some(esp => esp._id === servicioId);
-    
+
     const payload = {
       sede: sedeId,
       diasSemana: [dia],
@@ -83,7 +83,7 @@ const MisDisponibilidades = () => {
     setGuardando(true);
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
-      
+
       await agregarDisponibilidadMedico(token, medicoId, payload);
       const medicoData = await getMedicoById(token, medicoId);
       setDisponibilidades(medicoData.disponibilidades || []);
@@ -100,11 +100,11 @@ const MisDisponibilidades = () => {
 
   const handleQuitar = async (idDisp) => {
     if (!window.confirm('¿Querés eliminar este horario?')) return;
-    
+
     setGuardando(true);
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
-      
+
       await eliminarDisponibilidadMedico(token, medicoId, idDisp);
       const medicoData = await getMedicoById(token, medicoId);
       setDisponibilidades(medicoData.disponibilidades || []);
@@ -127,8 +127,7 @@ const MisDisponibilidades = () => {
 
   return (
     <Card className="mis-disp-card">
-      <CardContent>
-        <Typography variant="h5" mb={3}>Mis Disponibilidades</Typography>
+      <CardContent className="no-pad">
 
         <form onSubmit={handleAgregar} className="mis-disp-form">
           <span className="mis-disp-form-label">Agregar nuevo horario de atención</span>
@@ -182,8 +181,8 @@ const MisDisponibilidades = () => {
           </Grid>
         </form>
 
-        <Typography variant="h6" className="mis-disp-section-title">Horarios configurados</Typography>
-        
+        <hr className="mis-disp-hr" />
+
         {(!Array.isArray(disponibilidades) || disponibilidades.length === 0) ? (
           <Box className="mis-disp-vacio">
             <Typography variant="body1">No hay disponibilidades configuradas. Utilizá el formulario de arriba para añadir la primera.</Typography>
@@ -198,7 +197,7 @@ const MisDisponibilidades = () => {
                       {Array.isArray(disp.diasSemana) ? disp.diasSemana.join(', ') : disp.diasSemana}
                     </h3>
                     <hr className="mis-disp-divisor" />
-                    
+
                     <Box display="flex" alignItems="center" gap={1} mb={1} color="textSecondary">
                       <AccessTimeIcon fontSize="small" />
                       <Typography variant="body2">{disp.horaInicio} - {disp.horaFin}</Typography>
@@ -208,7 +207,7 @@ const MisDisponibilidades = () => {
                     <Typography variant="body2"><strong>Servicio:</strong> {getNombreServicio(disp)}</Typography>
 
                     <hr className="mis-disp-divisor" />
-                    
+
                     <Box className="mis-disp-item-footer">
                       <button type="button" className="mis-disp-btn-baja" onClick={() => handleQuitar(disp._id)} disabled={guardando}>
                         <ClearIcon fontSize="small" /> Eliminar
