@@ -43,7 +43,7 @@ export class MedicoService {
             { new: true }
         );
 
-        return medicoActualizado.toObject()
+        return medicoActualizado;
     }
 
     async eliminarDisponibilidad(idMedico, idDisponibilidad) {
@@ -54,7 +54,6 @@ export class MedicoService {
         );
 
         if (!medicoActualizado) throw new BadRequestError("Médico no encontrado");
-
-        return medicoActualizado.toObject()
+        return medicoActualizado;
     }
 }
