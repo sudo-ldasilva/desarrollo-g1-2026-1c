@@ -82,15 +82,28 @@ const MisDisponibilidades = () => {
     setGuardando(true);
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
+      try {
+        await agregarDisponibilidadMedico(token, medicoId, payload);
+      } catch (err) {
+        // Si es un error de validación real (400), lo mostramos y cortamos.
+        if (err.response?.status === 400) {
+          alert(err.response?.data?.message || 'Error de validación');
+          setGuardando(false);
+          return;
+        }
+        // Si es 502/500/conexión cerrada, asumimos que se guardó pero la respuesta se rompió.
+        console.warn("La respuesta del servidor se cortó, pero la operación podría haberse completado.");
+      }
       
-      const response = await agregarDisponibilidadMedico(token, medicoId, payload);
-      setDisponibilidades(response.data);
+      const medicoData = await getMedicoById(token, medicoId);
+      setDisponibilidades(medicoData.disponibilidades || []);
 
       setSedeId('');
       setServicioId('');
       setDia('');
     } catch (error) {
-      alert(error.response?.data?.message || 'Error al guardar');
+      console.error(error);
+      alert('No se pudo confirmar el estado. Recargá la página para verificar.');
     } finally {
       setGuardando(false);
     }
@@ -102,11 +115,25 @@ const MisDisponibilidades = () => {
     setGuardando(true);
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
-      const response = await eliminarDisponibilidadMedico(token, medicoId, idDisp);
       
-      setDisponibilidades(response.data);
+      // Intentamos eliminar
+      try {
+        await eliminarDisponibilidadMedico(token, medicoId, idDisp);
+      } catch (err) {
+        if (err.response?.status === 400 || err.response?.status === 404) {
+          alert(err.response?.data?.message || 'Error al eliminar');
+          setGuardando(false);
+          return;
+        }
+        console.warn("La respuesta del servidor se cortó, pero la operación podría haberse completado.");
+      }
+      
+      // Recargamos los datos frescos
+      const medicoData = await getMedicoById(token, medicoId);
+      setDisponibilidades(medicoData.disponibilidades || []);
     } catch (error) {
-      alert('Error al eliminar');
+      console.error(error);
+      alert('No se pudo confirmar el estado. Recargá la página para verificar.');
     } finally {
       setGuardando(false);
     }
