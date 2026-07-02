@@ -140,8 +140,9 @@ export class MedicoController {
     async agregarDisponibilidad(req, res, next) {
         try {
             const medicoActualizado = await this.medicoService.agregarDisponibilidad(req.params.id, req.body);
-            res.status(201).json({ status: "success", data: medicoActualizado.disponibilidades });
-        } catch (error) {
+            const disponibilidadesLimpias = JSON.parse(JSON.stringify(medicoActualizado.disponibilidades));
+            res.status(201).json({ status: "success", data: disponibilidadesLimpias });
+    } catch (error) {
             next(error);
         }
     }
@@ -149,8 +150,9 @@ export class MedicoController {
     async eliminarDisponibilidad(req, res, next) {
         try {
             const medicoActualizado = await this.medicoService.eliminarDisponibilidad(req.params.id, req.params.idDisp);
-            res.status(200).json({ status: "success", data: medicoActualizado.disponibilidades });
-        } catch (error) {
+            const disponibilidadesLimpias = JSON.parse(JSON.stringify(medicoActualizado.disponibilidades));
+           res.status(200).json({ status: "success", data: disponibilidadesLimpias });
+    } catch (error) {
             next(error);
         }
     }
