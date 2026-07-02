@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, Box, Typography, Grid, CircularProgress, TextField, Select, MenuItem, InputLabel, FormControl, ListSubheader } from '@mui/material';
+import { Card, CardContent, Box, Typography, Grid, CircularProgress, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ClearIcon from '@mui/icons-material/Clear';
 import './MisDisponibilidades.css';
 import { useAuth } from '../../hooks/useAuth';
 import { getMe, getMedicoById, agregarDisponibilidadMedico, eliminarDisponibilidadMedico } from '../../services/PerfilService';
+import CustomSelect from '../../components/CustomSelect/CustomSelect';
 
 const diaSemanaOpciones = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
 
@@ -83,8 +84,9 @@ const MisDisponibilidades = () => {
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
       
-      const response = await agregarDisponibilidadMedico(token, medicoId, payload);
-      setDisponibilidades(response.data);
+      await agregarDisponibilidadMedico(token, medicoId, payload);
+      const medicoData = await getMedicoById(token, medicoId);
+      setDisponibilidades(medicoData.disponibilidades || []);
 
       setSedeId('');
       setServicioId('');
@@ -102,9 +104,10 @@ const MisDisponibilidades = () => {
     setGuardando(true);
     try {
       const token = await getTokenRef.current(process.env.REACT_APP_LOGTO_RESOURCES);
-      const response = await eliminarDisponibilidadMedico(token, medicoId, idDisp);
       
-      setDisponibilidades(response.data);
+      await eliminarDisponibilidadMedico(token, medicoId, idDisp);
+      const medicoData = await getMedicoById(token, medicoId);
+      setDisponibilidades(medicoData.disponibilidades || []);
     } catch (error) {
       alert('Error al eliminar');
     } finally {
@@ -128,36 +131,39 @@ const MisDisponibilidades = () => {
         <Typography variant="h5" mb={3}>Mis Disponibilidades</Typography>
 
         <form onSubmit={handleAgregar} className="mis-disp-form">
+          <span className="mis-disp-form-label">Agregar nuevo horario de atención</span>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={6} md={2}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Sede</InputLabel>
-                <Select value={sedeId} label="Sede" onChange={e => setSedeId(e.target.value)} disabled={guardando}>
-                  {sedes.map(s => <MenuItem key={s._id} value={s._id}>{s.nombre}</MenuItem>)}
-                </Select>
-              </FormControl>
+              <CustomSelect
+                value={sedeId}
+                onChange={(e) => setSedeId(e.target.value)}
+                placeholder="Seleccioná una sede"
+                options={sedes.map(s => ({ value: s._id, label: s.nombre }))}
+                disabled={guardando}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6} md={3}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Servicio</InputLabel>
-                <Select value={servicioId} label="Servicio" onChange={e => setServicioId(e.target.value)} disabled={guardando}>
-                  {especialidades.length > 0 && <ListSubheader>Especialidades</ListSubheader>}
-                  {especialidades.map(e => <MenuItem key={e._id} value={e._id}>{e.nombre}</MenuItem>)}
-                  
-                  {practicas.length > 0 && <ListSubheader>Prácticas</ListSubheader>}
-                  {practicas.map(p => <MenuItem key={p._id} value={p._id}>{p.nombre}</MenuItem>)}
-                </Select>
-              </FormControl>
+              <CustomSelect
+                value={servicioId}
+                onChange={(e) => setServicioId(e.target.value)}
+                placeholder="Seleccioná un servicio"
+                options={[
+                  ...especialidades.map(e => ({ value: e._id, label: `Especialidad — ${e.nombre}` })),
+                  ...practicas.map(p => ({ value: p._id, label: `Práctica — ${p.nombre}` }))
+                ]}
+                disabled={guardando}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6} md={2}>
-              <FormControl fullWidth size="small">
-                <InputLabel>Día</InputLabel>
-                <Select value={dia} label="Día" onChange={e => setDia(e.target.value)} disabled={guardando}>
-                  {diaSemanaOpciones.map(d => <MenuItem key={d} value={d}>{d}</MenuItem>)}
-                </Select>
-              </FormControl>
+              <CustomSelect
+                value={dia}
+                onChange={(e) => setDia(e.target.value)}
+                placeholder="Seleccioná un día"
+                options={diaSemanaOpciones.map(d => ({ value: d, label: d }))}
+                disabled={guardando}
+              />
             </Grid>
 
             <Grid item xs={6} md={1.5}>
@@ -176,31 +182,38 @@ const MisDisponibilidades = () => {
           </Grid>
         </form>
 
-        <Typography variant="h6" mb={2} mt={4}>Horarios configurados</Typography>
+        <Typography variant="h6" className="mis-disp-section-title">Horarios configurados</Typography>
         
-        {disponibilidades.length === 0 ? (
-          <Typography color="textSecondary">No hay disponibilidades configuradas.</Typography>
+        {(!Array.isArray(disponibilidades) || disponibilidades.length === 0) ? (
+          <Box className="mis-disp-vacio">
+            <Typography variant="body1">No hay disponibilidades configuradas. Utilizá el formulario de arriba para añadir la primera.</Typography>
+          </Box>
         ) : (
           <Grid container spacing={2}>
             {disponibilidades.map(disp => (
               <Grid item xs={12} sm={6} md={4} key={disp._id}>
                 <Card variant="outlined" className="mis-disp-item-card">
-                  <CardContent>
-                    <Typography variant="subtitle1" fontWeight="bold">
+                  <CardContent className="mis-disp-item-content">
+                    <h3 className="mis-disp-item-nombre">
                       {Array.isArray(disp.diasSemana) ? disp.diasSemana.join(', ') : disp.diasSemana}
-                    </Typography>
+                    </h3>
+                    <hr className="mis-disp-divisor" />
                     
-                    <Box display="flex" alignItems="center" gap={1} my={1} color="textSecondary">
+                    <Box display="flex" alignItems="center" gap={1} mb={1} color="textSecondary">
                       <AccessTimeIcon fontSize="small" />
                       <Typography variant="body2">{disp.horaInicio} - {disp.horaFin}</Typography>
                     </Box>
 
                     <Typography variant="body2"><strong>Sede:</strong> {getNombreSede(disp.sede)}</Typography>
-                    <Typography variant="body2" mb={2}><strong>Servicio:</strong> {getNombreServicio(disp)}</Typography>
+                    <Typography variant="body2"><strong>Servicio:</strong> {getNombreServicio(disp)}</Typography>
 
-                    <button type="button" className="mis-disp-btn-baja" onClick={() => handleQuitar(disp._id)} disabled={guardando}>
-                      <ClearIcon fontSize="small" /> Eliminar
-                    </button>
+                    <hr className="mis-disp-divisor" />
+                    
+                    <Box className="mis-disp-item-footer">
+                      <button type="button" className="mis-disp-btn-baja" onClick={() => handleQuitar(disp._id)} disabled={guardando}>
+                        <ClearIcon fontSize="small" /> Eliminar
+                      </button>
+                    </Box>
                   </CardContent>
                 </Card>
               </Grid>
