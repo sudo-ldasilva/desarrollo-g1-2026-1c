@@ -25,6 +25,10 @@
     color: var(--texto-oscuro);
 }
 
+.mis-disp-card .MuiInputBase-colorPrimary {
+    background: #fbfcfe !important;
+}
+
 .mis-disp-form-label {
     /* font-size: 1.1rem; */
     /* font-weight: bold; */

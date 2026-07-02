@@ -41,7 +41,7 @@ const MisTurnos = () => {
                     </>
                 ) : (
                         turnos.total === 0 ? (
-                            <Alert severity="info">Todavía no tenes turnos</Alert>
+                            <Alert severity="info">Todavía no tenes turnos. Dirijase a la pestaña Solicitar Turno para sacar un nuevo turno.</Alert>
                         ) : (
                             <>
                                 {
