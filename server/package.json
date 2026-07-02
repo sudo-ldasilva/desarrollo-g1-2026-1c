@@ -7,11 +7,10 @@
   "type": "module",
   "main": "CambioEstadoTurno.js",
   "scripts": {
-    "test": "node --experimental-vm-modules ../node_modules/jest/bin/jest.js",
     "start": "node ./server.js",
     "seed1": "node ./config/seed1.js",
-    "seed2":"node ./config/seed2.js",
-    "seed3":"node ./config/seed3.js",
+    "seed2": "node ./config/seed2.js",
+    "seed3": "node ./config/seed3.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
@@ -20,6 +19,7 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jose": "^5.10.0",
+    "mongodb-memory-server": "^11.2.0",
     "mongoose": "^9.6.3",
     "node-cron": "^4.2.1",
     "supertest": "^7.2.2",

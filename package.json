@@ -1,11 +1,16 @@
 {
   "name": "tp-desarrollo",
   "private": true,
+  "type": "module",
   "workspaces": [
     "server",
     "client"
   ],
   "scripts": {
-    "doctor": "npx react-doctor@latest"
+    "doctor": "npx react-doctor@latest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1"
   }
 }

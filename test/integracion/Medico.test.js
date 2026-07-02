@@ -72,7 +72,7 @@ describe("Sweet Medical - Tests de Integración", () => {
         test("Debe retornar 400 si la pagina supera el limite", async () => {
             const response = await request(app).get("/medicos?page=3");
 
-            console.log(response);
+            // console.log(response);
             expect(response.status).toBe(400);
         });
     });
