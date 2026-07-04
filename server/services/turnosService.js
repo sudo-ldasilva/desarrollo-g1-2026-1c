@@ -139,6 +139,13 @@ export default class TurnosService{
         };
     }
 
+    async obtenerDisponibilidadMensual(filtros, fechaInicio, fechaFin) {
+        if (fechaInicio && fechaFin && new Date(fechaFin) < new Date(fechaInicio)) {
+            throw new BadRequestError("Rango invalido de fechas");
+        }
+        return await this.turnosRepository.obtenerConteosPorDia(fechaInicio, fechaFin, filtros);
+    }
+
 }
 
 export function turnoToDTO(turno) {

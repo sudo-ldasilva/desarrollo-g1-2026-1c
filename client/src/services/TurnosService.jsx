@@ -169,3 +169,20 @@ export const getCantidadTurnosEnEstado = async (accessToken, estado, signal) => 
         handleError(error);
     }
 };
+
+export const getConteosTurnosPorDia = async (accessToken, fechaInicio, fechaFin, signal, params = {}) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/turnos/disponibilidad-mensual`, {
+            signal,
+            params: {
+                fechaInicio,
+                fechaFin,
+                ...params // aca pasamos servicio, sede, tipoServicio
+            },
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        return response.data.data; // Devuelve el diccionario {"2026-06-01": 5}
+    } catch (error) {
+        handleError(error);
+    }
+};

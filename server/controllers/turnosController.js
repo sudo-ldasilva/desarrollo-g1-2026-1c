@@ -72,4 +72,15 @@ export default class TurnosController {
             next(error);
         }
     };
+
+    obtenerDisponibilidadMensual = async (req, res, next) => {
+        try {
+            const { fechaInicio, fechaFin, servicio, sede, tipoServicio } = req.query;
+            const filtros = { servicio, sede, tipoServicio };
+            const conteos = await this.turnosService.obtenerDisponibilidadMensual(filtros, fechaInicio, fechaFin);
+            res.json({ status: "success", data: conteos });
+        } catch (error) {
+            next(error);
+        }
+}
 }
