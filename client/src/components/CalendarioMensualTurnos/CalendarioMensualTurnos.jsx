@@ -41,16 +41,9 @@ const CalendarioMensualTurnos = ({
                     
                     const cantidad = conteos[dateKey] || 0;
                     const hayTurnos = cantidad > 0 && !isDisabled;
-                    const isSelected = turnoSeleccionado && date.toDateString() === turnoSeleccionado.toDateString();
 
                     return (
-                        <div style={{ 
-                            padding: "0.25rem", 
-                            display: "flex", 
-                            flexDirection: "column", 
-                            flex: 1, 
-                            gap: "0.5rem" 
-                        }}>
+                        <div style={{ padding: "0.25rem 0.25rem 0.25rem", display: "flex", flexDirection: "column", flex: 1, gap: "0.5rem" }}>
                             <div style={{
                                 fontSize: "1.1rem",
                                 lineHeight: "1.2",
@@ -69,7 +62,6 @@ const CalendarioMensualTurnos = ({
                             {cargando ? (
                                 <Skeleton variant="rounded" height="1.5rem" />
                             ) : hayTurnos ? (
-                                // SOLO RENDERIZAMOS EL GLOBITO SI HAY TURNOS
                                 <div className="day">
                                     <div style={{
                                         fontSize: '0.75rem',
@@ -81,13 +73,13 @@ const CalendarioMensualTurnos = ({
                                         alignItems: "center",
                                         backgroundColor: "var(--rojo-principal)",
                                         borderRadius: "50%",
-                                        border: isSelected ? "2px solid black" : "1px solid white",
+                                        border: "1px solid white", 
                                     }}>
                                         {cantidad}
                                     </div>
                                 </div>
                             ) : (
-                                // Si no hay turnos, renderizamos un espacio vacío para mantener la alineación
+                                // Si no hay turnos, renderizamos un espacio vacio para mantener la alineacion
                                 <div style={{ height: '1.5rem' }} />
                             )}
                         </div>
