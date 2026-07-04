@@ -1,4 +1,5 @@
 import {TurnoModel} from "../models/TurnoModel.js";
+import mongoose from "mongoose";
 
 export default class TurnosRepository {
     constructor() {
@@ -113,6 +114,50 @@ export default class TurnosRepository {
             page,
             totalPages: Math.ceil(total / limit)
         };
+    }
+
+    async obtenerConteosPorDia(fechaInicio, fechaFin, filtros = {}) {
+        const matchStage = {
+            estado: "DISPONIBLE",
+            fechaHora: { 
+                $gte: new Date(fechaInicio), 
+                $lte: new Date(fechaFin) 
+            }
+        };
+
+        if (filtros.servicio) {
+            matchStage.servicio = new mongoose.Types.ObjectId(filtros.servicio);
+        }
+        if (filtros.sede) {
+            matchStage.sede = new mongoose.Types.ObjectId(filtros.sede);
+        }
+        if (filtros.tipoServicio) {
+            matchStage.tipoServicio = filtros.tipoServicio;
+        }
+
+        const resultados = await this.model.aggregate([
+            { $match: matchStage },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: { 
+                            format: "%Y-%m-%d", 
+                            date: "$fechaHora",
+                            timezone: "America/Argentina/Buenos_Aires" 
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+
+        const conteos = {};
+        resultados.forEach(r => {
+            conteos[r._id] = r.count;
+        });
+        
+        return conteos;
     }
 
 }

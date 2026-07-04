@@ -10,6 +10,10 @@ const turnosController = new TurnosController();
 const turnosRouter = express.Router();
 
 turnosRouter
+    .route("/disponibilidad-mensual")
+    .get(authMiddleware, turnosController.obtenerDisponibilidadMensual);
+
+turnosRouter
     .route("/")
     .get(
         validate(turnosQuerySchema, "query"),
@@ -22,10 +26,6 @@ turnosRouter
         validate(turnosQuerySchema, "query"), 
         authMiddleware,
         (req, res, next) => turnosController.buscarMisTurnos(req, res, next));
-
-turnosRouter
-    .route("/disponibilidad-mensual")
-    .get(authMiddleware, turnosController.obtenerDisponibilidadMensual);
 
 turnosRouter
     .route("/:idTurno/cambios-estado")
